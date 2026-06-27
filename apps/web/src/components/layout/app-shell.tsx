@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 
-/** Seções de topo navegáveis. Notas e Contatos chegam nas Fases 5 e 6. */
-export type Section = 'today' | 'agenda' | 'goals';
+/** Seções de topo navegáveis. Contatos chega na Fase 6. */
+export type Section = 'today' | 'agenda' | 'goals' | 'notes';
 
-const NAV: { key: Section | 'notes' | 'contacts'; label: string; enabled: boolean }[] = [
+const NAV: { key: Section | 'contacts'; label: string; enabled: boolean }[] = [
   { key: 'today', label: 'Hoje', enabled: true },
   { key: 'agenda', label: 'Agenda', enabled: true },
   { key: 'goals', label: 'Metas', enabled: true },
-  { key: 'notes', label: 'Notas', enabled: false },
+  { key: 'notes', label: 'Notas', enabled: true },
   { key: 'contacts', label: 'Contatos', enabled: false },
 ];
 
@@ -15,6 +15,7 @@ const SECTION_TITLE: Record<Section, string> = {
   today: 'Hoje',
   agenda: 'Agenda',
   goals: 'Metas',
+  notes: 'Notas',
 };
 
 interface Props {
@@ -60,7 +61,7 @@ export function AppShell({ active, onNavigate, children }: Props) {
           <h1 className="font-display text-2xl font-semibold capitalize">
             {SECTION_TITLE[active]}
           </h1>
-          <span className="text-sm text-muted">Fase 4 — Metas</span>
+          <span className="text-sm text-muted">Fase 5 — Anotações</span>
         </header>
         <main className="flex-1 px-8 py-6">{children}</main>
       </div>

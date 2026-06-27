@@ -79,8 +79,9 @@ async function main() {
     data: {
       userId: user.id,
       title: 'Ideias de features',
-      content: '- Visão de calendário\n- Vincular notas a contatos',
+      content: '## Próximos passos\n\n- Visão de calendário\n- Vincular notas a contatos',
       date: today,
+      pinned: true,
     },
   });
 

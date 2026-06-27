@@ -102,7 +102,11 @@ atual. Evitar clichês de UI gerada por IA.
   stats de tarefas), vínculo de tarefas (`GET /tasks?goalId` + `goalId: null`
   para desvincular) e feature `goals` na web. O `AppShell` agora navega entre
   Hoje / Agenda / Metas (estado em `App`, sem router).
-- **Próxima a construir: Fase 5 — Anotações.**
+- **Fase 5 (Anotações): concluída.** Módulo `notes` na API (CRUD + filtros por
+  dia/fixadas) e feature `notes` na web (Markdown via `react-markdown`, fixar,
+  anexar a dias). Seção Notas navegável e integrada à visão de dia. Anexo a
+  outros itens fica para a Fase 7.
+- **Próxima a construir: Fase 6 — Contatos.**
 - Plano completo das 9 fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

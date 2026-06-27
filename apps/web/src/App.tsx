@@ -4,6 +4,7 @@ import { CalendarPage } from './features/calendar/components/calendar-page';
 import { DayView } from './features/calendar/components/day-view';
 import { todayString } from './features/calendar/dates';
 import { GoalsPage } from './features/goals/components/goals-page';
+import { NotesPage } from './features/notes/components/notes-page';
 
 export function App() {
   const [section, setSection] = useState<Section>('today');
@@ -13,6 +14,7 @@ export function App() {
       {section === 'today' && <DayView day={todayString()} />}
       {section === 'agenda' && <CalendarPage />}
       {section === 'goals' && <GoalsPage />}
+      {section === 'notes' && <NotesPage />}
     </AppShell>
   );
 }

@@ -2,11 +2,12 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { DayTasks } from '../../tasks/components/day-tasks';
 import { DayEvents } from '../../events/components/day-events';
+import { DayNotes } from '../../notes/components/day-notes';
 import { fromDayString, todayString } from '../dates';
 
 /**
- * Visão do dia: a agenda da data reúne os compromissos (Fase 3) e as tarefas
- * (Fase 1), reaproveitando ambas as features.
+ * Visão do dia: a agenda da data reúne compromissos (Fase 3), tarefas (Fase 1)
+ * e notas anexadas ao dia (Fase 5), reaproveitando cada feature.
  */
 export function DayView({ day }: { day: string }) {
   const date = fromDayString(day);
@@ -26,6 +27,7 @@ export function DayView({ day }: { day: string }) {
       </div>
       <DayEvents date={day} />
       <DayTasks date={day} />
+      <DayNotes date={day} />
     </section>
   );
 }

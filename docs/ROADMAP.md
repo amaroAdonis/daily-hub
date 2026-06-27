@@ -65,11 +65,20 @@ Metas com progresso e sub-metas; vincular tarefas a metas.
 **Entregue:** metas com progresso/horizonte/prazo, sub-metas e tarefas
 vinculadas, numa seção própria navegável.
 
-## 🔜 Fase 5 — Anotações
+## ✅ Fase 5 — Anotações
 
 Notas em Markdown, anexáveis a dias e a outros itens.
 
-## ⬜ Fase 6 — Contatos
+- [x] Schemas Zod de Note em `packages/shared`
+- [x] Módulo `notes` na API (CRUD + filtros por dia/fixadas)
+- [x] Feature `notes` na web (Markdown, fixar, anexar a dias)
+- [x] Integração na visão de dia + seção Notas na navegação
+- [x] `docs/features/notes.md`
+
+**Entregue:** notas em Markdown, fixáveis e anexáveis a dias (anexo a outros
+itens fica para a Fase 7).
+
+## 🔜 Fase 6 — Contatos
 
 CRUD de contatos, vinculáveis a eventos e notas.
 
