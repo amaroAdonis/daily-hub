@@ -105,11 +105,55 @@ busca global. É aqui que tudo se conecta de fato.
 **Entregue:** busca global, tags transversais e vínculos polimórficos entre
 itens, acessíveis de qualquer card e da seção Buscar.
 
-## 🔜 Fase 8 — Autenticação, dashboard e polish
+> A partir daqui o roadmap foi **revisado** (2026-06-28) para incorporar a visão
+> de produto: login, perfil, dashboard do dia, anexos e integrações externas.
+> Decisões registradas: auth própria (NestJS + JWT, e-mail/senha, multiusuário
+> com cadastro aberto); anexos em storage S3-compatível (MinIO local / R2 em
+> prod); integrações começando simples (link de reunião + add-to-Google por URL).
+> O polimento visual segue em [`ux-backlog.md`](ux-backlog.md) — os itens P0
+> (fontes, ícones, toasts, skeletons) entram junto da Fase 8.
 
-Auth, página inicial agregando o dia, lembretes, tema claro/escuro.
+## 🔜 Fase 8 — Autenticação + Perfil
 
-## ⬜ Fase 9 — Deploy e vitrine
+Login próprio e fim do modo single-user.
 
-Deploy (web + api + Postgres gerenciado), seed de demonstração, screenshots,
-README voltado a recrutadores e link de demo ao vivo.
+- [ ] `User` ganha `passwordHash`, `occupation`, `avatarUrl` (migração)
+- [ ] `AuthModule`: cadastro/login, hash com argon2, JWT, `JwtAuthGuard` global
+      e `@CurrentUser()`
+- [ ] Trocar o `currentUserId` ("primeiro do banco") pelo usuário autenticado em
+      todos os services
+- [ ] Web: tela de login/cadastro, contexto de auth, token no `lib/api`, app
+      protegido
+- [ ] Tela de **Settings** do perfil (foto, nome, e-mail, ocupação)
+- [ ] Itens **P0** do UX backlog (fontes + ícones + toasts + skeletons)
+- [ ] `docs/features/auth.md`
+
+## ⬜ Fase 9 — Dashboard do dia
+
+Calendário do mês como visão inicial; clicar num dia abre um dashboard rico.
+
+- [ ] Agrega do dia: compromissos, tarefas, notas e **contatos vinculados** às
+      atividades (via `EntityLink` da Fase 7)
+- [ ] Criar/editar **inline** qualquer item a partir do dashboard
+- [ ] Calendário do mês como landing pós-login
+
+## ⬜ Fase 10 — Anexos
+
+Documentos e imagens em notas, compromissos e tarefas.
+
+- [ ] MinIO no `docker-compose` (R2/S3 em produção)
+- [ ] Modelo `Attachment` **polimórfico** (`entityType` + `entityId`)
+- [ ] Upload por URL assinada (web → storage direto; API registra metadados)
+- [ ] UI de anexar/visualizar nos itens e no dashboard
+
+## ⬜ Fase 11 — Integrações externas (leves)
+
+- [ ] `Event.meetingUrl` + botão "entrar na reunião"
+- [ ] Link "adicionar ao Google Agenda" (via URL, sem OAuth)
+- [ ] (Futuro) OAuth + sync real do Google Calendar — fase própria, se quisermos
+
+## ⬜ Fase 12 — Deploy e vitrine
+
+Deploy (web + api + Postgres + storage gerenciados), seed de demonstração,
+screenshots, README voltado a recrutadores e link de demo ao vivo. Inclui o
+restante do [`ux-backlog.md`](ux-backlog.md) (P1/P2) e tema claro/escuro.
