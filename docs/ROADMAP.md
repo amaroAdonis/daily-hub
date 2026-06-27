@@ -27,11 +27,18 @@ todas as outras features seguem.
 
 **Entregue:** lista do dia com criar, concluir/reabrir e excluir tarefas.
 
-## ⬜ Fase 2 — Calendário / Agenda (o hub)
+## ✅ Fase 2 — Calendário / Agenda (o hub)
 
 Visões mês/semana/dia, navegação por data, agregando as tarefas do dia.
 
-## ⬜ Fase 3 — Compromissos / Eventos
+- [x] Endpoint de agregação diária na API (`GET /calendar/summary`)
+- [x] Feature `calendar` na web (visões mês/semana/dia + navegação por data)
+- [x] `docs/features/calendar.md`
+
+**Entregue:** hub com visões de mês/semana/dia, navegação e indicadores de
+tarefas por dia (o dia atual em destaque).
+
+## 🔜 Fase 3 — Compromissos / Eventos
 
 Eventos com horário, local e recorrência, renderizados no calendário.
 

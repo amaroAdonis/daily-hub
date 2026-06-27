@@ -91,7 +91,11 @@ atual. Evitar clichês de UI gerada por IA.
 - **Fase 1 (Tarefas): concluída.** Fatia vertical modelo: schemas Zod em
   `shared`, módulo `tasks` na API (com specs), feature `tasks` na web (lista do
   dia, criar/concluir/excluir) e `docs/features/tasks.md`.
-- **Próxima a construir: Fase 2 — Calendário / Agenda.**
+- **Fase 2 (Calendário / Agenda): concluída.** Camada de agregação/visualização
+  sobre Tarefas: módulo `calendar` na API (`GET /calendar/summary`) e feature
+  `calendar` na web (visões mês/semana/dia + navegação). Sem modelo novo no
+  banco.
+- **Próxima a construir: Fase 3 — Compromissos / Eventos.**
 - Plano completo das 9 fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar
