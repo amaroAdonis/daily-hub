@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 
 /** Seções de topo navegáveis. */
-export type Section = 'today' | 'agenda' | 'goals' | 'notes' | 'contacts';
+export type Section = 'search' | 'today' | 'agenda' | 'goals' | 'notes' | 'contacts';
 
 const NAV: { key: Section; label: string }[] = [
+  { key: 'search', label: 'Buscar' },
   { key: 'today', label: 'Hoje' },
   { key: 'agenda', label: 'Agenda' },
   { key: 'goals', label: 'Metas' },
@@ -12,6 +13,7 @@ const NAV: { key: Section; label: string }[] = [
 ];
 
 const SECTION_TITLE: Record<Section, string> = {
+  search: 'Buscar',
   today: 'Hoje',
   agenda: 'Agenda',
   goals: 'Metas',
@@ -55,7 +57,7 @@ export function AppShell({ active, onNavigate, children }: Props) {
           <h1 className="font-display text-2xl font-semibold capitalize">
             {SECTION_TITLE[active]}
           </h1>
-          <span className="text-sm text-muted">Fase 6 — Contatos</span>
+          <span className="text-sm text-muted">Fase 7 — Integração</span>
         </header>
         <main className="flex-1 px-8 py-6">{children}</main>
       </div>

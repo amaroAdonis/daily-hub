@@ -6,17 +6,22 @@ import { todayString } from './features/calendar/dates';
 import { GoalsPage } from './features/goals/components/goals-page';
 import { NotesPage } from './features/notes/components/notes-page';
 import { ContactsPage } from './features/contacts/components/contacts-page';
+import { SearchPage } from './features/integration/components/search-page';
+import { InspectorProvider } from './features/integration/inspector-context';
 
 export function App() {
   const [section, setSection] = useState<Section>('today');
 
   return (
-    <AppShell active={section} onNavigate={setSection}>
-      {section === 'today' && <DayView day={todayString()} />}
-      {section === 'agenda' && <CalendarPage />}
-      {section === 'goals' && <GoalsPage />}
-      {section === 'notes' && <NotesPage />}
-      {section === 'contacts' && <ContactsPage />}
-    </AppShell>
+    <InspectorProvider>
+      <AppShell active={section} onNavigate={setSection}>
+        {section === 'search' && <SearchPage />}
+        {section === 'today' && <DayView day={todayString()} />}
+        {section === 'agenda' && <CalendarPage />}
+        {section === 'goals' && <GoalsPage />}
+        {section === 'notes' && <NotesPage />}
+        {section === 'contacts' && <ContactsPage />}
+      </AppShell>
+    </InspectorProvider>
   );
 }

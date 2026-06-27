@@ -11,3 +11,4 @@ export * from './schemas/events';
 export * from './schemas/goals';
 export * from './schemas/notes';
 export * from './schemas/contacts';
+export * from './schemas/integration';

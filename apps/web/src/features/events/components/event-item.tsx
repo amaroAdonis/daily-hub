@@ -1,6 +1,7 @@
 import { format, parseISO } from 'date-fns';
 import type { EventOccurrence } from '@daily-hub/shared';
 import { useDeleteEvent } from '../hooks';
+import { ConnectionsButton } from '../../integration/components/connections-button';
 
 interface Props {
   occurrence: EventOccurrence;
@@ -40,6 +41,12 @@ export function EventItem({ occurrence, onEdit }: Props) {
         >
           Editar
         </button>
+        <ConnectionsButton
+          type="EVENT"
+          id={occurrence.eventId}
+          title={occurrence.title}
+          className="rounded-md px-2 py-1 text-xs text-muted hover:text-primary"
+        />
         <button
           type="button"
           aria-label="Excluir compromisso"

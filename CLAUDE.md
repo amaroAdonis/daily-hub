@@ -107,9 +107,13 @@ atual. Evitar clichês de UI gerada por IA.
   anexar a dias). Seção Notas navegável e integrada à visão de dia. Anexo a
   outros itens fica para a Fase 7.
 - **Fase 6 (Contatos): concluída.** Módulo `contacts` na API (CRUD + busca) e
-  feature `contacts` na web. Completa as cinco seções de topo (Hoje, Agenda,
-  Metas, Notas, Contatos). Vínculo a eventos/notas fica para a Fase 7.
-- **Próxima a construir: Fase 7 — Integração (Links + Tags + Busca).**
+  feature `contacts` na web.
+- **Fase 7 (Integração): concluída.** Módulo `integration` na API (busca global,
+  tags/taggings e links polimórficos), apoiado no `EntityResolverService` que
+  traduz refs `{type,id}` em previews. Na web, um Inspetor (drawer) reúne tags e
+  itens relacionados de qualquer entidade, aberto pelo botão "Conexões" nos
+  cards e pela seção Buscar. É a camada que conecta tudo.
+- **Próxima a construir: Fase 8 — Autenticação, dashboard e polish.**
 - Plano completo das 9 fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

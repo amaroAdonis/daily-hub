@@ -8,6 +8,7 @@ import { EventsModule } from './modules/events/events.module';
 import { GoalsModule } from './modules/goals/goals.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
+import { IntegrationModule } from './modules/integration/integration.module';
 
 @Module({
   imports: [
@@ -21,8 +22,7 @@ import { ContactsModule } from './modules/contacts/contacts.module';
     GoalsModule,
     NotesModule,
     ContactsModule,
-    // Os próximos módulos de feature (tags, links) serão registrados aqui à
-    // medida que avançarmos nas fases.
+    IntegrationModule,
   ],
 })
 export class AppModule {}

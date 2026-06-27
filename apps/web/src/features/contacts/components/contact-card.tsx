@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { ContactDto } from '@daily-hub/shared';
 import { useDeleteContact } from '../hooks';
 import { ContactForm } from './contact-form';
+import { ConnectionsButton } from '../../integration/components/connections-button';
 
 export function ContactCard({ contact }: { contact: ContactDto }) {
   const [editing, setEditing] = useState(false);
@@ -46,6 +47,7 @@ export function ContactCard({ contact }: { contact: ContactDto }) {
         <button type="button" onClick={() => setEditing(true)} className="hover:text-primary">
           Editar
         </button>
+        <ConnectionsButton type="CONTACT" id={contact.id} title={contact.name} />
         <button
           type="button"
           onClick={() => remove.mutate(contact.id)}

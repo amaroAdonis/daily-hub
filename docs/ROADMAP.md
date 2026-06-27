@@ -91,12 +91,21 @@ CRUD de contatos, vinculáveis a eventos e notas.
 **Entregue:** CRUD de contatos com busca. O vínculo a eventos e notas entra na
 Fase 7.
 
-## 🔜 Fase 7 — Integração (Links + Tags + Busca)
+## ✅ Fase 7 — Integração (Links + Tags + Busca)
 
 `EntityLink` e `Tagging` na prática: painel de "itens relacionados", tags e
 busca global. É aqui que tudo se conecta de fato.
 
-## ⬜ Fase 8 — Autenticação, dashboard e polish
+- [x] Schemas Zod de integração em `packages/shared`
+- [x] Módulo `integration` na API (resolvedor + busca + tags + links)
+- [x] Feature `integration` na web (Inspetor de conexões + busca global)
+- [x] Botão "Conexões" nos cards das cinco features
+- [x] `docs/features/integration.md`
+
+**Entregue:** busca global, tags transversais e vínculos polimórficos entre
+itens, acessíveis de qualquer card e da seção Buscar.
+
+## 🔜 Fase 8 — Autenticação, dashboard e polish
 
 Auth, página inicial agregando o dia, lembretes, tema claro/escuro.
 

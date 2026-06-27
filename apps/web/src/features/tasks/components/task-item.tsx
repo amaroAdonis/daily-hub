@@ -1,5 +1,6 @@
 import type { Priority, TaskDto } from '@daily-hub/shared';
 import { useDeleteTask, useUpdateTask } from '../hooks';
+import { ConnectionsButton } from '../../integration/components/connections-button';
 
 const PRIORITY_LABEL: Record<Priority, string> = {
   LOW: 'Baixa',
@@ -64,6 +65,12 @@ export function TaskItem({ task }: { task: TaskDto }) {
         {PRIORITY_LABEL[task.priority]}
       </span>
 
+      <ConnectionsButton
+        type="TASK"
+        id={task.id}
+        title={task.title}
+        className="rounded-md px-2 py-1 text-xs text-muted opacity-0 transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100"
+      />
       <button
         type="button"
         aria-label="Excluir tarefa"

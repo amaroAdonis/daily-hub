@@ -6,6 +6,7 @@ import { fromDayString } from '../../calendar/dates';
 import { useDeleteNote, useUpdateNote } from '../hooks';
 import { NoteMarkdown } from './markdown';
 import { NoteForm } from './note-form';
+import { ConnectionsButton } from '../../integration/components/connections-button';
 
 interface Props {
   note: NoteDto;
@@ -47,6 +48,7 @@ export function NoteCard({ note, hideDate = false }: Props) {
           <button type="button" onClick={() => setEditing(true)} className="hover:text-primary">
             Editar
           </button>
+          <ConnectionsButton type="NOTE" id={note.id} title={note.title} />
           <button
             type="button"
             onClick={() => remove.mutate(note.id)}

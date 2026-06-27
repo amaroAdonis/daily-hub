@@ -7,6 +7,7 @@ import { useDeleteGoal } from '../hooks';
 import { HORIZON_LABEL, STATUS_LABEL } from '../labels';
 import { GoalForm } from './goal-form';
 import { GoalTasks } from './goal-tasks';
+import { ConnectionsButton } from '../../integration/components/connections-button';
 
 const STATUS_STYLE: Record<GoalStatus, string> = {
   ACTIVE: 'bg-primary/10 text-primary',
@@ -85,6 +86,7 @@ export function GoalCard({ goal, subGoals = [], parentOptions, isChild = false }
           <button type="button" onClick={() => setEditing(true)} className="hover:text-primary">
             Editar
           </button>
+          <ConnectionsButton type="GOAL" id={goal.id} title={goal.title} />
           <button
             type="button"
             onClick={() => remove.mutate(goal.id)}
