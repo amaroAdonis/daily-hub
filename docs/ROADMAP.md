@@ -51,11 +51,21 @@ Eventos com horário, local e recorrência, renderizados no calendário.
 **Entregue:** compromissos com horário/local/recorrência, expandidos em
 ocorrências e renderizados nas três visões do calendário.
 
-## 🔜 Fase 4 — Metas
+## ✅ Fase 4 — Metas
 
 Metas com progresso e sub-metas; vincular tarefas a metas.
 
-## ⬜ Fase 5 — Anotações
+- [x] Schemas Zod de Goal em `packages/shared`
+- [x] Módulo `goals` na API (CRUD + sub-metas + stats de tarefas)
+- [x] Vínculo de tarefas (filtro `goalId` + desvincular)
+- [x] Feature `goals` na web (progresso, sub-metas, tarefas vinculadas)
+- [x] Navegação entre seções (Hoje / Agenda / Metas)
+- [x] `docs/features/goals.md`
+
+**Entregue:** metas com progresso/horizonte/prazo, sub-metas e tarefas
+vinculadas, numa seção própria navegável.
+
+## 🔜 Fase 5 — Anotações
 
 Notas em Markdown, anexáveis a dias e a outros itens.
 

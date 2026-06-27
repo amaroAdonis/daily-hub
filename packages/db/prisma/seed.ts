@@ -2,7 +2,7 @@
  * Seed de dados de exemplo para desenvolvimento e demonstração.
  * Rode com: pnpm db:seed
  */
-import { PrismaClient, TaskStatus, Priority, EntityType } from '@prisma/client';
+import { PrismaClient, TaskStatus, Priority, EntityType, GoalHorizon } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -17,13 +17,24 @@ async function main() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Uma meta e duas tarefas vinculadas a ela.
+  // Uma meta, uma sub-meta e tarefas vinculadas.
   const goal = await prisma.goal.create({
     data: {
       userId: user.id,
       title: 'Publicar o portfólio',
       description: 'Concluir o Daily Hub e colocar no ar.',
+      horizon: GoalHorizon.LONG,
       progress: 20,
+    },
+  });
+
+  await prisma.goal.create({
+    data: {
+      userId: user.id,
+      title: 'Finalizar a fatia de Tarefas',
+      horizon: GoalHorizon.SHORT,
+      progress: 60,
+      parentId: goal.id,
     },
   });
 

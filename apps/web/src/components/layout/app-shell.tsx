@@ -1,22 +1,30 @@
 import type { ReactNode } from 'react';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
-const NAV = [
-  { label: 'Hoje' },
-  { label: 'Agenda', active: true },
-  { label: 'Metas' },
-  { label: 'Notas' },
-  { label: 'Contatos' },
+/** Seções de topo navegáveis. Notas e Contatos chegam nas Fases 5 e 6. */
+export type Section = 'today' | 'agenda' | 'goals';
+
+const NAV: { key: Section | 'notes' | 'contacts'; label: string; enabled: boolean }[] = [
+  { key: 'today', label: 'Hoje', enabled: true },
+  { key: 'agenda', label: 'Agenda', enabled: true },
+  { key: 'goals', label: 'Metas', enabled: true },
+  { key: 'notes', label: 'Notas', enabled: false },
+  { key: 'contacts', label: 'Contatos', enabled: false },
 ];
 
-/**
- * Casca da aplicação: barra lateral de navegação + área de conteúdo.
- * As rotas reais entram na Fase 2; por ora os itens são placeholders.
- */
-export function AppShell({ children }: { children: ReactNode }) {
-  const today = format(new Date(), "EEEE, d 'de' MMMM", { locale: ptBR });
+const SECTION_TITLE: Record<Section, string> = {
+  today: 'Hoje',
+  agenda: 'Agenda',
+  goals: 'Metas',
+};
 
+interface Props {
+  active: Section;
+  onNavigate: (section: Section) => void;
+  children: ReactNode;
+}
+
+/** Casca da aplicação: barra lateral de navegação + área de conteúdo. */
+export function AppShell({ active, onNavigate, children }: Props) {
   return (
     <div className="grid min-h-full grid-cols-[15rem_1fr]">
       <aside className="border-r border-border bg-surface px-5 py-6">
@@ -24,23 +32,35 @@ export function AppShell({ children }: { children: ReactNode }) {
           Daily<span className="text-primary">Hub</span>
         </div>
         <nav className="mt-8 flex flex-col gap-1">
-          {NAV.map((item) => (
-            <button
-              key={item.label}
-              className={`rounded-xl px-3 py-2 text-left text-sm transition-colors ${
-                item.active ? 'bg-primary/10 font-medium text-primary' : 'text-muted hover:bg-bg'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+          {NAV.map((item) => {
+            const isActive = item.enabled && item.key === active;
+            return (
+              <button
+                key={item.key}
+                disabled={!item.enabled}
+                onClick={() => item.enabled && onNavigate(item.key as Section)}
+                title={item.enabled ? undefined : 'Em breve'}
+                className={`rounded-xl px-3 py-2 text-left text-sm transition-colors ${
+                  isActive
+                    ? 'bg-primary/10 font-medium text-primary'
+                    : item.enabled
+                      ? 'text-muted hover:bg-bg'
+                      : 'cursor-not-allowed text-muted/40'
+                }`}
+              >
+                {item.label}
+              </button>
+            );
+          })}
         </nav>
       </aside>
 
       <div className="flex flex-col">
         <header className="flex items-baseline justify-between border-b border-border px-8 py-5">
-          <h1 className="font-display text-2xl font-semibold capitalize">{today}</h1>
-          <span className="text-sm text-muted">Fase 3 — Compromissos / Eventos</span>
+          <h1 className="font-display text-2xl font-semibold capitalize">
+            {SECTION_TITLE[active]}
+          </h1>
+          <span className="text-sm text-muted">Fase 4 — Metas</span>
         </header>
         <main className="flex-1 px-8 py-6">{children}</main>
       </div>

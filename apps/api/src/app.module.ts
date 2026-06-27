@@ -5,6 +5,7 @@ import { HealthModule } from './modules/health/health.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { CalendarModule } from './modules/calendar/calendar.module';
 import { EventsModule } from './modules/events/events.module';
+import { GoalsModule } from './modules/goals/goals.module';
 
 @Module({
   imports: [
@@ -15,8 +16,9 @@ import { EventsModule } from './modules/events/events.module';
     TasksModule,
     CalendarModule,
     EventsModule,
-    // Os próximos módulos de feature (goals, notes, contacts, tags, links)
-    // serão registrados aqui à medida que avançarmos nas fases.
+    GoalsModule,
+    // Os próximos módulos de feature (notes, contacts, tags, links) serão
+    // registrados aqui à medida que avançarmos nas fases.
   ],
 })
 export class AppModule {}

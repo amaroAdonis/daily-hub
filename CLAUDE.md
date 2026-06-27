@@ -98,7 +98,11 @@ atual. Evitar clichês de UI gerada por IA.
 - **Fase 3 (Compromissos / Eventos): concluída.** Módulo `events` na API (CRUD +
   `GET /events?from&to` com recorrência RRULE expandida via lib `rrule`) e
   feature `events` na web, renderizada nas três visões do calendário.
-- **Próxima a construir: Fase 4 — Metas.**
+- **Fase 4 (Metas): concluída.** Módulo `goals` na API (CRUD + sub-metas +
+  stats de tarefas), vínculo de tarefas (`GET /tasks?goalId` + `goalId: null`
+  para desvincular) e feature `goals` na web. O `AppShell` agora navega entre
+  Hoje / Agenda / Metas (estado em `App`, sem router).
+- **Próxima a construir: Fase 5 — Anotações.**
 - Plano completo das 9 fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

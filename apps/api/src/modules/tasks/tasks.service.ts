@@ -47,6 +47,7 @@ export class TasksService {
     const where: Prisma.TaskWhereInput = { userId };
     if (query.date) where.date = this.toDate(query.date);
     if (query.status) where.status = query.status;
+    if (query.goalId) where.goalId = query.goalId;
 
     const tasks = await this.prisma.task.findMany({
       where,

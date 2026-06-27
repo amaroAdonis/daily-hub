@@ -6,6 +6,7 @@ function toQueryString(query: ListTasksQuery): string {
   const params = new URLSearchParams();
   if (query.date) params.set('date', query.date);
   if (query.status) params.set('status', query.status);
+  if (query.goalId) params.set('goalId', query.goalId);
   const qs = params.toString();
   return qs ? `?${qs}` : '';
 }

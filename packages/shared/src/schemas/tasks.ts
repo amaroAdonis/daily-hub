@@ -25,13 +25,18 @@ export const createTaskSchema = z.object({
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 
 /** Payload para atualizar uma tarefa (todos os campos opcionais). */
-export const updateTaskSchema = createTaskSchema.partial();
+export const updateTaskSchema = createTaskSchema.partial().extend({
+  // `null` desvincula a tarefa da meta.
+  goalId: id.nullable().optional(),
+});
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>;
 
 /** Filtros aceitos na listagem de tarefas. */
 export const listTasksQuery = z.object({
   date: dayString.optional(),
   status: taskStatus.optional(),
+  /** Filtra as tarefas vinculadas a uma meta. */
+  goalId: id.optional(),
 });
 export type ListTasksQuery = z.infer<typeof listTasksQuery>;
 
