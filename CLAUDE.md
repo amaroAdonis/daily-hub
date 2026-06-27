@@ -106,7 +106,10 @@ atual. Evitar clichês de UI gerada por IA.
   dia/fixadas) e feature `notes` na web (Markdown via `react-markdown`, fixar,
   anexar a dias). Seção Notas navegável e integrada à visão de dia. Anexo a
   outros itens fica para a Fase 7.
-- **Próxima a construir: Fase 6 — Contatos.**
+- **Fase 6 (Contatos): concluída.** Módulo `contacts` na API (CRUD + busca) e
+  feature `contacts` na web. Completa as cinco seções de topo (Hoje, Agenda,
+  Metas, Notas, Contatos). Vínculo a eventos/notas fica para a Fase 7.
+- **Próxima a construir: Fase 7 — Integração (Links + Tags + Busca).**
 - Plano completo das 9 fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

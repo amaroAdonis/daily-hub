@@ -51,7 +51,13 @@ async function main() {
   });
 
   const contact = await prisma.contact.create({
-    data: { userId: user.id, name: 'Mentora de carreira', email: 'mentora@exemplo.dev' },
+    data: {
+      userId: user.id,
+      name: 'Mentora de carreira',
+      email: 'mentora@exemplo.dev',
+      phone: '+55 11 99999-0000',
+      company: 'Tech Mentoria',
+    },
   });
 
   // Um compromisso pontual e um recorrente, para a visão de calendário.

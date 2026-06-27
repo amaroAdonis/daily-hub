@@ -78,11 +78,20 @@ Notas em Markdown, anexáveis a dias e a outros itens.
 **Entregue:** notas em Markdown, fixáveis e anexáveis a dias (anexo a outros
 itens fica para a Fase 7).
 
-## 🔜 Fase 6 — Contatos
+## ✅ Fase 6 — Contatos
 
 CRUD de contatos, vinculáveis a eventos e notas.
 
-## ⬜ Fase 7 — Integração (Links + Tags + Busca)
+- [x] Schemas Zod de Contact em `packages/shared`
+- [x] Módulo `contacts` na API (CRUD + busca)
+- [x] Feature `contacts` na web (busca + grade de cards)
+- [x] Seção Contatos na navegação
+- [x] `docs/features/contacts.md`
+
+**Entregue:** CRUD de contatos com busca. O vínculo a eventos e notas entra na
+Fase 7.
+
+## 🔜 Fase 7 — Integração (Links + Tags + Busca)
 
 `EntityLink` e `Tagging` na prática: painel de "itens relacionados", tags e
 busca global. É aqui que tudo se conecta de fato.
