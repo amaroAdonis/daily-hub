@@ -4,6 +4,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { HealthModule } from './modules/health/health.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { CalendarModule } from './modules/calendar/calendar.module';
+import { EventsModule } from './modules/events/events.module';
 
 @Module({
   imports: [
@@ -13,8 +14,9 @@ import { CalendarModule } from './modules/calendar/calendar.module';
     HealthModule,
     TasksModule,
     CalendarModule,
-    // Os próximos módulos de feature (goals, notes, events, contacts, tags,
-    // links) serão registrados aqui à medida que avançarmos nas fases.
+    EventsModule,
+    // Os próximos módulos de feature (goals, notes, contacts, tags, links)
+    // serão registrados aqui à medida que avançarmos nas fases.
   ],
 })
 export class AppModule {}

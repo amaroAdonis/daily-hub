@@ -95,7 +95,10 @@ atual. Evitar clichês de UI gerada por IA.
   sobre Tarefas: módulo `calendar` na API (`GET /calendar/summary`) e feature
   `calendar` na web (visões mês/semana/dia + navegação). Sem modelo novo no
   banco.
-- **Próxima a construir: Fase 3 — Compromissos / Eventos.**
+- **Fase 3 (Compromissos / Eventos): concluída.** Módulo `events` na API (CRUD +
+  `GET /events?from&to` com recorrência RRULE expandida via lib `rrule`) e
+  feature `events` na web, renderizada nas três visões do calendário.
+- **Próxima a construir: Fase 4 — Metas.**
 - Plano completo das 9 fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

@@ -43,6 +43,27 @@ async function main() {
     data: { userId: user.id, name: 'Mentora de carreira', email: 'mentora@exemplo.dev' },
   });
 
+  // Um compromisso pontual e um recorrente, para a visão de calendário.
+  await prisma.event.create({
+    data: {
+      userId: user.id,
+      title: 'Conversa com a mentora',
+      startsAt: new Date(today.getTime() + 15 * 60 * 60 * 1000), // hoje, 15h UTC
+      endsAt: new Date(today.getTime() + 16 * 60 * 60 * 1000),
+      location: 'Google Meet',
+      reminderMin: 30,
+    },
+  });
+  await prisma.event.create({
+    data: {
+      userId: user.id,
+      title: 'Bloco de foco no portfólio',
+      startsAt: new Date(today.getTime() + 9 * 60 * 60 * 1000), // 9h UTC
+      endsAt: new Date(today.getTime() + 11 * 60 * 60 * 1000),
+      recurrence: 'FREQ=WEEKLY', // toda semana neste dia
+    },
+  });
+
   const note = await prisma.note.create({
     data: {
       userId: user.id,

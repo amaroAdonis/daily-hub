@@ -38,11 +38,20 @@ Visões mês/semana/dia, navegação por data, agregando as tarefas do dia.
 **Entregue:** hub com visões de mês/semana/dia, navegação e indicadores de
 tarefas por dia (o dia atual em destaque).
 
-## 🔜 Fase 3 — Compromissos / Eventos
+## ✅ Fase 3 — Compromissos / Eventos
 
 Eventos com horário, local e recorrência, renderizados no calendário.
 
-## ⬜ Fase 4 — Metas
+- [x] Schemas Zod de Event em `packages/shared`
+- [x] Módulo `events` na API (CRUD + ocorrências com recorrência expandida)
+- [x] Feature `events` na web (criar/editar/excluir + presets de recorrência)
+- [x] Integração no calendário (dia, semana e mês)
+- [x] `docs/features/events.md`
+
+**Entregue:** compromissos com horário/local/recorrência, expandidos em
+ocorrências e renderizados nas três visões do calendário.
+
+## 🔜 Fase 4 — Metas
 
 Metas com progresso e sub-metas; vincular tarefas a metas.
 

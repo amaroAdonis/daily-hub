@@ -40,7 +40,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="flex flex-col">
         <header className="flex items-baseline justify-between border-b border-border px-8 py-5">
           <h1 className="font-display text-2xl font-semibold capitalize">{today}</h1>
-          <span className="text-sm text-muted">Fase 2 — Calendário / Agenda</span>
+          <span className="text-sm text-muted">Fase 3 — Compromissos / Eventos</span>
         </header>
         <main className="flex-1 px-8 py-6">{children}</main>
       </div>
