@@ -1,0 +1,256 @@
+// ============================================================================
+//  Daily Hub — Schema do banco de dados
+//  Documentação completa do modelo em: /docs/data-model.md
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------------------------------------------
+//  Enums
+// ----------------------------------------------------------------------------
+
+/// Tipos de entidade que podem participar do sistema de links/tags polimórfico.
+enum EntityType {
+  TASK
+  GOAL
+  NOTE
+  EVENT
+  CONTACT
+}
+
+enum TaskStatus {
+  TODO
+  DOING
+  DONE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum GoalStatus {
+  ACTIVE
+  ACHIEVED
+  ARCHIVED
+}
+
+enum GoalHorizon {
+  SHORT
+  MEDIUM
+  LONG
+}
+
+// ----------------------------------------------------------------------------
+//  Usuário (já modelado para multi-user na Fase 8)
+// ----------------------------------------------------------------------------
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tasks    Task[]
+  goals    Goal[]
+  notes    Note[]
+  events   Event[]
+  contacts Contact[]
+  tags     Tag[]
+
+  @@map("users")
+}
+
+// ----------------------------------------------------------------------------
+//  Tarefas / Atividades diárias
+// ----------------------------------------------------------------------------
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  /// Dia ao qual a tarefa pertence (eixo central da agenda).
+  date        DateTime   @db.Date
+  status      TaskStatus @default(TODO)
+  priority    Priority   @default(MEDIUM)
+  /// Ordenação manual dentro do dia (drag-and-drop).
+  order       Int        @default(0)
+  completedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Vínculo natural opcional: uma tarefa pode pertencer a uma meta.
+  goalId String?
+  goal   Goal?   @relation(fields: [goalId], references: [id], onDelete: SetNull)
+
+  @@index([userId, date])
+  @@index([goalId])
+  @@map("tasks")
+}
+
+// ----------------------------------------------------------------------------
+//  Metas
+// ----------------------------------------------------------------------------
+
+model Goal {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  horizon     GoalHorizon @default(MEDIUM)
+  status      GoalStatus  @default(ACTIVE)
+  /// Progresso de 0 a 100 (pode ser derivado das tarefas no futuro).
+  progress    Int         @default(0)
+  targetDate  DateTime?   @db.Date
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Sub-metas (auto-relacionamento).
+  parentId String?
+  parent   Goal?   @relation("GoalHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children Goal[]  @relation("GoalHierarchy")
+
+  tasks Task[]
+
+  @@index([userId, status])
+  @@index([parentId])
+  @@map("goals")
+}
+
+// ----------------------------------------------------------------------------
+//  Anotações
+// ----------------------------------------------------------------------------
+
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  /// Conteúdo em Markdown.
+  content   String   @default("")
+  /// Dia opcional — permite anexar a nota a uma data da agenda.
+  date      DateTime? @db.Date
+  pinned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@map("notes")
+}
+
+// ----------------------------------------------------------------------------
+//  Compromissos / Eventos
+// ----------------------------------------------------------------------------
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startsAt    DateTime
+  endsAt      DateTime
+  allDay      Boolean  @default(false)
+  location    String?
+  /// Regra de recorrência no formato RRULE (RFC 5545). Nulo = evento único.
+  recurrence  String?
+  /// Minutos antes do início para lembrete. Nulo = sem lembrete.
+  reminderMin Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, startsAt])
+  @@map("events")
+}
+
+// ----------------------------------------------------------------------------
+//  Contatos
+// ----------------------------------------------------------------------------
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  company   String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, name])
+  @@map("contacts")
+}
+
+// ----------------------------------------------------------------------------
+//  Camada de integração: Tags e Links polimórficos
+//  (é o que transforma 5 CRUDs isolados em um sistema coeso)
+// ----------------------------------------------------------------------------
+
+/// Etiqueta reutilizável que pode ser aplicada a qualquer entidade.
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  color     String   @default("#6366f1")
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  taggings Tagging[]
+
+  @@unique([userId, name])
+  @@map("tags")
+}
+
+/// Associação polimórfica entre uma Tag e qualquer entidade.
+/// A integridade referencial de (entityType, entityId) é garantida na aplicação.
+model Tagging {
+  id         String     @id @default(cuid())
+  tagId      String
+  tag        Tag        @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  entityType EntityType
+  entityId   String
+  createdAt  DateTime   @default(now())
+
+  @@unique([tagId, entityType, entityId])
+  @@index([entityType, entityId])
+  @@map("taggings")
+}
+
+/// Ligação genérica e direcionada entre duas entidades quaisquer.
+/// Ex.: NOTE -> CONTACT ("mencionado"), TASK -> GOAL, EVENT -> CONTACT.
+/// Sem FKs por ser polimórfica; integridade garantida na camada de serviço.
+model EntityLink {
+  id         String     @id @default(cuid())
+  sourceType EntityType
+  sourceId   String
+  targetType EntityType
+  targetId   String
+  /// Rótulo opcional do tipo de relação (ex.: "relacionado", "bloqueia").
+  relation   String?
+  createdAt  DateTime   @default(now())
+
+  @@unique([sourceType, sourceId, targetType, targetId])
+  @@index([sourceType, sourceId])
+  @@index([targetType, targetId])
+  @@map("entity_links")
+}
