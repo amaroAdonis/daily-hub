@@ -24,7 +24,6 @@ async function bootstrap() {
 
   const port = config.get<number>('API_PORT', 3333);
   await app.listen(port);
-  // eslint-disable-next-line no-console
   console.log(`Daily Hub API em http://localhost:${port}/api (docs em /api/docs)`);
 }
 
