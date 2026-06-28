@@ -171,7 +171,7 @@ O dashboard vive na feature `calendar` na web
 - Modelo de dados próprio: o dashboard não cria entidade — compõe as existentes.
 - "Pessoas do dia" agrega só **contatos** (não outros tipos de vínculo).
 
-## Questões em Aberto
+## Questões em Aberto {#questoes-em-aberto}
 
 1. O `GET /calendar/day` deve passar a agregar também eventos/tarefas/notas
    (hoje compostos no cliente) para reduzir round-trips?

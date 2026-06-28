@@ -51,7 +51,7 @@ sequencial de 3 dígitos por feature. Todo `AC-*` referencia ao menos um `REQ-*`
 6. Regras de negócio e máquinas de estado vivem em `rules.md`, em tabelas.
 7. Decisões estruturais vão para [`../DECISIONS.md`](../DECISIONS.md) (`D00N`) e
    são citadas por ID onde se aplicam.
-8. O modelo de dados canônico é o [`schema.prisma`](../../packages/db/prisma/schema.prisma);
+8. O modelo de dados canônico é o `packages/db/prisma/schema.prisma`;
    `notes.md` e [`../data-model.md`](../data-model.md) explicam o porquê.
 9. Padrões de código, commits e a definição de pronto estão em
    [`../conventions.md`](../conventions.md).

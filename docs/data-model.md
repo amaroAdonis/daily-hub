@@ -1,6 +1,6 @@
 # Modelo de dados
 
-Fonte canônica: [`packages/db/prisma/schema.prisma`](../packages/db/prisma/schema.prisma).
+Fonte canônica: `packages/db/prisma/schema.prisma`.
 Este documento explica o **porquê** das entidades e, em especial, a camada que
 interliga tudo.
 

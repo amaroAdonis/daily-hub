@@ -1,0 +1,121 @@
+site_name: Daily Hub — Docs
+site_description: Documentação de produto e engenharia do Daily Hub
+docs_dir: docs
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - scheme: default
+      primary: teal
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Tema escuro
+    - scheme: slate
+      primary: teal
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Tema claro
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - search.highlight
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+
+# A pasta-modelo é scaffold (placeholders e tokens <FEATURE>): fora do site.
+exclude_docs: |
+  features/_template/
+
+nav:
+  - Início: index.md
+  - Project Brief: PROJECT_BRIEF.md
+  - Arquitetura: ARCHITECTURE.md
+  - Modelo de dados: data-model.md
+  - Decisões: DECISIONS.md
+  - Glossário: GLOSSARY.md
+  - Roadmap: ROADMAP.md
+  - Backlog: BACKLOG.md
+  - Convenções: conventions.md
+  - Deploy: deploy.md
+  - Design System:
+      - Visão geral: design-system/index.md
+      - Tokens: design-system/tokens.md
+      - Componentes: design-system/components.md
+      - Direção de UI: design-system/direction.md
+      - Redesenho: design-system/redesign.md
+  - Features:
+      - Índice: features/INDEX.md
+      - Tarefas:
+          - Visão geral: features/tasks/README.md
+          - Regras: features/tasks/rules.md
+          - Fluxos: features/tasks/flows.md
+          - Notas: features/tasks/notes.md
+      - Calendário / Agenda:
+          - Visão geral: features/calendar/README.md
+          - Regras: features/calendar/rules.md
+          - Fluxos: features/calendar/flows.md
+          - Notas: features/calendar/notes.md
+      - Compromissos / Eventos:
+          - Visão geral: features/events/README.md
+          - Regras: features/events/rules.md
+          - Fluxos: features/events/flows.md
+          - Notas: features/events/notes.md
+      - Metas:
+          - Visão geral: features/goals/README.md
+          - Regras: features/goals/rules.md
+          - Fluxos: features/goals/flows.md
+          - Notas: features/goals/notes.md
+      - Anotações:
+          - Visão geral: features/notes/README.md
+          - Regras: features/notes/rules.md
+          - Fluxos: features/notes/flows.md
+          - Notas: features/notes/notes.md
+      - Contatos:
+          - Visão geral: features/contacts/README.md
+          - Regras: features/contacts/rules.md
+          - Fluxos: features/contacts/flows.md
+          - Notas: features/contacts/notes.md
+      - Integração:
+          - Visão geral: features/integration/README.md
+          - Regras: features/integration/rules.md
+          - Fluxos: features/integration/flows.md
+          - Notas: features/integration/notes.md
+      - Autenticação + Perfil:
+          - Visão geral: features/auth/README.md
+          - Regras: features/auth/rules.md
+          - Fluxos: features/auth/flows.md
+          - Notas: features/auth/notes.md
+      - Dashboard do dia:
+          - Visão geral: features/dashboard/README.md
+          - Regras: features/dashboard/rules.md
+          - Fluxos: features/dashboard/flows.md
+          - Notas: features/dashboard/notes.md
+      - Anexos:
+          - Visão geral: features/attachments/README.md
+          - Regras: features/attachments/rules.md
+          - Fluxos: features/attachments/flows.md
+          - Notas: features/attachments/notes.md
+      - Kanban:
+          - Visão geral: features/kanban/README.md
+          - Regras: features/kanban/rules.md
+          - Fluxos: features/kanban/flows.md
+          - Notas: features/kanban/notes.md

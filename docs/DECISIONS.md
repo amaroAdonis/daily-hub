@@ -6,7 +6,7 @@ Decisão, Status, Contexto, Consequências.
 
 > Status: **Ativo** (em vigor) · **Revisar** · **Substituído**.
 
-## D001 — Registrar decisões de arquitetura
+## D001 — Registrar decisões de arquitetura {#d001}
 
 - **Registro:** Fase 0
 - **Decisão:** manter um registro de decisões estruturais, no formato Contexto /
@@ -20,7 +20,7 @@ Decisão, Status, Contexto, Consequências.
 **Consequências.** Histórico claro das escolhas; pequeno overhead a cada decisão
 grande (aceitável). Decisões são referenciadas por ID em features e docs de topo.
 
-## D002 — Monorepo separado (React + NestJS)
+## D002 — Monorepo separado (React + NestJS) {#d002}
 
 - **Registro:** Fase 0
 - **Decisão:** monorepo (pnpm + Turborepo) com `apps/web` (React + Vite) e
@@ -38,7 +38,7 @@ features; REST + OpenAPI (em vez de tRPC) para tornar o design da API explícito
 contratos de API explícitos, fronteira limpa e melhor narrativa de portfólio.
 Caso a velocidade vire prioridade, é possível colapsar em Next.js.
 
-## D003 — Links e tags polimórficos
+## D003 — Links e tags polimórficos {#d003}
 
 - **Registro:** Fase 0
 - **Decisão:** usar duas tabelas polimórficas — `Tagging (tagId, entityType,
@@ -56,7 +56,7 @@ sem integridade referencial via FK no alvo polimórfico — garantida na camada 
 serviço (validar existência antes de criar o link). Permite um "painel de itens
 relacionados" uniforme. Ver [integração](features/integration/README.md).
 
-## D004 — Autenticação própria (NestJS + JWT)
+## D004 — Autenticação própria (NestJS + JWT) {#d004}
 
 - **Registro:** Fase 8
 - **Decisão:** autenticação própria por e-mail/senha — hash com **argon2**,
@@ -75,7 +75,7 @@ usuário autenticado em todos os services. localStorage + Bearer é simples e
 suficiente para a demo (sem cookies httpOnly/refresh tokens — anotado como
 possível evolução). Ver [auth](features/auth/README.md).
 
-## D005 — Status comum (TODO/DOING/DONE) entre tarefas, compromissos e metas
+## D005 — Status comum (TODO/DOING/DONE) entre tarefas, compromissos e metas {#d005}
 
 - **Registro:** frente de redesenho (pós-Fase 11)
 - **Decisão:** unificar o eixo de progresso dos três tipos num enum comum
@@ -93,7 +93,7 @@ tipos; manter enums divergentes exigiria mapeamentos frágeis em todo lugar.
 migração de dados das metas (`ACTIVE→DOING`, `ACHIEVED→DONE`). Ver
 [kanban](features/kanban/README.md) e [goals](features/goals/README.md).
 
-## D006 — Anexos em storage S3-compatível, modelo polimórfico
+## D006 — Anexos em storage S3-compatível, modelo polimórfico {#d006}
 
 - **Registro:** Fase 10
 - **Decisão:** anexos em storage S3-compatível (**MinIO** local, **Cloudflare
@@ -111,7 +111,7 @@ storage privado.
 mudar as `STORAGE_*` (nenhum código muda). Segue o polimorfismo de [D003]. Ver
 [attachments](features/attachments/README.md).
 
-## D007 — Integrações externas leves (sem OAuth)
+## D007 — Integrações externas leves (sem OAuth) {#d007}
 
 - **Registro:** Fase 11
 - **Decisão:** começar simples — `Event.meetingUrl` (botão "Entrar na reunião") e
@@ -124,7 +124,7 @@ escopo. O valor imediato (entrar na reunião, exportar um evento) cabe sem OAuth
 **Consequências.** Zero custo de integração e nenhuma credencial externa; sync
 bidirecional fica para o futuro. Ver [events](features/events/README.md).
 
-## D008 — Deploy: Railway Hobby + Cloudflare R2
+## D008 — Deploy: Railway Hobby + Cloudflare R2 {#d008}
 
 - **Registro:** Fase 12 (planejado)
 - **Decisão:** deploy no **Railway Hobby** (Postgres gerenciado + API + web como
@@ -139,7 +139,7 @@ daí o R2 (free tier, sem egress). Web separada da API mostra melhor a arquitetu
 **Consequências.** Custo ~US$5/mês; Dockerfiles a preparar; `STORAGE_*` apontam
 para R2 em prod. Detalhes em [deploy](deploy.md).
 
-## D009 — `@daily-hub/shared` compila para CJS (Node 22)
+## D009 — `@daily-hub/shared` compila para CJS (Node 22) {#d009}
 
 - **Registro:** Fase 8
 - **Decisão:** `packages/shared` compila para `dist` (CommonJS) via
