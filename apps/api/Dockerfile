@@ -6,6 +6,8 @@
 FROM node:22-bookworm-slim AS builder
 ENV PNPM_HOME=/pnpm
 ENV PATH=/pnpm:$PATH
+# OpenSSL é exigido pelo engine do Prisma (slim não o traz por padrão).
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 RUN corepack enable
 WORKDIR /app
 
@@ -22,6 +24,8 @@ FROM node:22-bookworm-slim AS runner
 ENV NODE_ENV=production
 ENV PNPM_HOME=/pnpm
 ENV PATH=/pnpm:$PATH
+# OpenSSL também no runtime: o query engine do Prisma o carrega em execução.
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 RUN corepack enable
 WORKDIR /app
 
