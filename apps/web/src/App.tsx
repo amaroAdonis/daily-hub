@@ -12,6 +12,7 @@ import { SearchPage } from './features/integration/components/search-page';
 import { SettingsPage } from './features/settings/components/settings-page';
 import { KanbanPage } from './features/kanban/components/kanban-page';
 import { InspectorProvider } from './features/integration/inspector-context';
+import { CommandPalette } from './features/integration/components/command-palette';
 
 export function App() {
   return (
@@ -69,6 +70,7 @@ function AuthenticatedApp() {
 
   return (
     <InspectorProvider>
+      <CommandPalette />
       <AppShell active={active} onNavigate={navigate}>
         {section === 'calendar' && (
           <CalendarPage
