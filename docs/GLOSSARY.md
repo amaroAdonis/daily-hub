@@ -5,12 +5,12 @@ seção "Conceitos-Chave". Termos novos são adicionados aqui ao surgirem.
 
 ## Termos gerais
 
-| Termo           | Definição                                                                                                                                                                               |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Dia**         | Unidade central do produto. Campos de "dia" (`@db.Date`) trafegam como `YYYY-MM-DD` e são gravados à meia-noite UTC. O calendário/dashboard agrega tudo cujo campo temporal cai no dia. |
-| **Hub**         | A ideia de que o dia interliga tarefas, compromissos, notas, metas e contatos num só lugar.                                                                                             |
-| **Inspetor**    | Drawer lateral que reúne tags e itens relacionados de qualquer entidade; aberto pelo botão "Conexões". Ver [integração](features/integration/README.md).                                |
-| **Single-user** | Modo anterior à Fase 8 em que o usuário atual era o primeiro do banco. Substituído por autenticação real ([D004](DECISIONS.md#d004)).                                                   |
+| Termo                                   | Definição                                                                                                                                                                               |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <a id="dia"></a>**Dia**                 | Unidade central do produto. Campos de "dia" (`@db.Date`) trafegam como `YYYY-MM-DD` e são gravados à meia-noite UTC. O calendário/dashboard agrega tudo cujo campo temporal cai no dia. |
+| <a id="hub"></a>**Hub**                 | A ideia de que o dia interliga tarefas, compromissos, notas, metas e contatos num só lugar.                                                                                             |
+| <a id="inspetor"></a>**Inspetor**       | Drawer lateral que reúne tags e itens relacionados de qualquer entidade; aberto pelo botão "Conexões". Ver [integração](features/integration/README.md).                                |
+| <a id="single-user"></a>**Single-user** | Modo anterior à Fase 8 em que o usuário atual era o primeiro do banco. Substituído por autenticação real ([D004](DECISIONS.md#d004)).                                                   |
 
 ## Tarefas e metas
 
