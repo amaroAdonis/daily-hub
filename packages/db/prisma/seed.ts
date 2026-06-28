@@ -3,15 +3,22 @@
  * Rode com: pnpm db:seed
  */
 import { PrismaClient, TaskStatus, Priority, EntityType, GoalHorizon } from '@prisma/client';
+import * as argon2 from 'argon2';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Usuário único de desenvolvimento (idempotente).
+  // Usuário de demonstração (idempotente). Senha de demo: "daily-hub".
+  const passwordHash = await argon2.hash('daily-hub');
   const user = await prisma.user.upsert({
     where: { email: 'voce@daily-hub.dev' },
-    update: {},
-    create: { email: 'voce@daily-hub.dev', name: 'Você' },
+    update: { passwordHash },
+    create: {
+      email: 'voce@daily-hub.dev',
+      name: 'Você',
+      passwordHash,
+      occupation: 'Desenvolvedor(a) fullstack',
+    },
   });
 
   const today = new Date();

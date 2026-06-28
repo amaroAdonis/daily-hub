@@ -54,11 +54,17 @@ enum GoalHorizon {
 // ----------------------------------------------------------------------------
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  /// Hash da senha (argon2). Nunca trafega para o cliente.
+  passwordHash String
+  /// Ocupação/cargo exibido no perfil.
+  occupation   String?
+  /// URL de avatar externa (upload real fica para a Fase 10).
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   tasks    Task[]
   goals    Goal[]

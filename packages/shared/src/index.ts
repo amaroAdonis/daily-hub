@@ -5,6 +5,7 @@
  * Cada feature adiciona seu arquivo em ./schemas (ex.: tasks.ts na Fase 1).
  */
 export * from './schemas/common';
+export * from './schemas/auth';
 export * from './schemas/tasks';
 export * from './schemas/calendar';
 export * from './schemas/events';

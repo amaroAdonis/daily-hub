@@ -18,6 +18,7 @@ async function bootstrap() {
     .setTitle('Daily Hub API')
     .setDescription('API da agenda pessoal centrada no dia.')
     .setVersion('0.1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, document);
