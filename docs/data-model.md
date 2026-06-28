@@ -85,7 +85,7 @@ erDiagram
 ## A camada de integração (o diferencial)
 
 O requisito central é **interligar todas as features**. Isso é resolvido por
-dois mecanismos polimórficos — ver [ADR 0003](adr/0003-links-polimorficos.md).
+dois mecanismos polimórficos — ver [D003](DECISIONS.md#d003).
 
 ### Tagging (categorização transversal)
 
