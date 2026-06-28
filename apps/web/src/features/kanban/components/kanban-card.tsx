@@ -1,16 +1,9 @@
 import { useDraggable } from '@dnd-kit/core';
 import { format, parseISO } from 'date-fns';
-import { CalendarClock, CheckSquare, Target } from 'lucide-react';
 import type { Priority } from '@daily-hub/shared';
-import { EVENT_CATEGORIES } from '../../events/categories';
 import { ConnectionsButton } from '../../integration/components/connections-button';
-import type { BoardItem, BoardItemType } from '../board';
-
-const TYPE_META: Record<BoardItemType, { label: string; icon: typeof Target }> = {
-  TASK: { label: 'Tarefa', icon: CheckSquare },
-  EVENT: { label: 'Compromisso', icon: CalendarClock },
-  GOAL: { label: 'Meta', icon: Target },
-};
+import type { BoardItem } from '../board';
+import { TYPE_META } from '../type-meta';
 
 const PRIORITY: Record<Priority, { label: string; pill: string; dot: string }> = {
   HIGH: { label: 'Alta', pill: 'bg-danger/10 text-danger', dot: 'bg-danger' },
@@ -29,22 +22,21 @@ export function KanbanCard({ item }: { item: BoardItem }) {
     ? { transform: `translate(${transform.x}px, ${transform.y}px)`, zIndex: 50 }
     : undefined;
 
-  // Barra lateral pela categoria (compromissos); neutra nos demais.
-  const bar = item.event ? EVENT_CATEGORIES[item.event.category].bar : 'border-l-border';
-
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className={`group touch-none rounded-xl border border-l-4 border-border ${bar} bg-surface p-3 shadow-card transition-shadow hover:shadow-card-hover ${
+      className={`group touch-none rounded-xl border border-l-4 border-border ${type.bar} bg-surface p-3 shadow-card transition-shadow hover:shadow-card-hover ${
         isDragging ? 'cursor-grabbing opacity-60' : 'cursor-grab'
       }`}
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="flex items-center gap-1.5 text-xs text-muted">
-          <TypeIcon size={13} strokeWidth={2} aria-hidden="true" />
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${type.badge}`}
+        >
+          <TypeIcon size={12} strokeWidth={2} aria-hidden="true" />
           {type.label}
         </span>
         <ConnectionsButton

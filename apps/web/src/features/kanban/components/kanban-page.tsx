@@ -14,6 +14,7 @@ import { useTasks, useUpdateTask } from '../../tasks/hooks';
 import { useEventsBase, useUpdateEvent } from '../../events/hooks';
 import { useGoals, useUpdateGoal } from '../../goals/hooks';
 import { buildBoard, type BoardItem, type BoardItemType } from '../board';
+import { TYPE_META } from '../type-meta';
 import { KanbanCard } from './kanban-card';
 
 const COLUMNS: ProgressStatus[] = ['TODO', 'DOING', 'DONE'];
@@ -112,12 +113,18 @@ export function KanbanPage() {
             role="tab"
             aria-selected={filter === option.value}
             onClick={() => setFilter(option.value)}
-            className={`rounded-lg px-3 py-1 text-sm transition-colors ${
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1 text-sm transition-colors ${
               filter === option.value
                 ? 'bg-primary/10 font-medium text-primary'
                 : 'text-muted hover:text-ink'
             }`}
           >
+            {option.value !== 'ALL' && (
+              <span
+                className={`inline-block h-1.5 w-1.5 rounded-full ${TYPE_META[option.value].dot}`}
+                aria-hidden
+              />
+            )}
             {option.label}
           </button>
         ))}
