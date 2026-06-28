@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { useAuth } from '../../contexts/auth';
+import { Avatar } from '../ui/avatar';
 
 /** Seções de topo navegáveis. */
 export type Section = 'search' | 'today' | 'agenda' | 'goals' | 'notes' | 'contacts';
@@ -29,9 +31,11 @@ interface Props {
 
 /** Casca da aplicação: barra lateral de navegação + área de conteúdo. */
 export function AppShell({ active, onNavigate, children }: Props) {
+  const { user, logout } = useAuth();
+
   return (
     <div className="grid min-h-full grid-cols-[15rem_1fr]">
-      <aside className="border-r border-border bg-surface px-5 py-6">
+      <aside className="flex flex-col border-r border-border bg-surface px-5 py-6">
         <div className="font-display text-xl font-semibold tracking-tight">
           Daily<span className="text-primary">Hub</span>
         </div>
@@ -50,6 +54,27 @@ export function AppShell({ active, onNavigate, children }: Props) {
             </button>
           ))}
         </nav>
+
+        {user && (
+          <div className="mt-auto border-t border-border pt-4">
+            <div className="flex items-center gap-3">
+              <Avatar name={user.name} src={user.avatarUrl} size={36} />
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-ink">{user.name}</p>
+                {user.occupation && (
+                  <p className="truncate text-xs text-muted">{user.occupation}</p>
+                )}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={logout}
+              className="mt-3 w-full rounded-xl px-3 py-2 text-left text-sm text-muted transition-colors hover:bg-bg"
+            >
+              Sair
+            </button>
+          </div>
+        )}
       </aside>
 
       <div className="flex flex-col">
@@ -57,7 +82,6 @@ export function AppShell({ active, onNavigate, children }: Props) {
           <h1 className="font-display text-2xl font-semibold capitalize">
             {SECTION_TITLE[active]}
           </h1>
-          <span className="text-sm text-muted">Fase 7 — Integração</span>
         </header>
         <main className="flex-1 px-8 py-6">{children}</main>
       </div>
