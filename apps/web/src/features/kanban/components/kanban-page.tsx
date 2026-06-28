@@ -8,7 +8,7 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core';
 import { toast } from 'sonner';
-import { PROGRESS_STATUS, type ProgressStatus } from '../../../lib/status';
+import { PROGRESS_STATUS, STATUS_TOAST, type ProgressStatus } from '../../../lib/status';
 import { SkeletonList } from '../../../components/ui/skeleton';
 import { useTasks, useUpdateTask } from '../../tasks/hooks';
 import { useEventsBase, useUpdateEvent } from '../../events/hooks';
@@ -99,7 +99,7 @@ export function KanbanPage() {
     else if (item.type === 'EVENT') updateEvent.mutate({ id: item.id, input }, { onSettled });
     else updateGoal.mutate({ id: item.id, input }, { onSettled });
 
-    toast.success(`Movido para "${PROGRESS_STATUS[target].label}"`);
+    toast(`Movido para "${PROGRESS_STATUS[target].label}"`, { style: STATUS_TOAST[target] });
   };
 
   const isLoading = lt || le || lg;

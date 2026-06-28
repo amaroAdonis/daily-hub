@@ -17,3 +17,13 @@ export const NEXT_STATUS: Record<ProgressStatus, ProgressStatus> = {
   DOING: 'DONE',
   DONE: 'TODO',
 };
+
+/** Cores do toast por status (mesma família das pílulas: slate/amber/emerald). */
+export const STATUS_TOAST: Record<
+  ProgressStatus,
+  { background: string; color: string; border: string }
+> = {
+  TODO: { background: '#f1f5f9', color: '#475569', border: '1px solid #cbd5e1' },
+  DOING: { background: '#fffbeb', color: '#b45309', border: '1px solid #fcd34d' },
+  DONE: { background: '#ecfdf5', color: '#047857', border: '1px solid #6ee7b7' },
+};
