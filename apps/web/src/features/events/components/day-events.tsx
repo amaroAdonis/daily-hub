@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { parseISO } from 'date-fns';
+import { AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import type { EventOccurrence } from '@daily-hub/shared';
 import { SkeletonList } from '../../../components/ui/skeleton';
@@ -96,13 +97,15 @@ export function DayEvents({ date }: { date: string }) {
               {group.label}
             </p>
             <ul className="flex flex-col gap-2">
-              {group.items.map((occ) => (
-                <EventItem
-                  key={`${occ.eventId}-${occ.start}`}
-                  occurrence={occ}
-                  onEdit={startEdit}
-                />
-              ))}
+              <AnimatePresence initial={false}>
+                {group.items.map((occ) => (
+                  <EventItem
+                    key={`${occ.eventId}-${occ.start}`}
+                    occurrence={occ}
+                    onEdit={startEdit}
+                  />
+                ))}
+              </AnimatePresence>
             </ul>
           </div>
         ))}

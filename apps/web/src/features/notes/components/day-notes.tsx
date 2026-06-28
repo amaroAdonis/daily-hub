@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { useNotes } from '../hooks';
 import { NoteCard } from './note-card';
@@ -39,9 +40,11 @@ export function DayNotes({ date }: { date: string }) {
       )}
 
       <div className="flex flex-col gap-3">
-        {notes?.map((note) => (
-          <NoteCard key={note.id} note={note} hideDate />
-        ))}
+        <AnimatePresence initial={false}>
+          {notes?.map((note) => (
+            <NoteCard key={note.id} note={note} hideDate />
+          ))}
+        </AnimatePresence>
       </div>
     </section>
   );

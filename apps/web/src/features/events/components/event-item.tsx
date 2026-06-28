@@ -1,9 +1,11 @@
 import { format, parseISO } from 'date-fns';
+import { motion } from 'framer-motion';
 import { CalendarPlus, Pencil, Repeat, Trash2, Video } from 'lucide-react';
 import type { EventOccurrence } from '@daily-hub/shared';
 import { useDeleteEvent } from '../hooks';
 import { googleCalendarUrl } from '../google-calendar';
 import { EVENT_CATEGORIES } from '../categories';
+import { listItemMotion } from '../../../lib/motion';
 import { ConnectionsButton } from '../../integration/components/connections-button';
 
 const actionBtn =
@@ -22,7 +24,8 @@ export function EventItem({ occurrence, onEdit }: Props) {
     : `${format(parseISO(occurrence.start), 'HH:mm')}–${format(parseISO(occurrence.end), 'HH:mm')}`;
 
   return (
-    <li
+    <motion.li
+      {...listItemMotion}
       className={`group flex items-center gap-3 rounded-xl border border-l-4 border-border bg-surface px-4 py-3 shadow-card transition-shadow hover:shadow-card-hover ${EVENT_CATEGORIES[occurrence.category].bar}`}
     >
       <span className="w-24 shrink-0 font-mono text-xs text-muted">{time}</span>
@@ -94,6 +97,6 @@ export function EventItem({ occurrence, onEdit }: Props) {
           <Trash2 size={15} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
-    </li>
+    </motion.li>
   );
 }

@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import { SkeletonList } from '../../../components/ui/skeleton';
 import { useTasks } from '../hooks';
 import { TaskComposer } from './task-composer';
@@ -40,9 +41,11 @@ export function DayTasks({ date }: { date: string }) {
         )}
         {!isLoading && !isError && total > 0 && (
           <ul className="flex flex-col gap-2">
-            {tasks?.map((task) => (
-              <TaskItem key={task.id} task={task} />
-            ))}
+            <AnimatePresence initial={false}>
+              {tasks?.map((task) => (
+                <TaskItem key={task.id} task={task} />
+              ))}
+            </AnimatePresence>
           </ul>
         )}
       </div>

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { motion } from 'framer-motion';
 import { Pencil, Star, Trash2 } from 'lucide-react';
 import type { NoteDto } from '@daily-hub/shared';
 import { fromDayString } from '../../calendar/dates';
 import { useDeleteNote, useUpdateNote } from '../hooks';
+import { listItemMotion } from '../../../lib/motion';
 import { NoteMarkdown } from './markdown';
 import { NoteForm } from './note-form';
 import { ConnectionsButton } from '../../integration/components/connections-button';
@@ -27,7 +29,10 @@ export function NoteCard({ note, hideDate = false }: Props) {
   }
 
   return (
-    <article className="group rounded-xl border border-border bg-surface p-4 shadow-card transition-shadow hover:shadow-card-hover">
+    <motion.article
+      {...listItemMotion}
+      className="group rounded-xl border border-border bg-surface p-4 shadow-card transition-shadow hover:shadow-card-hover"
+    >
       <div className="flex items-start justify-between gap-3">
         <h3 className="min-w-0 truncate font-display font-semibold">{note.title}</h3>
         <button
@@ -75,6 +80,6 @@ export function NoteCard({ note, hideDate = false }: Props) {
           </button>
         </span>
       </div>
-    </article>
+    </motion.article>
   );
 }

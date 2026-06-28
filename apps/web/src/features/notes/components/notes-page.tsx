@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { Skeleton } from '../../../components/ui/skeleton';
 import { useNotes } from '../hooks';
 import { NoteCard } from './note-card';
@@ -76,9 +77,11 @@ export function NotesPage() {
       )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {notes?.map((note) => (
-          <NoteCard key={note.id} note={note} />
-        ))}
+        <AnimatePresence initial={false}>
+          {notes?.map((note) => (
+            <NoteCard key={note.id} note={note} />
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

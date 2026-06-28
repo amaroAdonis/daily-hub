@@ -1,6 +1,8 @@
+import { motion } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import type { Priority, TaskDto } from '@daily-hub/shared';
 import { useDeleteTask, useUpdateTask } from '../hooks';
+import { listItemMotion } from '../../../lib/motion';
 import { ConnectionsButton } from '../../integration/components/connections-button';
 
 const PRIORITY: Record<Priority, { label: string; pill: string; dot: string }> = {
@@ -21,7 +23,10 @@ export function TaskItem({ task }: { task: TaskDto }) {
   const toggle = () => update.mutate({ id: task.id, input: { status: done ? 'TODO' : 'DONE' } });
 
   return (
-    <li className="group flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3 shadow-card transition-shadow hover:shadow-card-hover">
+    <motion.li
+      {...listItemMotion}
+      className="group flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3 shadow-card transition-shadow hover:shadow-card-hover"
+    >
       <button
         type="button"
         role="checkbox"
@@ -73,6 +78,6 @@ export function TaskItem({ task }: { task: TaskDto }) {
           <Trash2 size={15} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
-    </li>
+    </motion.li>
   );
 }
