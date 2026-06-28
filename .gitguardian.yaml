@@ -1,0 +1,13 @@
+# Configuração do GitGuardian / ggshield.
+# Estes arquivos contêm apenas PLACEHOLDERS e credenciais de DESENVOLVIMENTO
+# LOCAL (defaults do docker-compose / MinIO, senha de usuário-demo do seed).
+# Nenhum segredo real de produção vive no repositório — os segredos reais
+# (API_JWT_SECRET, chaves do Cloudflare R2, DATABASE_URL) ficam só nas variáveis
+# de ambiente do Railway/Cloudflare.
+version: 2
+
+secret:
+  ignored-paths:
+    - .env.example # placeholders e defaults locais
+    - docker-compose.yml # credenciais do Postgres/MinIO locais
+    - packages/db/prisma/seed.ts # senha do usuário de demonstração
