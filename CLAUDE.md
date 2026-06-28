@@ -78,6 +78,12 @@ Web e API são organizados **por feature** e se espelham.
 - **Datas de dia:** campos de "dia" (`@db.Date`) trafegam como `YYYY-MM-DD`;
   converta para meia-noite UTC ao gravar e serialize de volta no mesmo formato.
 - O web **não** deve importar `@daily-hub/db` (Prisma) — apenas `@daily-hub/shared`.
+- **`@daily-hub/shared` tem build (dist CJS):** o pacote compila para `dist` via
+  `tsconfig.build.json` e o `package.json` aponta para lá. Isso é necessário
+  porque a API (`nest start`) roda em Node puro e o Node 22+ trataria o source
+  `.ts` como ESM (quebrando imports relativos sem extensão). O `turbo.json` tem
+  `dependsOn: ["^build"]` em `dev/build/typecheck/test`, então o shared é
+  construído antes. Ao editar o shared, rode seu `build` (ou `dev` em watch).
 
 ## Design
 

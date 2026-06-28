@@ -65,8 +65,6 @@ Campos adicionados ao `User` em
 - [x] Unit (Vitest): `auth.service.spec.ts` cobre cadastro com hash, e-mail
       normalizado, rejeição de e-mail duplicado, login válido/ inválido e DTO sem
       `passwordHash`. Os 9 services migrados seguem verdes com `userId` explícito.
+- [x] Smoke test HTTP do fluxo (login, `/auth/me`, proteção 401, cadastro,
+      e-mail duplicado 409) validado com a API no ar.
 - [ ] E2E (Playwright): planejado para fase posterior.
-
-> **Nota de ambiente:** rodar a API via `nest start` no Node 22.18+ exige um
-> ajuste no consumo de `@daily-hub/shared` (hoje servido como `.ts` sem build);
-> a validação de backend foi feita pelos testes unitários. Ver issue de setup.
