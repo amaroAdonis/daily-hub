@@ -24,10 +24,16 @@ para o "agora"; evitar clichês de UI gerada por IA.
 
 | #   | Item                                    | Esforço | Status |
 | --- | --------------------------------------- | ------- | ------ |
-| 1   | **Carregar as fontes do design system** | S       | ⬜     |
-| 2   | **Biblioteca de ícones**                | S       | ⬜     |
-| 3   | **Feedback de mutações (toasts)**       | M       | ⬜     |
-| 4   | **Skeletons de carregamento**           | S       | ⬜     |
+| 1   | **Carregar as fontes do design system** | S       | ✅     |
+| 2   | **Biblioteca de ícones**                | S       | ✅     |
+| 3   | **Feedback de mutações (toasts)**       | M       | ✅     |
+| 4   | **Skeletons de carregamento**           | S       | ✅     |
+
+> **P0 concluído na Fase 8.** Fontes self-hosted via `@fontsource` (Inter,
+> Bricolage Grotesque, JetBrains Mono); ícones `lucide-react` na navegação e
+> ações; `sonner` com erro global de mutações (`MutationCache`) + toasts de
+> sucesso pontuais; skeletons (`components/ui/skeleton.tsx`) nas listas. A
+> aplicação de ícones segue expansível aos demais cards (P1+).
 
 1. **Fontes.** `Bricolage Grotesque`, `Inter` e `JetBrains Mono` estão
    declaradas em `apps/web/tailwind.config.ts`, mas **não são carregadas** — tudo

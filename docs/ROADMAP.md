@@ -113,22 +113,27 @@ itens, acessíveis de qualquer card e da seção Buscar.
 > O polimento visual segue em [`ux-backlog.md`](ux-backlog.md) — os itens P0
 > (fontes, ícones, toasts, skeletons) entram junto da Fase 8.
 
-## 🔜 Fase 8 — Autenticação + Perfil
+## ✅ Fase 8 — Autenticação + Perfil
 
 Login próprio e fim do modo single-user.
 
-- [ ] `User` ganha `passwordHash`, `occupation`, `avatarUrl` (migração)
-- [ ] `AuthModule`: cadastro/login, hash com argon2, JWT, `JwtAuthGuard` global
+- [x] `User` ganha `passwordHash`, `occupation`, `avatarUrl` (migração)
+- [x] `AuthModule`: cadastro/login, hash com argon2, JWT, `JwtAuthGuard` global
       e `@CurrentUser()`
-- [ ] Trocar o `currentUserId` ("primeiro do banco") pelo usuário autenticado em
+- [x] Trocar o `currentUserId` ("primeiro do banco") pelo usuário autenticado em
       todos os services
-- [ ] Web: tela de login/cadastro, contexto de auth, token no `lib/api`, app
+- [x] Web: tela de login/cadastro, contexto de auth, token no `lib/api`, app
       protegido
-- [ ] Tela de **Settings** do perfil (foto, nome, e-mail, ocupação)
-- [ ] Itens **P0** do UX backlog (fontes + ícones + toasts + skeletons)
-- [ ] `docs/features/auth.md`
+- [x] Tela de **Settings** do perfil (avatar por iniciais/URL, nome, e-mail,
+      ocupação)
+- [x] Itens **P0** do UX backlog (fontes + ícones + toasts + skeletons)
+- [x] `docs/features/auth.md`
 
-## ⬜ Fase 9 — Dashboard do dia
+**Entregue:** autenticação JWT (cadastro/login/logout), dados isolados por
+usuário, perfil editável e a primeira camada de identidade visual (fontes,
+ícones, toasts e skeletons).
+
+## 🔜 Fase 9 — Dashboard do dia
 
 Calendário do mês como visão inicial; clicar num dia abre um dashboard rico.
 

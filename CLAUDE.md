@@ -70,9 +70,11 @@ Web e API são organizados **por feature** e se espelham.
 - **Validação só com Zod:** o `ValidationPipe` nativo do Nest foi removido do
   `main.ts`. Use sempre o `ZodValidationPipe` (`apps/api/src/common`) com os
   schemas de `@daily-hub/shared`. Não introduza `class-validator`.
-- **Modo single-user (até a Fase 8):** ainda não há autenticação. Os services
-  resolvem o usuário atual como o primeiro do banco (criado pelo `seed`). Deixe
-  isso comentado e centralizado para facilitar a troca por auth real na Fase 8.
+- **Autenticação (Fase 8):** há auth JWT (argon2 + passport-jwt) com
+  `JwtAuthGuard` global. Rotas exigem token, salvo as marcadas com `@Public()`
+  (cadastro, login, health). Os services recebem `userId` como primeiro
+  parâmetro, vindo de `@CurrentUser('id')` no controller — não há mais
+  resolução "primeiro do banco". Cadastro é aberto (multiusuário).
 - **Datas de dia:** campos de "dia" (`@db.Date`) trafegam como `YYYY-MM-DD`;
   converta para meia-noite UTC ao gravar e serialize de volta no mesmo formato.
 - O web **não** deve importar `@daily-hub/db` (Prisma) — apenas `@daily-hub/shared`.
@@ -113,8 +115,14 @@ atual. Evitar clichês de UI gerada por IA.
   traduz refs `{type,id}` em previews. Na web, um Inspetor (drawer) reúne tags e
   itens relacionados de qualquer entidade, aberto pelo botão "Conexões" nos
   cards e pela seção Buscar. É a camada que conecta tudo.
-- **Próxima a construir: Fase 8 — Autenticação, dashboard e polish.**
-- Plano completo das 9 fases em `docs/ROADMAP.md`.
+- **Fase 8 (Autenticação + Perfil): concluída.** `AuthModule` na API (cadastro/
+  login com argon2 + JWT, `JwtAuthGuard` global, `@Public()`/`@CurrentUser()`);
+  fim do single-user (os 9 services recebem `userId` do usuário autenticado).
+  Na web: contexto de auth, token Bearer no `lib/api`, telas de login/cadastro,
+  app protegido e tela de Settings (avatar por iniciais/URL). Inclui os P0 de UX
+  (fontes `@fontsource`, ícones `lucide-react`, toasts `sonner`, skeletons).
+- **Próxima a construir: Fase 9 — Dashboard do dia.**
+- Plano completo das fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar
 
