@@ -4,7 +4,7 @@
 
 ### Uma central pessoal centrada no dia — tarefas, metas, anotações, compromissos e contatos, todos interligados.
 
-Aplicação full-stack **TypeScript**: React + NestJS num monorepo tipado, com um design system construído sobre uma ideia — _luz do dia, foco calmo._
+Full-stack **TypeScript** num monorepo tipado (React + NestJS), com um design system construído sobre uma ideia — _luz do dia, foco calmo._
 
 [![CI](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -12,9 +12,8 @@ Aplicação full-stack **TypeScript**: React + NestJS num monorepo tipado, com u
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Design](https://img.shields.io/badge/luz%20do%20dia-foco%20calmo-18646f)
 
-**[🚀 Demo ao vivo](https://daily-hub.up.railway.app)** · **[Docs da API (Swagger)](https://daily-hub-api.up.railway.app/api/docs)**
+**[🚀 Demo ao vivo](https://daily-hub.up.railway.app)** · **[Docs da API (Swagger)](https://daily-hub-api.up.railway.app/api/docs)** · **[Documentação](docs/PROJECT_BRIEF.md)**
 
 <sub><a href="README.md">🇬🇧 English</a> · 🇧🇷 Português</sub>
 
@@ -24,18 +23,34 @@ Aplicação full-stack **TypeScript**: React + NestJS num monorepo tipado, com u
 
 ## Visão geral
 
-A maioria das ferramentas de produtividade vive em silos: o app de tarefas não conhece o calendário, a nota não conhece a pessoa que ela menciona. O **Daily Hub** coloca o **dia** no centro e deixa _qualquer_ item se ligar a _qualquer_ outro — uma tarefa a uma meta, uma nota a um contato, um anexo a um compromisso — por meio de uma única camada polimórfica.
+Ferramentas de produtividade pessoal costumam viver em silos: o app de tarefas não conhece o calendário, e a nota não conhece a pessoa que ela menciona. O **Daily Hub** coloca o **dia** no centro e deixa _qualquer_ item se ligar a _qualquer_ outro — uma tarefa a uma meta, uma nota a um contato, um anexo a um compromisso — por meio de uma única camada polimórfica.
 
-É também uma vitrine de engenharia deliberada: um front-end React e uma API NestJS separados, conversando por um contrato REST documentado, com uma fonte única de verdade para a forma dos dados (Zod) compartilhada na fronteira.
+Nos bastidores, um front-end React e uma API NestJS conversam por um contrato REST documentado, com uma fonte única de verdade para a forma dos dados (Zod) compartilhada na fronteira — type safety da borda do banco até a UI.
+
+## Funcionalidades
+
+| Funcionalidade       | Descrição                                                                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Dashboard do dia** | O calendário é a porta de entrada; abrir um dia traz uma agenda por períodos, CRUD inline e as pessoas vinculadas àquele dia. |
+| **Tarefas**          | Atividades do dia com prioridade, eixo de status comum e vínculo opcional a metas.                                            |
+| **Calendário**       | Visões mês / semana / dia que agregam tudo que acontece numa data.                                                            |
+| **Compromissos**     | Eventos com local e recorrência **RRULE**, expandidos em ocorrências.                                                         |
+| **Metas**            | Objetivos com progresso, sub-metas e tarefas vinculadas.                                                                      |
+| **Anotações**        | Notas em Markdown, fixáveis e anexáveis a um dia.                                                                             |
+| **Contatos**         | Pessoas, com busca e vínculo a outros itens.                                                                                  |
+| **Integração**       | Links + tags polimórficos entre quaisquer entidades, Inspetor de "Conexões" e busca global (⌘K).                              |
+| **Auth & perfil**    | Autenticação e-mail/senha (argon2 + JWT), isolamento de dados por usuário, perfil editável.                                   |
+| **Anexos**           | Arquivos em tarefas, compromissos e notas via upload por URL assinada (storage S3-compatível).                                |
+| **Kanban**           | Quadro unificado que controla o status (A fazer / Em andamento / Concluído) de tarefas, compromissos e metas.                 |
+
+Cada funcionalidade é especificada em [`docs/features/`](docs/features/INDEX.md) — visão geral, regras de negócio, fluxos (Mermaid) e notas técnicas.
 
 ## Destaques
 
-- **O dia como hub.** O calendário é a landing page; abrir um dia revela um dashboard rico (agenda por períodos, tarefas, notas e as pessoas vinculadas àquele dia).
-- **Tudo interligado.** Uma camada polimórfica de `EntityLink` + `Tagging` conecta quaisquer duas entidades, exposta por um Inspetor de "Conexões" uniforme e pela busca global (⌘K).
-- **Type-safety de ponta a ponta.** Schemas Zod em `packages/shared` validam a API _e_ tipam o cliente — da borda do banco à UI, a validação vive num só lugar.
-- **Um design system de verdade.** Tokens (cor, tipografia, elevação, movimento) em CSS variables, um modelo de status unificado entre os três tipos de item, acessível por padrão (foco visível, `prefers-reduced-motion`), movimento com propósito via Framer Motion — e um esforço consciente para evitar clichês de UI gerada por IA.
-- **Lógica de domínio não-trivial.** Recorrência RRULE expandida em ocorrências, upload por URL assinada para storage S3-compatível, auth JWT (argon2) com guard global e um Kanban unificado (`@dnd-kit`) que controla o status de tarefas, compromissos e metas.
-- **Documentado como produto.** Cada feature tem requisitos (`REQ-*`) e critérios de aceite (`AC-*`), as decisões de arquitetura são registradas (`DECISIONS.md`) e tudo compila num site MkDocs.
+- **Type-safety de ponta a ponta** — schemas Zod em `packages/shared` validam a API _e_ tipam o cliente; a validação vive num único lugar.
+- **Um design system de verdade** — tokens (cor, tipografia, elevação, movimento) em CSS variables, modelo de status unificado, movimento com propósito (Framer Motion) e acessibilidade por padrão (foco visível, `prefers-reduced-motion`).
+- **Lógica de domínio não-trivial** — recorrência RRULE, upload por URL assinada, guard JWT global e drag-and-drop de status entre três tipos de entidade (`@dnd-kit`).
+- **Documentado como produto** — requisitos (`REQ-*`) e critérios de aceite (`AC-*`) por feature, decisões de arquitetura registradas e um site MkDocs.
 
 ## Stack
 
@@ -46,9 +61,7 @@ A maioria das ferramentas de produtividade vive em silos: o app de tarefas não 
 | Backend     | NestJS (um módulo por feature), Swagger/OpenAPI                                 |
 | Validação   | Zod — schemas compartilhados em `packages/shared`                               |
 | Banco / ORM | PostgreSQL + Prisma (`packages/db`)                                             |
-| Storage     | S3-compatível (MinIO local · Cloudflare R2 em produção)                         |
-| Testes      | Vitest (unit/integração), Playwright (e2e — planejado)                          |
-| Qualidade   | ESLint, Prettier, Husky, Commitlint, GitHub Actions                             |
+| Tooling     | Vitest, ESLint, Prettier, Husky, Commitlint, GitHub Actions                     |
 
 ## Arquitetura
 
@@ -62,17 +75,23 @@ flowchart LR
     shared --- api
 ```
 
-Front-end e back-end são **apps separados** (não um monolito Next.js) — escolha deliberada para mostrar design de API explícito e uma fronteira limpa. Ambos são organizados **por feature** e se espelham. Ver [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) e [`docs/DECISIONS.md`](docs/DECISIONS.md).
+Front-end e back-end são **apps separados** (não um monolito Next.js) — escolha deliberada para design de API explícito e fronteira limpa. Ambos são organizados **por feature** e se espelham. Ver [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) e [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
-## Features
-
-Tarefas · Calendário/Agenda · Compromissos (com recorrência) · Metas (com sub-metas) · Anotações (Markdown) · Contatos · **Integração** (links, tags, busca global) · Autenticação + Perfil · Dashboard do dia · Anexos · Kanban.
-
-Cada feature é especificada em [`docs/features/`](docs/features/INDEX.md) — visão geral, regras de negócio, fluxos (Mermaid) e notas técnicas.
+```
+daily-hub/
+├─ apps/
+│  ├─ web/        # front-end React + Vite
+│  └─ api/        # API NestJS
+├─ packages/
+│  ├─ db/         # schema Prisma + cliente
+│  ├─ shared/     # schemas Zod e tipos compartilhados
+│  └─ config/     # presets de tsconfig
+└─ docs/          # documentação de produto e engenharia (MkDocs)
+```
 
 ## Como rodar
 
-**Pré-requisitos:** Node.js ≥ 20.11 · pnpm 9 · Docker (para Postgres + MinIO).
+**Pré-requisitos:** Node.js ≥ 20.11 · pnpm 9 · Docker (Postgres + MinIO).
 
 ```bash
 pnpm install                 # instala dependências
@@ -84,9 +103,7 @@ pnpm db:seed                 # (opcional) dados de exemplo
 pnpm dev                     # web + api em watch
 ```
 
-- Web → http://localhost:5173
-- API → http://localhost:3333/api
-- Docs da API (Swagger) → http://localhost:3333/api/docs
+Web → `localhost:5173` · API → `localhost:3333/api` · Swagger → `localhost:3333/api/docs`
 
 | Comando                                      | O que faz                    |
 | -------------------------------------------- | ---------------------------- |
@@ -97,7 +114,7 @@ pnpm dev                     # web + api em watch
 
 ## Documentação
 
-A documentação segue um padrão folder-per-feature e compila num site **MkDocs Material**.
+A doc segue um padrão folder-per-feature e compila num site **MkDocs Material** (`pipx run --spec mkdocs-material mkdocs serve`).
 
 | Doc                                                     | Conteúdo                                     |
 | ------------------------------------------------------- | -------------------------------------------- |
@@ -109,11 +126,9 @@ A documentação segue um padrão folder-per-feature e compila num site **MkDocs
 | [Features](docs/features/INDEX.md)                      | Specs por feature (`REQ-*` / `AC-*`)         |
 | [Roadmap](docs/ROADMAP.md) · [Backlog](docs/BACKLOG.md) | Plano e trabalho priorizado                  |
 
-Servir o site da doc localmente: `pipx run --spec mkdocs-material mkdocs serve` → http://127.0.0.1:8000
+## Deploy
 
-## Status do projeto
-
-**Fases 0–12 concluídas** — todas as features e um deploy ao vivo em **[daily-hub.up.railway.app](https://daily-hub.up.railway.app)** (Railway: web + API + Postgres; Cloudflare R2 para anexos). Ver o [roadmap](docs/ROADMAP.md).
+No ar em [**daily-hub.up.railway.app**](https://daily-hub.up.railway.app) — o Railway roda web, API e PostgreSQL; a Cloudflare R2 guarda os anexos. Cada serviço builda do seu Dockerfile multi-stage e roda `prisma migrate deploy` no start. Detalhes em [`docs/deploy.md`](docs/deploy.md).
 
 ## Autor
 

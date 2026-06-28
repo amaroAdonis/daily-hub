@@ -4,7 +4,7 @@
 
 ### A day-centric personal hub — tasks, goals, notes, events and contacts, all interlinked.
 
-Full-stack **TypeScript** application: React + NestJS in a typed monorepo, with a design system built around one idea — _daylight, calm focus._
+Full-stack **TypeScript** in a typed monorepo (React + NestJS), with a design system built around one idea — _daylight, calm focus._
 
 [![CI](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -12,9 +12,8 @@ Full-stack **TypeScript** application: React + NestJS in a typed monorepo, with 
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Design](https://img.shields.io/badge/luz%20do%20dia-foco%20calmo-18646f)
 
-**[🚀 Live demo](https://daily-hub.up.railway.app)** · **[API docs (Swagger)](https://daily-hub-api.up.railway.app/api/docs)**
+**[🚀 Live demo](https://daily-hub.up.railway.app)** · **[API docs (Swagger)](https://daily-hub-api.up.railway.app/api/docs)** · **[Documentation](docs/PROJECT_BRIEF.md)**
 
 <sub>🇬🇧 English · <a href="README.pt-BR.md">🇧🇷 Português</a></sub>
 
@@ -24,18 +23,34 @@ Full-stack **TypeScript** application: React + NestJS in a typed monorepo, with 
 
 ## Overview
 
-Most personal-productivity tools live in silos: the to-do app doesn't know about the calendar, the note doesn't know about the person it mentions. **Daily Hub** puts the **day** at the center and lets _any_ item link to _any_ other — a task to a goal, a note to a contact, an attachment to an event — through one polymorphic layer.
+Personal-productivity tools tend to live in silos: the to-do app doesn't know about the calendar, and the note doesn't know about the person it mentions. **Daily Hub** puts the **day** at the center and lets _any_ item link to _any_ other — a task to a goal, a note to a contact, an attachment to an event — through a single polymorphic layer.
 
-It's also a deliberate engineering showcase: a separate React front-end and NestJS API talking over a documented REST contract, with a single source of truth for data shapes (Zod) shared across the boundary.
+Under the hood, a React front-end and a NestJS API talk over a documented REST contract, with one source of truth for data shapes (Zod) shared across the boundary — type safety from the database edge all the way to the UI.
+
+## Features
+
+| Feature            | Description                                                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Day dashboard**  | The calendar is the landing page; opening a day gives an agenda by time-of-day, inline CRUD, and the people linked to that day. |
+| **Tasks**          | Daily to-dos with priority, a shared status axis and optional links to goals.                                                   |
+| **Calendar**       | Month / week / day views that aggregate everything happening on a date.                                                         |
+| **Events**         | Appointments with location and **RRULE** recurrence, expanded into occurrences.                                                 |
+| **Goals**          | Objectives with progress, sub-goals and linked tasks.                                                                           |
+| **Notes**          | Markdown notes, pinnable and attachable to a day.                                                                               |
+| **Contacts**       | People, searchable and linkable to other items.                                                                                 |
+| **Integration**    | Polymorphic links + tags between any entities, a "Connections" inspector and global search (⌘K).                                |
+| **Auth & profile** | Email/password auth (argon2 + JWT), per-user data isolation, editable profile.                                                  |
+| **Attachments**    | Files on tasks, events and notes via presigned-URL uploads to S3-compatible storage.                                            |
+| **Kanban**         | A unified board that drives status (To do / Doing / Done) across tasks, events and goals.                                       |
+
+Each feature is fully specified in [`docs/features/`](docs/features/INDEX.md) — overview, business rules, flows (Mermaid) and technical notes.
 
 ## Highlights
 
-- **The day as a hub.** The calendar is the landing page; opening a day reveals a rich dashboard (agenda by time-of-day, tasks, notes and the people linked to that day).
-- **Everything interlinked.** A polymorphic `EntityLink` + `Tagging` layer connects any two entities, surfaced through a uniform "Connections" inspector and global search (⌘K).
-- **End-to-end type safety.** Zod schemas in `packages/shared` validate the API _and_ type the client — from the database edge to the UI, validation lives in one place.
-- **A real design system.** Tokens (color, type, elevation, motion) in CSS variables, a unified status model across the three item types, accessible by default (visible focus, `prefers-reduced-motion`), purposeful motion with Framer Motion — and a conscious effort to avoid AI-generated UI clichés.
-- **Non-trivial domain logic.** RRULE recurrence expanded into occurrences, presigned-URL uploads to S3-compatible storage, JWT auth (argon2) with a global guard, and a unified Kanban (`@dnd-kit`) that drives status across tasks, events and goals.
-- **Documented like a product.** Every feature has requirements (`REQ-*`) and acceptance criteria (`AC-*`), architecture decisions are logged (`DECISIONS.md`), and the whole thing builds into a MkDocs site.
+- **End-to-end type safety** — Zod schemas in `packages/shared` validate the API _and_ type the client; validation lives in exactly one place.
+- **A real design system** — tokens (color, type, elevation, motion) as CSS variables, a unified status model, purposeful motion (Framer Motion), and accessibility by default (visible focus, `prefers-reduced-motion`).
+- **Non-trivial domain logic** — RRULE recurrence, presigned-URL uploads, a global JWT guard, and drag-and-drop status across three entity types (`@dnd-kit`).
+- **Documented like a product** — requirements (`REQ-*`) and acceptance criteria (`AC-*`) per feature, logged architecture decisions, and a MkDocs site.
 
 ## Tech stack
 
@@ -47,8 +62,7 @@ It's also a deliberate engineering showcase: a separate React front-end and Nest
 | Validation     | Zod — schemas shared in `packages/shared`                                       |
 | Database / ORM | PostgreSQL + Prisma (`packages/db`)                                             |
 | Storage        | S3-compatible (MinIO local · Cloudflare R2 in prod)                             |
-| Tests          | Vitest (unit/integration), Playwright (e2e — planned)                           |
-| Quality        | ESLint, Prettier, Husky, Commitlint, GitHub Actions                             |
+| Tooling        | Vitest, ESLint, Prettier, Husky, Commitlint, GitHub Actions                     |
 
 ## Architecture
 
@@ -62,17 +76,23 @@ flowchart LR
     shared --- api
 ```
 
-Front-end and back-end are **separate apps** (not a Next.js monolith) — a deliberate choice to show explicit API design and a clean boundary. Both are organized **by feature** and mirror each other. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/DECISIONS.md`](docs/DECISIONS.md).
+Front-end and back-end are **separate apps** (not a Next.js monolith) — a deliberate choice for explicit API design and a clean boundary. Both are organized **by feature** and mirror each other. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
-## Features
-
-Tasks · Calendar/Agenda · Events (with recurrence) · Goals (with sub-goals) · Notes (Markdown) · Contacts · **Integration** (links, tags, global search) · Auth + Profile · Day dashboard · Attachments · Kanban.
-
-Each feature is fully specified in [`docs/features/`](docs/features/INDEX.md) — overview, business rules, flows (Mermaid) and technical notes.
+```
+daily-hub/
+├─ apps/
+│  ├─ web/        # React + Vite front-end
+│  └─ api/        # NestJS API
+├─ packages/
+│  ├─ db/         # Prisma schema + client
+│  ├─ shared/     # Zod schemas and shared types
+│  └─ config/     # shared tsconfig presets
+└─ docs/          # product & engineering docs (MkDocs)
+```
 
 ## Getting started
 
-**Prerequisites:** Node.js ≥ 20.11 · pnpm 9 · Docker (for Postgres + MinIO).
+**Prerequisites:** Node.js ≥ 20.11 · pnpm 9 · Docker (Postgres + MinIO).
 
 ```bash
 pnpm install                 # install dependencies
@@ -84,9 +104,7 @@ pnpm db:seed                 # (optional) sample data
 pnpm dev                     # web + api in watch mode
 ```
 
-- Web → http://localhost:5173
-- API → http://localhost:3333/api
-- API docs (Swagger) → http://localhost:3333/api/docs
+Web → `localhost:5173` · API → `localhost:3333/api` · Swagger → `localhost:3333/api/docs`
 
 | Command                                      | What it does                  |
 | -------------------------------------------- | ----------------------------- |
@@ -97,7 +115,7 @@ pnpm dev                     # web + api in watch mode
 
 ## Documentation
 
-The docs follow a folder-per-feature standard and build into a **MkDocs Material** site.
+Docs follow a folder-per-feature standard and build into a **MkDocs Material** site (`pipx run --spec mkdocs-material mkdocs serve`).
 
 | Doc                                                     | Content                                |
 | ------------------------------------------------------- | -------------------------------------- |
@@ -109,11 +127,9 @@ The docs follow a folder-per-feature standard and build into a **MkDocs Material
 | [Features](docs/features/INDEX.md)                      | Per-feature specs (`REQ-*` / `AC-*`)   |
 | [Roadmap](docs/ROADMAP.md) · [Backlog](docs/BACKLOG.md) | Plan and prioritized work              |
 
-Serve the docs site locally: `pipx run --spec mkdocs-material mkdocs serve` → http://127.0.0.1:8000
+## Deployment
 
-## Project status
-
-**Phases 0–12 complete** — all features plus a live deployment on **[daily-hub.up.railway.app](https://daily-hub.up.railway.app)** (Railway: web + API + Postgres; Cloudflare R2 for attachments). See the [roadmap](docs/ROADMAP.md).
+Live on [**daily-hub.up.railway.app**](https://daily-hub.up.railway.app) — Railway runs the web, API and PostgreSQL; Cloudflare R2 holds attachments. Each service builds from its own multi-stage Dockerfile and runs `prisma migrate deploy` on start. Details in [`docs/deploy.md`](docs/deploy.md).
 
 ## Author
 
