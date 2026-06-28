@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import {
   CalendarRange,
+  LayoutGrid,
   LogOut,
   PanelLeftClose,
   Search,
@@ -18,11 +19,13 @@ import { Avatar } from '../ui/avatar';
  * Itens de navegação da barra lateral. "Hoje" e "Agenda" levam ambos ao
  * calendário (seção unificada); os demais são seções próprias.
  */
-export type NavKey = 'today' | 'agenda' | 'goals' | 'notes' | 'contacts' | 'search' | 'settings';
+export type NavKey =
+  'today' | 'agenda' | 'kanban' | 'goals' | 'notes' | 'contacts' | 'search' | 'settings';
 
 const NAV: { key: NavKey; label: string; icon: LucideIcon }[] = [
   { key: 'today', label: 'Hoje', icon: Sun },
   { key: 'agenda', label: 'Agenda', icon: CalendarRange },
+  { key: 'kanban', label: 'Quadro', icon: LayoutGrid },
   { key: 'goals', label: 'Metas', icon: Target },
   { key: 'notes', label: 'Notas', icon: StickyNote },
   { key: 'contacts', label: 'Contatos', icon: Users },
@@ -32,6 +35,7 @@ const NAV: { key: NavKey; label: string; icon: LucideIcon }[] = [
 const TITLES: Record<NavKey, string> = {
   today: 'Hoje',
   agenda: 'Agenda',
+  kanban: 'Quadro',
   goals: 'Metas',
   notes: 'Notas',
   contacts: 'Contatos',

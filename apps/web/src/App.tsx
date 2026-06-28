@@ -10,6 +10,7 @@ import { NotesPage } from './features/notes/components/notes-page';
 import { ContactsPage } from './features/contacts/components/contacts-page';
 import { SearchPage } from './features/integration/components/search-page';
 import { SettingsPage } from './features/settings/components/settings-page';
+import { KanbanPage } from './features/kanban/components/kanban-page';
 import { InspectorProvider } from './features/integration/inspector-context';
 
 export function App() {
@@ -40,7 +41,7 @@ function AuthGate() {
 }
 
 /** Seções que não são o calendário. */
-type Section = 'calendar' | 'goals' | 'notes' | 'contacts' | 'search' | 'settings';
+type Section = 'calendar' | 'kanban' | 'goals' | 'notes' | 'contacts' | 'search' | 'settings';
 
 function AuthenticatedApp() {
   // Calendário é a landing pós-login; seu estado vive aqui para que a sidebar
@@ -77,6 +78,7 @@ function AuthenticatedApp() {
             onReferenceChange={setCalendarRef}
           />
         )}
+        {section === 'kanban' && <KanbanPage />}
         {section === 'goals' && <GoalsPage />}
         {section === 'notes' && <NotesPage />}
         {section === 'contacts' && <ContactsPage />}

@@ -10,6 +10,9 @@ import { api } from '../../lib/api';
 export const listOccurrences = (range: EventRangeQuery) =>
   api<EventOccurrence[]>(`/events?from=${range.from}&to=${range.to}`);
 
+/** Compromissos base (sem expandir recorrência), para o Kanban. */
+export const listEventsBase = () => api<EventDto[]>('/events/base');
+
 export const getEvent = (id: string) => api<EventDto>(`/events/${id}`);
 
 export const createEvent = (input: CreateEventInput) =>
