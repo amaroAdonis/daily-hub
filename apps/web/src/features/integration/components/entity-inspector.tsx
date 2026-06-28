@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
-import type { EntityPreview } from '@daily-hub/shared';
+import type { EntityPreview, EntityType } from '@daily-hub/shared';
 import { ENTITY_LABEL } from '../entity-meta';
+import { EntityAttachments } from '../../attachments/components/entity-attachments';
 import { EntityTags } from './entity-tags';
 import { RelatedItems } from './related-items';
+
+/** Tipos que aceitam anexos (Fase 10). */
+const ATTACHABLE: EntityType[] = ['TASK', 'EVENT', 'NOTE'];
 
 /** Drawer lateral com as conexões de uma entidade: tags e itens relacionados. */
 export function EntityInspector({
@@ -56,6 +60,12 @@ export function EntityInspector({
             <h3 className="mb-2 font-display text-sm font-semibold">Itens relacionados</h3>
             <RelatedItems entityRef={entityRef} />
           </section>
+          {ATTACHABLE.includes(preview.type) && (
+            <section>
+              <h3 className="mb-2 font-display text-sm font-semibold">Anexos</h3>
+              <EntityAttachments entityRef={entityRef} />
+            </section>
+          )}
         </div>
       </aside>
     </div>
