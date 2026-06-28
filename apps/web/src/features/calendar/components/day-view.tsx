@@ -1,10 +1,12 @@
-import { CalendarClock, CheckSquare, StickyNote } from 'lucide-react';
+import { CalendarClock, CheckSquare, StickyNote, Target } from 'lucide-react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { DayTasks } from '../../tasks/components/day-tasks';
 import { DayEvents } from '../../events/components/day-events';
 import { DayNotes } from '../../notes/components/day-notes';
+import { DayGoals } from '../../goals/components/day-goals';
 import { useTasks } from '../../tasks/hooks';
 import { useNotes } from '../../notes/hooks';
+import { useGoals } from '../../goals/hooks';
 import { useEventOccurrences } from '../../events/hooks';
 import { todayString } from '../dates';
 import { DayContacts } from './day-contacts';
@@ -42,11 +44,13 @@ export function DayView({ day }: { day: string }) {
   const { data: tasks } = useTasks({ date: day });
   const { data: notes } = useNotes({ date: day });
   const { data: eventsByDay } = useEventOccurrences({ from: day, to: day });
+  const { data: activeGoals } = useGoals({ status: 'ACTIVE' });
 
   const eventCount = eventsByDay?.get(day)?.length ?? 0;
   const taskTotal = tasks?.length ?? 0;
   const taskDone = tasks?.filter((task) => task.status === 'DONE').length ?? 0;
   const noteCount = notes?.length ?? 0;
+  const goalCount = activeGoals?.length ?? 0;
 
   const container: Variants = {
     hidden: {},
@@ -82,6 +86,11 @@ export function DayView({ day }: { day: string }) {
           value={String(noteCount)}
           label={noteCount === 1 ? 'nota' : 'notas'}
         />
+        <Stat
+          icon={Target}
+          value={String(goalCount)}
+          label={goalCount === 1 ? 'meta ativa' : 'metas ativas'}
+        />
       </div>
 
       <motion.div
@@ -94,8 +103,9 @@ export function DayView({ day }: { day: string }) {
         <motion.div variants={item}>
           <DayEvents date={day} />
         </motion.div>
-        <motion.div variants={item}>
+        <motion.div variants={item} className="flex flex-col gap-6">
           <DayTasks date={day} />
+          <DayGoals />
         </motion.div>
         <motion.div variants={item} className="flex flex-col gap-6">
           <DayNotes date={day} />
