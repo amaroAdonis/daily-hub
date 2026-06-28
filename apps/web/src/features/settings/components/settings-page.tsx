@@ -41,14 +41,17 @@ export function SettingsPage() {
   }
 
   return (
-    <div className="max-w-lg">
-      <div className="mb-6 flex items-center gap-4">
-        <Avatar name={name || user.name} src={avatarUrl.trim() || null} size={72} />
+    <div className="mx-auto grid w-full max-w-[110rem] gap-8 lg:grid-cols-[22rem_minmax(0,32rem)]">
+      <aside className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-surface p-8 text-center shadow-card lg:sticky lg:top-6 lg:self-start">
+        <Avatar name={name || user.name} src={avatarUrl.trim() || null} size={112} />
         <div>
           <p className="font-display text-lg font-semibold">{name || user.name}</p>
           <p className="text-sm text-muted">{user.email}</p>
+          {(occupation || user.occupation) && (
+            <p className="mt-1 text-sm text-muted">{occupation || user.occupation}</p>
+          )}
         </div>
-      </div>
+      </aside>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Field label="Nome">

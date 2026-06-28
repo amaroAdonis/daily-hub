@@ -11,7 +11,7 @@ export function ContactsPage() {
   const { data: contacts, isLoading, isError } = useContacts(trimmed ? { search: trimmed } : {});
 
   return (
-    <div className="max-w-3xl">
+    <div className="mx-auto w-full max-w-[110rem]">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <input
           type="search"
@@ -40,7 +40,7 @@ export function ContactsPage() {
 
       {isLoading && (
         <div
-          className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           role="status"
           aria-label="Carregando"
         >
@@ -60,7 +60,7 @@ export function ContactsPage() {
         </p>
       )}
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {contacts?.map((contact) => (
           <ContactCard key={contact.id} contact={contact} />
         ))}

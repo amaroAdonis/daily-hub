@@ -33,7 +33,7 @@ export function SearchPage() {
   const { data: tagItems } = useTagItems(tagId);
 
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto w-full max-w-[110rem]">
       <input
         type="search"
         value={query}
@@ -48,16 +48,18 @@ export function SearchPage() {
       />
 
       {trimmed ? (
-        <div className="mt-4 flex flex-col gap-2">
+        <div className="mt-4">
           {isLoading && <SkeletonList rows={4} />}
           {!isLoading && results?.length === 0 && (
             <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted">
               Nada encontrado para “{trimmed}”.
             </p>
           )}
-          {results?.map((item) => (
-            <PreviewRow key={`${item.type}-${item.id}`} item={item} />
-          ))}
+          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+            {results?.map((item) => (
+              <PreviewRow key={`${item.type}-${item.id}`} item={item} />
+            ))}
+          </div>
         </div>
       ) : (
         <div className="mt-5">

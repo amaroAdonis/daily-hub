@@ -17,7 +17,7 @@ export function NotesPage() {
   const { data: notes, isLoading, isError } = useNotes(filter === 'pinned' ? { pinned: true } : {});
 
   return (
-    <div className="max-w-3xl">
+    <div className="mx-auto w-full max-w-[110rem]">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center rounded-xl border border-border p-0.5" role="tablist">
           {FILTERS.map((option) => (
@@ -55,7 +55,7 @@ export function NotesPage() {
 
       {isLoading && (
         <div
-          className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           role="status"
           aria-label="Carregando"
         >
@@ -75,7 +75,7 @@ export function NotesPage() {
         </p>
       )}
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {notes?.map((note) => (
           <NoteCard key={note.id} note={note} />
         ))}

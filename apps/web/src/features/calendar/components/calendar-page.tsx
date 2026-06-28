@@ -23,7 +23,7 @@ export function CalendarPage({ view, reference, onViewChange, onReferenceChange 
   };
 
   return (
-    <div className="mx-auto w-full max-w-[110rem]">
+    <div className="mx-auto flex h-full w-full max-w-[110rem] flex-col">
       <CalendarHeader
         view={view}
         reference={reference}

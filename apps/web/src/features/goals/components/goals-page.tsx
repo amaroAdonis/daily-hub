@@ -21,7 +21,7 @@ export function GoalsPage() {
   const parentOptions = (goals ?? []).map((goal) => ({ id: goal.id, title: goal.title }));
 
   return (
-    <div className="max-w-3xl">
+    <div className="mx-auto w-full max-w-[110rem]">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center rounded-xl border border-border p-0.5" role="tablist">
           {FILTERS.map((option) => (
@@ -69,7 +69,7 @@ export function GoalsPage() {
         </p>
       )}
 
-      <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-2 xl:grid-cols-3">
         {goals?.map((goal) => (
           <GoalCard
             key={goal.id}
