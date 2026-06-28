@@ -24,6 +24,7 @@ function eventRow(overrides: Record<string, unknown> = {}) {
     endsAt: new Date('2026-06-01T14:00:00.000Z'),
     allDay: false,
     location: null,
+    meetingUrl: null,
     recurrence: null,
     reminderMin: null,
     createdAt: new Date('2026-05-01T10:00:00.000Z'),
@@ -63,6 +64,21 @@ describe('EventsService', () => {
 
     expect(dto.startsAt).toBe('2026-06-01T13:00:00.000Z');
     expect(dto.allDay).toBe(false);
+    expect(dto.meetingUrl).toBeNull();
+  });
+
+  it('persiste o link da reunião ao criar', async () => {
+    prisma.event.create.mockResolvedValue(eventRow({ meetingUrl: 'https://meet.example/abc' }));
+
+    const dto = await service.create('user-1', {
+      title: 'Reunião',
+      startsAt: '2026-06-01T13:00:00.000Z',
+      endsAt: '2026-06-01T14:00:00.000Z',
+      meetingUrl: 'https://meet.example/abc',
+    });
+
+    expect(prisma.event.create.mock.calls[0]![0].data.meetingUrl).toBe('https://meet.example/abc');
+    expect(dto.meetingUrl).toBe('https://meet.example/abc');
   });
 
   it('lança NotFound ao remover compromisso inexistente', async () => {

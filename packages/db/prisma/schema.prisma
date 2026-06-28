@@ -172,6 +172,8 @@ model Event {
   endsAt      DateTime
   allDay      Boolean  @default(false)
   location    String?
+  /// Link da reunião (ex.: Meet/Zoom) para "entrar na reunião". Nulo = sem link.
+  meetingUrl  String?
   /// Regra de recorrência no formato RRULE (RFC 5545). Nulo = evento único.
   recurrence  String?
   /// Minutos antes do início para lembrete. Nulo = sem lembrete.

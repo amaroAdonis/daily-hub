@@ -23,6 +23,7 @@ export const createEventSchema = z
     endsAt: isoDateTime,
     allDay: z.boolean().optional(),
     location: z.string().trim().max(200).optional(),
+    meetingUrl: z.string().trim().url('URL inválida').max(500).optional(),
     recurrence: recurrenceRule.optional(),
     reminderMin: z.number().int().min(0).max(40320).optional(),
   })
@@ -41,6 +42,7 @@ export const updateEventSchema = z
     endsAt: isoDateTime,
     allDay: z.boolean(),
     location: z.string().trim().max(200).nullable(),
+    meetingUrl: z.string().trim().url('URL inválida').max(500).nullable(),
     recurrence: recurrenceRule.nullable(),
     reminderMin: z.number().int().min(0).max(40320).nullable(),
   })
@@ -65,6 +67,7 @@ export const eventDto = z.object({
   endsAt: z.string(),
   allDay: z.boolean(),
   location: z.string().nullable(),
+  meetingUrl: z.string().nullable(),
   recurrence: z.string().nullable(),
   reminderMin: z.number().int().nullable(),
   createdAt: z.string(),
@@ -81,6 +84,7 @@ export const eventOccurrenceDto = z.object({
   title: z.string(),
   description: z.string().nullable(),
   location: z.string().nullable(),
+  meetingUrl: z.string().nullable(),
   allDay: z.boolean(),
   start: z.string(),
   end: z.string(),
