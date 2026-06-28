@@ -33,7 +33,8 @@ docs/           # documentação (roadmap, arquitetura, features, ADRs)
 ## Comandos
 
 ```bash
-pnpm dev          # sobe web + api em watch
+pnpm dev          # libera a porta 3333 (free-port) e sobe web + api em watch
+pnpm free-port    # mata o que estiver na porta 3333 (API) — usado pelo dev
 pnpm build        # build de todos os pacotes
 pnpm lint         # ESLint
 pnpm typecheck    # checagem de tipos

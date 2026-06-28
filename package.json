@@ -8,7 +8,8 @@
     "node": ">=20.11.0"
   },
   "scripts": {
-    "dev": "turbo run dev",
+    "free-port": "lsof -ti tcp:3333 | xargs kill -9 2>/dev/null || true",
+    "dev": "pnpm free-port && turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",
