@@ -26,6 +26,8 @@ export class EventsService {
       startsAt: event.startsAt.toISOString(),
       endsAt: event.endsAt.toISOString(),
       allDay: event.allDay,
+      category: event.category,
+      status: event.status,
       location: event.location,
       meetingUrl: event.meetingUrl,
       recurrence: event.recurrence,
@@ -42,6 +44,8 @@ export class EventsService {
       description: event.description,
       location: event.location,
       meetingUrl: event.meetingUrl,
+      category: event.category,
+      status: event.status,
       allDay: event.allDay,
       start: start.toISOString(),
       end: end.toISOString(),
@@ -55,6 +59,15 @@ export class EventsService {
     return this.toDto(event);
   }
 
+  /** Lista os compromissos base do usuário (sem expandir recorrência), p/ o Kanban. */
+  async listBase(userId: string): Promise<EventDto[]> {
+    const events = await this.prisma.event.findMany({
+      where: { userId },
+      orderBy: { startsAt: 'desc' },
+    });
+    return events.map((event) => this.toDto(event));
+  }
+
   async create(userId: string, input: CreateEventInput): Promise<EventDto> {
     const event = await this.prisma.event.create({
       data: {
@@ -64,6 +77,8 @@ export class EventsService {
         startsAt: new Date(input.startsAt),
         endsAt: new Date(input.endsAt),
         allDay: input.allDay,
+        category: input.category,
+        status: input.status,
         location: input.location,
         meetingUrl: input.meetingUrl,
         recurrence: input.recurrence,
@@ -81,6 +96,8 @@ export class EventsService {
       title: input.title,
       description: input.description,
       allDay: input.allDay,
+      category: input.category,
+      status: input.status,
       location: input.location,
       meetingUrl: input.meetingUrl,
       recurrence: input.recurrence,

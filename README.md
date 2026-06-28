@@ -30,7 +30,7 @@ daily-hub/
 │  ├─ db/         # schema Prisma + cliente
 │  ├─ shared/     # schemas Zod e tipos compartilhados
 │  └─ config/     # presets de tsconfig
-└─ docs/          # documentação (ver docs/README abaixo)
+└─ docs/          # documentação (ver seção Documentação abaixo)
 ```
 
 ## Pré-requisitos
@@ -75,17 +75,37 @@ pnpm dev                        # web + api em paralelo (Turborepo)
 
 ## Documentação
 
-| Documento                                      | Conteúdo                              |
-| ---------------------------------------------- | ------------------------------------- |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)   | Visão de arquitetura e fluxo de dados |
-| [docs/data-model.md](docs/data-model.md)       | Entidades, ER e a camada de links     |
-| [docs/ROADMAP.md](docs/ROADMAP.md)             | Plano em fases                        |
-| [docs/design-system.md](docs/design-system.md) | Tokens visuais e direção de design    |
-| [docs/conventions.md](docs/conventions.md)     | Padrões de código e commits           |
-| [docs/adr/](docs/adr/)                         | Registros de decisão de arquitetura   |
-| [docs/features/](docs/features/)               | Especificação de cada feature         |
+A documentação segue um padrão único (inspirado no projeto pfi-board): docs de
+topo em CAPS, uma pasta por feature e um design system. É publicável como site
+estático com **MkDocs Material**.
+
+| Documento                                          | Conteúdo                                  |
+| -------------------------------------------------- | ----------------------------------------- |
+| [docs/PROJECT_BRIEF.md](docs/PROJECT_BRIEF.md)     | Visão, público, objetivos e não-objetivos |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)       | Visão de arquitetura e fluxo de dados     |
+| [docs/data-model.md](docs/data-model.md)           | Entidades, ER e a camada de links         |
+| [docs/DECISIONS.md](docs/DECISIONS.md)             | Decisões de arquitetura (`D00N`)          |
+| [docs/GLOSSARY.md](docs/GLOSSARY.md)               | Termos do domínio                         |
+| [docs/ROADMAP.md](docs/ROADMAP.md)                 | Plano em fases                            |
+| [docs/BACKLOG.md](docs/BACKLOG.md)                 | Melhorias priorizadas e trabalho futuro   |
+| [docs/design-system/](docs/design-system/index.md) | Tokens, princípios e componentes          |
+| [docs/conventions.md](docs/conventions.md)         | Padrões de código, commits e docs         |
+| [docs/features/INDEX.md](docs/features/INDEX.md)   | Índice e especificação de cada feature    |
+
+### Site da documentação (MkDocs)
+
+O MkDocs roda como ferramenta à parte (não entra no monorepo pnpm). Em um
+ambiente Python:
+
+```bash
+pipx run --spec mkdocs-material mkdocs serve   # http://127.0.0.1:8000
+# ou, num venv: pip install mkdocs-material && mkdocs serve
+```
+
+Build estático: `mkdocs build --strict`. Configuração em [`mkdocs.yml`](mkdocs.yml).
 
 ## Status
 
-**Fase 0 — Fundação concluída.** Próxima: Fase 1 (Tarefas / atividades diárias).
-Ver [docs/ROADMAP.md](docs/ROADMAP.md).
+**Fases 0–11 concluídas** (tarefas, calendário, eventos, metas, notas, contatos,
+integração, auth, dashboard, anexos e integrações leves). Próxima: **Fase 12 —
+Deploy e vitrine**, após o polimento de UI/UX. Ver [docs/ROADMAP.md](docs/ROADMAP.md).

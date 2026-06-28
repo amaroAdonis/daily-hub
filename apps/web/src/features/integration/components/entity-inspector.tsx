@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import type { EntityPreview, EntityType } from '@daily-hub/shared';
 import { ENTITY_LABEL } from '../entity-meta';
 import { EntityAttachments } from '../../attachments/components/entity-attachments';
@@ -27,13 +28,23 @@ export function EntityInspector({
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end">
-      <button
+      <motion.button
         type="button"
         aria-label="Fechar"
         onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
         className="absolute inset-0 bg-ink/20"
       />
-      <aside className="relative h-full w-full max-w-md overflow-y-auto bg-surface shadow-xl">
+      <motion.aside
+        initial={{ x: '100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '100%' }}
+        transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
+        className="relative h-full w-full max-w-md overflow-y-auto bg-surface shadow-drawer"
+      >
         <header className="flex items-start justify-between gap-3 border-b border-border px-5 py-4">
           <div className="min-w-0">
             <span className="text-xs font-medium uppercase tracking-wide text-muted">
@@ -67,7 +78,7 @@ export function EntityInspector({
             </section>
           )}
         </div>
-      </aside>
+      </motion.aside>
     </div>
   );
 }

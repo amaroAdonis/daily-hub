@@ -1,22 +1,50 @@
+import { useEffect, useState } from 'react';
+import { DndContext, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CheckSquare } from 'lucide-react';
+import type { TaskDto } from '@daily-hub/shared';
 import { SkeletonList } from '../../../components/ui/skeleton';
-import { useTasks } from '../hooks';
+import { EmptyState } from '../../../components/ui/empty-state';
+import { useTasks, useUpdateTask } from '../hooks';
 import { TaskComposer } from './task-composer';
 import { TaskItem } from './task-item';
 
 /**
- * Lista de tarefas de um dia (`date` no formato YYYY-MM-DD), com criação
- * inline e contagem de concluídas. É a primeira tela real da agenda.
+ * Lista de tarefas de um dia (`date` em YYYY-MM-DD), com criação inline,
+ * contagem de concluídas e reordenação por arrastar (persiste `order`).
  */
 export function DayTasks({ date }: { date: string }) {
   const { data: tasks, isLoading, isError } = useTasks({ date });
+  const update = useUpdateTask();
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
+
+  // Ordem local para o arrasto refletir na hora (otimista).
+  const [ordered, setOrdered] = useState<TaskDto[]>([]);
+  useEffect(() => {
+    if (tasks) setOrdered(tasks);
+  }, [tasks]);
 
   const done = tasks?.filter((task) => task.status === 'DONE').length ?? 0;
   const total = tasks?.length ?? 0;
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = ordered.findIndex((t) => t.id === active.id);
+    const newIndex = ordered.findIndex((t) => t.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+
+    const next = arrayMove(ordered, oldIndex, newIndex);
+    setOrdered(next);
+    next.forEach((task, index) => {
+      if (task.order !== index) update.mutate({ id: task.id, input: { order: index } });
+    });
+  };
+
   return (
-    <section className="max-w-2xl">
-      <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="font-display text-lg font-semibold">Tarefas do dia</h2>
+    <section>
+      <div className="mb-3 flex items-baseline justify-between">
+        <h2 className="font-display text-base font-semibold">Tarefas</h2>
         {total > 0 && (
           <span className="font-mono text-xs text-muted">
             {done}/{total} concluídas
@@ -34,16 +62,25 @@ export function DayTasks({ date }: { date: string }) {
           </p>
         )}
         {!isLoading && !isError && total === 0 && (
-          <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted">
-            Nenhuma tarefa para hoje. Que tal começar adicionando uma?
-          </p>
+          <EmptyState
+            icon={CheckSquare}
+            title="Dia livre de tarefas"
+            description="Adicione a primeira no campo acima e comece a organizar o seu dia."
+          />
         )}
         {!isLoading && !isError && total > 0 && (
-          <ul className="flex flex-col gap-2">
-            {tasks?.map((task) => (
-              <TaskItem key={task.id} task={task} />
-            ))}
-          </ul>
+          <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+            <SortableContext
+              items={ordered.map((t) => t.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <ul className="flex flex-col gap-2">
+                {ordered.map((task) => (
+                  <TaskItem key={task.id} task={task} />
+                ))}
+              </ul>
+            </SortableContext>
+          </DndContext>
         )}
       </div>
     </section>

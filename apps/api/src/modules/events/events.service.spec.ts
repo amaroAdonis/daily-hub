@@ -23,6 +23,8 @@ function eventRow(overrides: Record<string, unknown> = {}) {
     startsAt: new Date('2026-06-01T13:00:00.000Z'),
     endsAt: new Date('2026-06-01T14:00:00.000Z'),
     allDay: false,
+    category: 'OTHER',
+    status: 'TODO',
     location: null,
     meetingUrl: null,
     recurrence: null,
@@ -86,6 +88,18 @@ describe('EventsService', () => {
 
     await expect(service.remove('user-1', 'nope')).rejects.toBeInstanceOf(NotFoundException);
     expect(prisma.event.delete).not.toHaveBeenCalled();
+  });
+
+  it('lista os compromissos base do usuário (sem expandir recorrência)', async () => {
+    prisma.event.findMany.mockResolvedValue([eventRow(), eventRow({ id: 'event-2' })]);
+
+    const result = await service.listBase('user-1');
+
+    expect(prisma.event.findMany).toHaveBeenCalledWith({
+      where: { userId: 'user-1' },
+      orderBy: { startsAt: 'desc' },
+    });
+    expect(result.map((e) => e.id)).toEqual(['event-1', 'event-2']);
   });
 
   it('retorna ocorrência única quando o evento não é recorrente', async () => {

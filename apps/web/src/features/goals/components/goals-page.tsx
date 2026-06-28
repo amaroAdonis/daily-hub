@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { Target } from 'lucide-react';
 import type { GoalStatus } from '@daily-hub/shared';
 import { SkeletonList } from '../../../components/ui/skeleton';
+import { EmptyState } from '../../../components/ui/empty-state';
 import { useGoals } from '../hooks';
 import { STATUS_OPTIONS } from '../labels';
 import { GoalCard } from './goal-card';
@@ -21,7 +23,7 @@ export function GoalsPage() {
   const parentOptions = (goals ?? []).map((goal) => ({ id: goal.id, title: goal.title }));
 
   return (
-    <div className="max-w-3xl">
+    <div className="mx-auto w-full max-w-[110rem]">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center rounded-xl border border-border p-0.5" role="tablist">
           {FILTERS.map((option) => (
@@ -64,12 +66,23 @@ export function GoalsPage() {
         </p>
       )}
       {!isLoading && !isError && goals?.length === 0 && !creating && (
-        <p className="rounded-xl border border-dashed border-border px-4 py-10 text-center text-sm text-muted">
-          Nenhuma meta ainda. Que tal definir a primeira?
-        </p>
+        <EmptyState
+          icon={Target}
+          title="Nenhuma meta ainda"
+          description="Defina um objetivo e acompanhe o progresso por aqui."
+          action={
+            <button
+              type="button"
+              onClick={() => setCreating(true)}
+              className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-surface transition-opacity hover:opacity-90"
+            >
+              Nova meta
+            </button>
+          }
+        />
       )}
 
-      <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-2 xl:grid-cols-3">
         {goals?.map((goal) => (
           <GoalCard
             key={goal.id}

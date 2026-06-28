@@ -58,7 +58,7 @@ export function CalendarHeader({ view, reference, onPrev, onNext, onToday, onVie
             ›
           </button>
         </div>
-        <h2 className="font-display text-lg font-semibold capitalize">
+        <h2 className="font-display text-lg font-semibold first-letter:uppercase">
           {periodLabel(view, reference)}
         </h2>
       </div>

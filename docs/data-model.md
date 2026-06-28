@@ -1,6 +1,6 @@
 # Modelo de dados
 
-Fonte canônica: [`packages/db/prisma/schema.prisma`](../packages/db/prisma/schema.prisma).
+Fonte canônica: `packages/db/prisma/schema.prisma`.
 Este documento explica o **porquê** das entidades e, em especial, a camada que
 interliga tudo.
 
@@ -85,7 +85,7 @@ erDiagram
 ## A camada de integração (o diferencial)
 
 O requisito central é **interligar todas as features**. Isso é resolvido por
-dois mecanismos polimórficos — ver [ADR 0003](adr/0003-links-polimorficos.md).
+dois mecanismos polimórficos — ver [D003](DECISIONS.md#d003).
 
 ### Tagging (categorização transversal)
 

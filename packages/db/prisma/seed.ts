@@ -2,7 +2,14 @@
  * Seed de dados de exemplo para desenvolvimento e demonstração.
  * Rode com: pnpm db:seed
  */
-import { PrismaClient, TaskStatus, Priority, EntityType, GoalHorizon } from '@prisma/client';
+import {
+  PrismaClient,
+  TaskStatus,
+  Priority,
+  EntityType,
+  GoalHorizon,
+  GoalStatus,
+} from '@prisma/client';
 import * as argon2 from 'argon2';
 
 const prisma = new PrismaClient();
@@ -33,6 +40,7 @@ async function main() {
       title: 'Publicar o portfólio',
       description: 'Concluir o Daily Hub e colocar no ar.',
       horizon: GoalHorizon.LONG,
+      status: GoalStatus.DOING,
       progress: 20,
     },
   });
@@ -42,6 +50,7 @@ async function main() {
       userId: user.id,
       title: 'Finalizar a fatia de Tarefas',
       horizon: GoalHorizon.SHORT,
+      status: GoalStatus.DOING,
       progress: 60,
       parentId: goal.id,
     },
@@ -77,6 +86,7 @@ async function main() {
       startsAt: new Date(today.getTime() + 15 * 60 * 60 * 1000), // hoje, 15h UTC
       endsAt: new Date(today.getTime() + 16 * 60 * 60 * 1000),
       location: 'Google Meet',
+      category: 'SOCIAL',
       reminderMin: 30,
     },
   });
@@ -86,6 +96,7 @@ async function main() {
       title: 'Bloco de foco no portfólio',
       startsAt: new Date(today.getTime() + 9 * 60 * 60 * 1000), // 9h UTC
       endsAt: new Date(today.getTime() + 11 * 60 * 60 * 1000),
+      category: 'WORK',
       recurrence: 'FREQ=WEEKLY', // toda semana neste dia
     },
   });

@@ -26,6 +26,12 @@ export class EventsController {
     return this.events.occurrences(userId, range);
   }
 
+  /** Compromissos base (sem expandir recorrência), para o quadro Kanban. */
+  @Get('base')
+  listBase(@CurrentUser('id') userId: string) {
+    return this.events.listBase(userId);
+  }
+
   @Get(':id')
   findOne(@CurrentUser('id') userId: string, @Param('id') id: string) {
     return this.events.findOne(userId, id);

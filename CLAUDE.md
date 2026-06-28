@@ -1,7 +1,8 @@
 # CLAUDE.md
 
 Orientações para o Claude Code trabalhar neste repositório. Leia também
-`docs/ROADMAP.md`, `docs/ARCHITECTURE.md` e `docs/data-model.md`.
+`docs/PROJECT_BRIEF.md`, `docs/ARCHITECTURE.md`, `docs/data-model.md`,
+`docs/DECISIONS.md`, `docs/ROADMAP.md` e o índice `docs/features/INDEX.md`.
 
 ## Visão geral
 
@@ -33,7 +34,8 @@ docs/           # documentação (roadmap, arquitetura, features, ADRs)
 ## Comandos
 
 ```bash
-pnpm dev          # sobe web + api em watch
+pnpm dev          # libera a porta 3333 (free-port) e sobe web + api em watch
+pnpm free-port    # mata o que estiver na porta 3333 (API) — usado pelo dev
 pnpm build        # build de todos os pacotes
 pnpm lint         # ESLint
 pnpm typecheck    # checagem de tipos
@@ -62,7 +64,10 @@ Toda feature segue esta sequência, de ponta a ponta:
    `*.spec.ts`), registrado em `apps/api/src/app.module.ts`.
 4. Feature na web em `apps/web/src/features/<feature>` (api + hooks de TanStack
    Query + componentes).
-5. Doc em `docs/features/<feature>.md` (use `docs/features/_template.md`).
+5. Doc na pasta `docs/features/<feature>/` (README + rules + flows + notes; copie
+   `docs/features/_template/`) e registre a feature em `docs/features/INDEX.md`.
+   Requisitos `REQ-*` e critérios `AC-*` (Given/When/Then). Padrão completo e
+   convenção de IDs no `INDEX.md`.
 
 Web e API são organizados **por feature** e se espelham.
 
@@ -93,7 +98,7 @@ Web e API são organizados **por feature** e se espelham.
 
 Direção visual "luz do dia, foco calmo". Tokens (cores e tipografia) em
 `apps/web/src/styles/index.css` e `apps/web/tailwind.config.ts`, documentados em
-`docs/design-system.md`. As cores vêm da **logo** (`apps/web/public/dailyhub-logo.png`):
+`docs/design-system/` (index/tokens/components). As cores vêm da **logo** (`apps/web/public/dailyhub-logo.png`):
 teal `#18646f` ("Daily") como `primary` e coral `#e8895a` ("Hub") como `accent`,
 este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
 
@@ -103,7 +108,7 @@ este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
   ajustes acima (dotenv-cli e Zod) já estão aplicados.
 - **Fase 1 (Tarefas): concluída.** Fatia vertical modelo: schemas Zod em
   `shared`, módulo `tasks` na API (com specs), feature `tasks` na web (lista do
-  dia, criar/concluir/excluir) e `docs/features/tasks.md`.
+  dia, criar/concluir/excluir) e `docs/features/tasks/`.
 - **Fase 2 (Calendário / Agenda): concluída.** Camada de agregação/visualização
   sobre Tarefas: módulo `calendar` na API (`GET /calendar/summary`) e feature
   `calendar` na web (visões mês/semana/dia + navegação). Sem modelo novo no
@@ -148,13 +153,28 @@ este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
   botão "Entrar" no compromisso e link "adicionar ao Google Agenda" (URL-template
   do Google Calendar, gerada no cliente em `features/events/google-calendar.ts`),
   sem OAuth. Sync real do Google fica para uma fase futura.
-- **Próxima a construir: Fase 12 — Deploy e vitrine.**
+- **Frente de UI/UX + produto (pré-deploy, em andamento na branch
+  `feat/ui-redesign`):** identidade da logo aplicada; redesenho do dashboard do
+  dia (agenda por períodos, largura cheia, metas) e do calendário (altura/células
+  ricas); sidebar recolhível; categorias de evento com cor; **status comum**
+  (A fazer/Em andamento/Concluído) em tarefas, compromissos e metas (`GoalStatus`
+  unificado); feriados BR/IE (Nager.Date); e um **Kanban** que agrega os três por
+  status com drag-and-drop (`@dnd-kit`, `GET /events/base`). Motion com
+  `framer-motion`. Direção em `docs/design-system/redesign.md`; Kanban em
+  `docs/features/kanban/`.
+- **Documentação padronizada (frente de docs):** a doc foi migrada para o padrão
+  folder-per-feature (modelo pfi-board): docs de topo em CAPS
+  (`PROJECT_BRIEF`/`DECISIONS`/`GLOSSARY`/`BACKLOG`), `design-system/`,
+  `features/<feature>/` com `REQ-*`/`AC-*` e `features/INDEX.md`, publicável via
+  MkDocs (`mkdocs.yml`). Convenção no `INDEX.md`.
+- **Próxima a construir: Fase 12 — Deploy e vitrine** (direção em `docs/deploy.md`;
+  fazer **depois** do polimento de UI).
 - Plano completo das fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar
 
 - Rode `pnpm typecheck` e `pnpm test` após mudanças relevantes.
-- Ao concluir uma fase, atualize `docs/ROADMAP.md` e crie/atualize
-  `docs/features/<feature>.md`.
+- Ao concluir uma fase, atualize `docs/ROADMAP.md`, o status em
+  `docs/features/INDEX.md` e crie/atualize `docs/features/<feature>/`.
 - Commits em Conventional Commits (`feat`, `fix`, `docs`, `refactor`, `test`,
   `chore`...).

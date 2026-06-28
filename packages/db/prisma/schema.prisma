@@ -37,9 +37,12 @@ enum Priority {
   HIGH
 }
 
+/// Status da meta no eixo comum (A fazer/Em andamento/Concluído) + arquivada.
+/// Unificado com tarefas e compromissos para o Kanban.
 enum GoalStatus {
-  ACTIVE
-  ACHIEVED
+  TODO
+  DOING
+  DONE
   ARCHIVED
 }
 
@@ -47,6 +50,23 @@ enum GoalHorizon {
   SHORT
   MEDIUM
   LONG
+}
+
+/// Categoria de um compromisso, usada para colorir o calendário e o dashboard.
+enum EventCategory {
+  WORK
+  PERSONAL
+  HEALTH
+  SOCIAL
+  STUDY
+  OTHER
+}
+
+/// Status de progresso de um compromisso (mesmo eixo das tarefas, p/ o Kanban).
+enum EventStatus {
+  TODO
+  DOING
+  DONE
 }
 
 // ----------------------------------------------------------------------------
@@ -116,7 +136,7 @@ model Goal {
   title       String
   description String?
   horizon     GoalHorizon @default(MEDIUM)
-  status      GoalStatus  @default(ACTIVE)
+  status      GoalStatus  @default(TODO)
   /// Progresso de 0 a 100 (pode ser derivado das tarefas no futuro).
   progress    Int         @default(0)
   targetDate  DateTime?   @db.Date
@@ -170,7 +190,9 @@ model Event {
   description String?
   startsAt    DateTime
   endsAt      DateTime
-  allDay      Boolean  @default(false)
+  allDay      Boolean       @default(false)
+  category    EventCategory @default(OTHER)
+  status      EventStatus   @default(TODO)
   location    String?
   /// Link da reunião (ex.: Meet/Zoom) para "entrar na reunião". Nulo = sem link.
   meetingUrl  String?

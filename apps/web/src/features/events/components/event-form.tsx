@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { format, parseISO } from 'date-fns';
-import type { CreateEventInput, EventDto } from '@daily-hub/shared';
+import type { CreateEventInput, EventCategory, EventDto } from '@daily-hub/shared';
 import { useCreateEvent, useUpdateEvent } from '../hooks';
+import { CATEGORY_OPTIONS } from '../categories';
 import {
   RECURRENCE_OPTIONS,
   presetToRule,
@@ -40,6 +41,7 @@ export function EventForm({ defaultDate, event, onClose }: Props) {
   const [endTime, setEndTime] = useState(end ? format(end, 'HH:mm') : '10:00');
   const [location, setLocation] = useState(event?.location ?? '');
   const [meetingUrl, setMeetingUrl] = useState(event?.meetingUrl ?? '');
+  const [category, setCategory] = useState<EventCategory>(event?.category ?? 'OTHER');
   const [recurrence, setRecurrence] = useState<RecurrencePreset>(
     ruleToPreset(event?.recurrence ?? null),
   );
@@ -61,6 +63,7 @@ export function EventForm({ defaultDate, event, onClose }: Props) {
       startsAt: allDay ? toIso(day, '00:00') : toIso(day, startTime),
       endsAt: allDay ? toIso(day, '23:59') : toIso(day, endTime),
       allDay,
+      category,
       location: location.trim() || undefined,
       meetingUrl: meetingUrl.trim() || undefined,
       recurrence: presetToRule(recurrence) ?? undefined,
@@ -142,6 +145,18 @@ export function EventForm({ defaultDate, event, onClose }: Props) {
       />
 
       <div className="flex flex-wrap gap-2">
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value as EventCategory)}
+          aria-label="Categoria"
+          className={field}
+        >
+          {CATEGORY_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
         <select
           value={recurrence}
           onChange={(e) => setRecurrence(e.target.value as RecurrencePreset)}

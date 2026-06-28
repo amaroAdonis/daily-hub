@@ -6,7 +6,7 @@ Daily Hub é um monorepo TypeScript com dois aplicativos (web e api) e três
 pacotes compartilhados. A escolha por separar frontend e backend (em vez de um
 monolito Next.js) é deliberada: demonstra design de API explícito, código
 compartilhado disciplinado e separação clara de responsabilidades. Ver
-[ADR 0002](adr/0002-monorepo-react-nestjs.md).
+[D002](DECISIONS.md#d002).
 
 ```
 ┌──────────────┐      HTTP/JSON      ┌──────────────┐     Prisma     ┌────────────┐
@@ -43,13 +43,15 @@ compartilhado disciplinado e separação clara de responsabilidades. Ver
    (controller usando `ZodValidationPipe`, service usando `PrismaService`).
 4. Consumir na web em `apps/web/src/features/<feature>` (hooks de TanStack
    Query sobre `lib/api.ts`).
-5. Escrever testes (Vitest) e documentar em `docs/features/<feature>.md`.
+5. Escrever testes (Vitest) e documentar a feature em
+   `docs/features/<feature>/` (ver [features/INDEX.md](features/INDEX.md)).
 
 Esse padrão garante type-safety da borda do banco até a UI, com validação em
 um único lugar.
 
-## Decisões registradas (ADRs)
+## Decisões registradas
 
-- [0001](adr/0001-registro-de-decisoes.md) — Por que registrar decisões
-- [0002](adr/0002-monorepo-react-nestjs.md) — Monorepo separado (React + NestJS)
-- [0003](adr/0003-links-polimorficos.md) — Links e tags polimórficos
+Todas as decisões estruturais ficam em [`DECISIONS.md`](DECISIONS.md), citáveis
+por ID (`D00N`). Destaques: [D002](DECISIONS.md#d002) (monorepo React + NestJS),
+[D003](DECISIONS.md#d003) (links/tags polimórficos), [D004](DECISIONS.md#d004)
+(auth JWT) e [D009](DECISIONS.md#d009) (build CJS do `shared`).

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import type { EntityPreview } from '@daily-hub/shared';
 import { EntityInspector } from './components/entity-inspector';
 
@@ -24,7 +25,15 @@ export function InspectorProvider({ children }: { children: ReactNode }) {
   return (
     <InspectorContext.Provider value={{ open: setPreview }}>
       {children}
-      {preview && <EntityInspector preview={preview} onClose={() => setPreview(null)} />}
+      <AnimatePresence>
+        {preview && (
+          <EntityInspector
+            key={`${preview.type}:${preview.id}`}
+            preview={preview}
+            onClose={() => setPreview(null)}
+          />
+        )}
+      </AnimatePresence>
     </InspectorContext.Provider>
   );
 }
