@@ -53,7 +53,7 @@ export function DayView({ day }: { day: string }) {
     <section className="max-w-4xl">
       <header className="mb-6">
         <div className="flex items-baseline gap-2">
-          <h3 className="font-display text-lg font-semibold capitalize">
+          <h3 className="font-display text-lg font-semibold first-letter:uppercase">
             {format(date, "EEEE, d 'de' MMMM", { locale: ptBR })}
           </h3>
           {isToday && (

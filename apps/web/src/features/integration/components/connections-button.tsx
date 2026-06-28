@@ -1,9 +1,10 @@
+import { Link2 } from 'lucide-react';
 import type { EntityType } from '@daily-hub/shared';
 import { useInspector } from '../inspector-context';
 
 /**
- * Abre o Inspetor de conexões (tags + relacionados) para uma entidade.
- * Usado pelos cards das features para tornar a integração pervasiva.
+ * Abre o Inspetor de conexões (tags + relacionados + anexos) de uma entidade.
+ * Renderiza um ícone discreto; o rótulo vive no `aria-label`/`title`.
  */
 export function ConnectionsButton({
   type,
@@ -23,9 +24,12 @@ export function ConnectionsButton({
       title="Conexões"
       aria-label="Conexões"
       onClick={() => open({ type, id, title, subtitle: null })}
-      className={className ?? 'hover:text-primary'}
+      className={
+        className ??
+        'inline-flex items-center justify-center rounded-md p-1 text-muted transition-colors hover:text-primary'
+      }
     >
-      Conexões
+      <Link2 size={15} strokeWidth={2} aria-hidden="true" />
     </button>
   );
 }

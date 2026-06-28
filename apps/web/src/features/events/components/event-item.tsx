@@ -1,9 +1,12 @@
 import { format, parseISO } from 'date-fns';
-import { CalendarPlus, Video } from 'lucide-react';
+import { CalendarPlus, Pencil, Repeat, Trash2, Video } from 'lucide-react';
 import type { EventOccurrence } from '@daily-hub/shared';
 import { useDeleteEvent } from '../hooks';
 import { googleCalendarUrl } from '../google-calendar';
 import { ConnectionsButton } from '../../integration/components/connections-button';
+
+const actionBtn =
+  'rounded-md p-1 text-muted opacity-0 transition-all hover:text-primary focus-visible:opacity-100 group-hover:opacity-100';
 
 interface Props {
   occurrence: EventOccurrence;
@@ -18,16 +21,19 @@ export function EventItem({ occurrence, onEdit }: Props) {
     : `${format(parseISO(occurrence.start), 'HH:mm')}–${format(parseISO(occurrence.end), 'HH:mm')}`;
 
   return (
-    <li className="group flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3">
+    <li className="group flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3 shadow-card transition-shadow hover:shadow-card-hover">
       <span className="w-24 shrink-0 font-mono text-xs text-muted">{time}</span>
 
       <div className="min-w-0 flex-1">
-        <p className="flex items-center gap-1.5 truncate text-sm text-ink">
-          {occurrence.title}
+        <p className="flex items-center gap-1.5 text-sm text-ink">
+          <span className="truncate">{occurrence.title}</span>
           {occurrence.recurring && (
-            <span title="Compromisso recorrente" aria-label="recorrente" className="text-muted">
-              ↻
-            </span>
+            <Repeat
+              size={12}
+              strokeWidth={2}
+              className="shrink-0 text-muted"
+              aria-label="Compromisso recorrente"
+            />
           )}
         </p>
         {occurrence.location && (
@@ -48,38 +54,41 @@ export function EventItem({ occurrence, onEdit }: Props) {
         </a>
       )}
 
-      <div className="flex items-center gap-1 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+      <div className="flex shrink-0 items-center gap-0.5">
         <a
           href={googleCalendarUrl(occurrence)}
           target="_blank"
           rel="noreferrer"
           aria-label="Adicionar ao Google Agenda"
           title="Adicionar ao Google Agenda"
-          className="rounded-md px-2 py-1 text-muted hover:text-primary"
+          className={actionBtn}
         >
-          <CalendarPlus size={14} strokeWidth={2} aria-hidden="true" />
+          <CalendarPlus size={15} strokeWidth={2} aria-hidden="true" />
         </a>
         <button
           type="button"
+          aria-label="Editar compromisso"
+          title="Editar"
           onClick={() => onEdit(occurrence.eventId)}
-          className="rounded-md px-2 py-1 text-xs text-muted hover:text-primary"
+          className={actionBtn}
         >
-          Editar
+          <Pencil size={15} strokeWidth={2} aria-hidden="true" />
         </button>
         <ConnectionsButton
           type="EVENT"
           id={occurrence.eventId}
           title={occurrence.title}
-          className="rounded-md px-2 py-1 text-xs text-muted hover:text-primary"
+          className={actionBtn}
         />
         <button
           type="button"
           aria-label="Excluir compromisso"
+          title="Excluir"
           onClick={() => remove.mutate(occurrence.eventId)}
           disabled={remove.isPending}
-          className="rounded-md px-2 py-1 text-xs text-muted hover:text-danger"
+          className={`${actionBtn} hover:text-danger`}
         >
-          Excluir
+          <Trash2 size={15} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
     </li>
