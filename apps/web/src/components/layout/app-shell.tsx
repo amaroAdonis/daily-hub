@@ -161,7 +161,7 @@ export function AppShell({ active, onNavigate, children }: Props) {
                 transition={{ duration, ease }}
                 className="flex shrink-0 items-center overflow-hidden rounded-lg transition-opacity hover:opacity-80"
               >
-                <img src="/dailyhub-logo.png" alt="DailyHub" className="h-7 w-auto" />
+                <img src="/dailyhub-logo.png" alt="DailyHub" className="h-8 w-auto" />
               </motion.button>
             )}
           </AnimatePresence>
