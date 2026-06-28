@@ -30,7 +30,7 @@ daily-hub/
 │  ├─ db/         # schema Prisma + cliente
 │  ├─ shared/     # schemas Zod e tipos compartilhados
 │  └─ config/     # presets de tsconfig
-└─ docs/          # documentação (ver docs/README abaixo)
+└─ docs/          # documentação (ver seção Documentação abaixo)
 ```
 
 ## Pré-requisitos
