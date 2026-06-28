@@ -2,6 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { searchQuery, type SearchQuery } from '@daily-hub/shared';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
+import { CurrentUser } from '../../common/current-user.decorator';
 import { SearchService } from './search.service';
 
 @ApiTags('search')
@@ -11,7 +12,10 @@ export class SearchController {
 
   /** Busca global nas cinco entidades. */
   @Get()
-  query(@Query(new ZodValidationPipe(searchQuery)) { q }: SearchQuery) {
-    return this.search.search(q);
+  query(
+    @CurrentUser('id') userId: string,
+    @Query(new ZodValidationPipe(searchQuery)) { q }: SearchQuery,
+  ) {
+    return this.search.search(userId, q);
   }
 }

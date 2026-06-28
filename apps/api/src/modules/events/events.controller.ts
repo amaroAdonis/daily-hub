@@ -9,6 +9,7 @@ import {
   type UpdateEventInput,
 } from '@daily-hub/shared';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
+import { CurrentUser } from '../../common/current-user.decorator';
 import { EventsService } from './events.service';
 
 @ApiTags('events')
@@ -18,31 +19,38 @@ export class EventsController {
 
   /** Ocorrências (com recorrência expandida) no intervalo `from`..`to`. */
   @Get()
-  occurrences(@Query(new ZodValidationPipe(eventRangeQuery)) range: EventRangeQuery) {
-    return this.events.occurrences(range);
+  occurrences(
+    @CurrentUser('id') userId: string,
+    @Query(new ZodValidationPipe(eventRangeQuery)) range: EventRangeQuery,
+  ) {
+    return this.events.occurrences(userId, range);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.events.findOne(id);
+  findOne(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.events.findOne(userId, id);
   }
 
   @Post()
-  create(@Body(new ZodValidationPipe(createEventSchema)) input: CreateEventInput) {
-    return this.events.create(input);
+  create(
+    @CurrentUser('id') userId: string,
+    @Body(new ZodValidationPipe(createEventSchema)) input: CreateEventInput,
+  ) {
+    return this.events.create(userId, input);
   }
 
   @Patch(':id')
   update(
+    @CurrentUser('id') userId: string,
     @Param('id') id: string,
     @Body(new ZodValidationPipe(updateEventSchema)) input: UpdateEventInput,
   ) {
-    return this.events.update(id, input);
+    return this.events.update(userId, id, input);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
-    return this.events.remove(id);
+  remove(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.events.remove(userId, id);
   }
 }

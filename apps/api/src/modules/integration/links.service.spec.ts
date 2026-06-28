@@ -5,7 +5,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     entityLink: {
       findMany: vi.fn().mockResolvedValue([]),
       create: vi.fn(),
@@ -37,7 +36,7 @@ describe('LinksService', () => {
     prisma.note.findMany.mockResolvedValue([{ id: 'n1', title: 'Nota', date: null }]);
     prisma.entityLink.create.mockResolvedValue({ id: 'link-1', relation: 'relacionado' });
 
-    const result = await service.create({
+    const result = await service.create('user-1', {
       sourceType: 'TASK',
       sourceId: 't1',
       targetType: 'NOTE',
@@ -67,7 +66,7 @@ describe('LinksService', () => {
     ]);
     prisma.note.findMany.mockResolvedValue([{ id: 'n1', title: 'Nota', date: null }]);
 
-    const result = await service.related('TASK', 't1');
+    const result = await service.related('user-1', 'TASK', 't1');
 
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject({ linkId: 'link-1', direction: 'outgoing' });

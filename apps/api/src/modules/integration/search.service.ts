@@ -10,17 +10,8 @@ const PER_TYPE = 5;
 export class SearchService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   /** Busca textual nas cinco entidades, devolvendo previews uniformes. */
-  async search(q: string): Promise<EntityPreview[]> {
-    const userId = await this.currentUserId();
+  async search(userId: string, q: string): Promise<EntityPreview[]> {
     const contains = { contains: q, mode: 'insensitive' as const };
 
     const [tasks, goals, notes, events, contacts] = await Promise.all([

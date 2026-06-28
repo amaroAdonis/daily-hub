@@ -4,7 +4,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     task: { findMany: vi.fn().mockResolvedValue([]) },
     goal: { findMany: vi.fn().mockResolvedValue([]) },
     note: { findMany: vi.fn().mockResolvedValue([]) },
@@ -30,7 +29,7 @@ describe('SearchService', () => {
       { id: 'c1', name: 'Portfólio Co', company: null, email: 'p@x.dev' },
     ]);
 
-    const result = await service.search('port');
+    const result = await service.search('user-1', 'port');
 
     expect(result).toHaveLength(2);
     expect(result[0]).toMatchObject({ type: 'TASK', title: 'Portfólio' });

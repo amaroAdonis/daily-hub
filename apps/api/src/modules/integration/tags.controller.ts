@@ -9,6 +9,7 @@ import {
   type TaggingInput,
 } from '@daily-hub/shared';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
+import { CurrentUser } from '../../common/current-user.decorator';
 import { TagsService } from './tags.service';
 
 @ApiTags('tags')
@@ -17,42 +18,54 @@ export class TagsController {
   constructor(private readonly tags: TagsService) {}
 
   @Get()
-  list() {
-    return this.tags.list();
+  list(@CurrentUser('id') userId: string) {
+    return this.tags.list(userId);
   }
 
   /** Tags aplicadas a uma entidade. */
   @Get('entity')
-  entityTags(@Query(new ZodValidationPipe(entityTagsQuery)) query: EntityTagsQuery) {
-    return this.tags.entityTags(query.entityType, query.entityId);
+  entityTags(
+    @CurrentUser('id') userId: string,
+    @Query(new ZodValidationPipe(entityTagsQuery)) query: EntityTagsQuery,
+  ) {
+    return this.tags.entityTags(userId, query.entityType, query.entityId);
   }
 
   /** Itens marcados com a tag. */
   @Get(':id/items')
-  items(@Param('id') id: string) {
-    return this.tags.items(id);
+  items(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.tags.items(userId, id);
   }
 
   @Post()
-  create(@Body(new ZodValidationPipe(createTagSchema)) input: CreateTagInput) {
-    return this.tags.create(input);
+  create(
+    @CurrentUser('id') userId: string,
+    @Body(new ZodValidationPipe(createTagSchema)) input: CreateTagInput,
+  ) {
+    return this.tags.create(userId, input);
   }
 
   /** Aplica uma tag a uma entidade. */
   @Post('apply')
-  apply(@Body(new ZodValidationPipe(taggingInput)) input: TaggingInput) {
-    return this.tags.apply(input);
+  apply(
+    @CurrentUser('id') userId: string,
+    @Body(new ZodValidationPipe(taggingInput)) input: TaggingInput,
+  ) {
+    return this.tags.apply(userId, input);
   }
 
   /** Remove uma tag de uma entidade. */
   @Post('unapply')
-  unapply(@Body(new ZodValidationPipe(taggingInput)) input: TaggingInput) {
-    return this.tags.unapply(input);
+  unapply(
+    @CurrentUser('id') userId: string,
+    @Body(new ZodValidationPipe(taggingInput)) input: TaggingInput,
+  ) {
+    return this.tags.unapply(userId, input);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
-    return this.tags.remove(id);
+  remove(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.tags.remove(userId, id);
   }
 }

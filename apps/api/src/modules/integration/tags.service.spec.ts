@@ -7,7 +7,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     tag: { findMany: vi.fn(), findFirst: vi.fn(), create: vi.fn(), delete: vi.fn() },
     tagging: { findMany: vi.fn().mockResolvedValue([]), createMany: vi.fn(), deleteMany: vi.fn() },
     task: { findMany: vi.fn().mockResolvedValue([]) },
@@ -33,7 +32,7 @@ describe('TagsService', () => {
       { id: 'tag-1', name: 'portfolio', color: '#0ea5a4', _count: { taggings: 3 } },
     ]);
 
-    const result = await service.list();
+    const result = await service.list('user-1');
 
     expect(result[0]).toEqual({ id: 'tag-1', name: 'portfolio', color: '#0ea5a4', count: 3 });
   });
@@ -43,7 +42,9 @@ describe('TagsService', () => {
       new Prisma.PrismaClientKnownRequestError('dup', { code: 'P2002', clientVersion: '5' }),
     );
 
-    await expect(service.create({ name: 'portfolio' })).rejects.toBeInstanceOf(ConflictException);
+    await expect(service.create('user-1', { name: 'portfolio' })).rejects.toBeInstanceOf(
+      ConflictException,
+    );
   });
 
   it('aplica a tag de forma idempotente e devolve as tags do item', async () => {
@@ -55,7 +56,11 @@ describe('TagsService', () => {
       { tag: { id: 'tag-1', name: 'x', color: '#000000', _count: { taggings: 1 } } },
     ]);
 
-    const result = await service.apply({ tagId: 'tag-1', entityType: 'TASK', entityId: 't1' });
+    const result = await service.apply('user-1', {
+      tagId: 'tag-1',
+      entityType: 'TASK',
+      entityId: 't1',
+    });
 
     expect(prisma.tagging.createMany).toHaveBeenCalledWith({
       data: [{ tagId: 'tag-1', entityType: 'TASK', entityId: 't1' }],

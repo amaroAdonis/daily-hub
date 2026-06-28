@@ -5,7 +5,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     goal: {
       findMany: vi.fn(),
       findFirst: vi.fn(),
@@ -54,7 +53,7 @@ describe('GoalsService', () => {
       ])
       .mockResolvedValueOnce([{ goalId: 'goal-1', _count: { _all: 1 } }]);
 
-    const result = await service.list({});
+    const result = await service.list('user-1', {});
 
     expect(prisma.goal.findMany).toHaveBeenCalledWith(
       expect.objectContaining({ where: { userId: 'user-1', parentId: null } }),
@@ -66,7 +65,7 @@ describe('GoalsService', () => {
   it('cria uma meta convertendo a data-alvo para meia-noite UTC', async () => {
     prisma.goal.create.mockResolvedValue(goalRow());
 
-    await service.create({ title: 'Nova meta', targetDate: '2026-12-31' });
+    await service.create('user-1', { title: 'Nova meta', targetDate: '2026-12-31' });
 
     const data = prisma.goal.create.mock.calls[0]![0].data;
     expect(data.userId).toBe('user-1');
@@ -77,7 +76,7 @@ describe('GoalsService', () => {
     prisma.goal.findFirst.mockResolvedValue(goalRow());
     prisma.goal.update.mockResolvedValue(goalRow({ parentId: 'parent-1' }));
 
-    await service.update('goal-1', { parentId: 'parent-1' });
+    await service.update('user-1', 'goal-1', { parentId: 'parent-1' });
     expect(prisma.goal.update.mock.calls[0]![0].data.parent).toEqual({
       connect: { id: 'parent-1' },
     });
@@ -86,7 +85,7 @@ describe('GoalsService', () => {
   it('rejeita tornar a meta sua própria sub-meta', async () => {
     prisma.goal.findFirst.mockResolvedValue(goalRow());
 
-    await expect(service.update('goal-1', { parentId: 'goal-1' })).rejects.toBeInstanceOf(
+    await expect(service.update('user-1', 'goal-1', { parentId: 'goal-1' })).rejects.toBeInstanceOf(
       BadRequestException,
     );
     expect(prisma.goal.update).not.toHaveBeenCalled();
@@ -95,7 +94,7 @@ describe('GoalsService', () => {
   it('lança NotFound ao remover meta inexistente', async () => {
     prisma.goal.findFirst.mockResolvedValue(null);
 
-    await expect(service.remove('nope')).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.remove('user-1', 'nope')).rejects.toBeInstanceOf(NotFoundException);
     expect(prisma.goal.delete).not.toHaveBeenCalled();
   });
 });

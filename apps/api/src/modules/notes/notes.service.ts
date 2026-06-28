@@ -7,18 +7,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class NotesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Modo single-user (até a Fase 8): resolve o usuário atual como o primeiro
-   * do banco (criado pelo seed). Centralizado para troca por auth na Fase 8.
-   */
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   /** Converte um dia `YYYY-MM-DD` para meia-noite UTC, como exige `@db.Date`. */
   private toDate(day: string): Date {
     return new Date(`${day}T00:00:00.000Z`);
@@ -37,8 +25,7 @@ export class NotesService {
   }
 
   /** Notas do usuário, fixadas primeiro e depois pelas mais recentes. */
-  async list(query: ListNotesQuery): Promise<NoteDto[]> {
-    const userId = await this.currentUserId();
+  async list(userId: string, query: ListNotesQuery): Promise<NoteDto[]> {
     const where: Prisma.NoteWhereInput = { userId };
     if (query.date) where.date = this.toDate(query.date);
     if (query.pinned !== undefined) where.pinned = query.pinned;
@@ -50,15 +37,13 @@ export class NotesService {
     return notes.map((note) => this.toDto(note));
   }
 
-  async findOne(id: string): Promise<NoteDto> {
-    const userId = await this.currentUserId();
+  async findOne(userId: string, id: string): Promise<NoteDto> {
     const note = await this.prisma.note.findFirst({ where: { id, userId } });
     if (!note) throw new NotFoundException('Nota não encontrada');
     return this.toDto(note);
   }
 
-  async create(input: CreateNoteInput): Promise<NoteDto> {
-    const userId = await this.currentUserId();
+  async create(userId: string, input: CreateNoteInput): Promise<NoteDto> {
     const note = await this.prisma.note.create({
       data: {
         userId,
@@ -71,8 +56,7 @@ export class NotesService {
     return this.toDto(note);
   }
 
-  async update(id: string, input: UpdateNoteInput): Promise<NoteDto> {
-    const userId = await this.currentUserId();
+  async update(userId: string, id: string, input: UpdateNoteInput): Promise<NoteDto> {
     const existing = await this.prisma.note.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Nota não encontrada');
 
@@ -89,8 +73,7 @@ export class NotesService {
     return this.toDto(note);
   }
 
-  async remove(id: string): Promise<void> {
-    const userId = await this.currentUserId();
+  async remove(userId: string, id: string): Promise<void> {
     const existing = await this.prisma.note.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Nota não encontrada');
     await this.prisma.note.delete({ where: { id } });

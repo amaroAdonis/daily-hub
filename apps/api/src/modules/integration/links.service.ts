@@ -17,17 +17,8 @@ export class LinksService {
     private readonly resolver: EntityResolverService,
   ) {}
 
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   /** Cria um vínculo dirigido entre dois itens e devolve o item alvo resolvido. */
-  async create(input: CreateLinkInput): Promise<RelatedItem> {
-    const userId = await this.currentUserId();
+  async create(userId: string, input: CreateLinkInput): Promise<RelatedItem> {
     const resolved = await this.resolver.resolve(userId, [
       { type: input.sourceType, id: input.sourceId },
       { type: input.targetType, id: input.targetId },
@@ -56,8 +47,7 @@ export class LinksService {
     }
   }
 
-  async remove(linkId: string): Promise<void> {
-    const userId = await this.currentUserId();
+  async remove(userId: string, linkId: string): Promise<void> {
     const link = await this.prisma.entityLink.findUnique({ where: { id: linkId } });
     if (!link) throw new NotFoundException('Vínculo não encontrado');
     // Garante posse: a origem precisa ser uma entidade do usuário.
@@ -67,8 +57,7 @@ export class LinksService {
   }
 
   /** Itens relacionados a uma entidade (vínculos nas duas direções). */
-  async related(entityType: EntityType, entityId: string): Promise<RelatedItem[]> {
-    const userId = await this.currentUserId();
+  async related(userId: string, entityType: EntityType, entityId: string): Promise<RelatedItem[]> {
     const links = await this.prisma.entityLink.findMany({
       where: {
         OR: [

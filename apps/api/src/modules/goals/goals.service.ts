@@ -14,18 +14,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class GoalsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Modo single-user (até a Fase 8): resolve o usuário atual como o primeiro
-   * do banco (criado pelo seed). Centralizado para troca por auth na Fase 8.
-   */
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   /** Converte um dia `YYYY-MM-DD` para meia-noite UTC, como exige `@db.Date`. */
   private toDate(day: string): Date {
     return new Date(`${day}T00:00:00.000Z`);
@@ -74,8 +62,7 @@ export class GoalsService {
   }
 
   /** Metas de topo (sem pai) com suas sub-metas e estatísticas de tarefas. */
-  async list(query: ListGoalsQuery): Promise<GoalWithChildren[]> {
-    const userId = await this.currentUserId();
+  async list(userId: string, query: ListGoalsQuery): Promise<GoalWithChildren[]> {
     const where: Prisma.GoalWhereInput = { userId, parentId: null };
     if (query.status) where.status = query.status;
 
@@ -94,8 +81,7 @@ export class GoalsService {
     }));
   }
 
-  async findOne(id: string): Promise<GoalWithChildren> {
-    const userId = await this.currentUserId();
+  async findOne(userId: string, id: string): Promise<GoalWithChildren> {
     const goal = await this.prisma.goal.findFirst({
       where: { id, userId },
       include: { children: { orderBy: { createdAt: 'asc' } } },
@@ -109,8 +95,7 @@ export class GoalsService {
     };
   }
 
-  async create(input: CreateGoalInput): Promise<GoalDto> {
-    const userId = await this.currentUserId();
+  async create(userId: string, input: CreateGoalInput): Promise<GoalDto> {
     const goal = await this.prisma.goal.create({
       data: {
         userId,
@@ -126,8 +111,7 @@ export class GoalsService {
     return this.toDto(goal, new Map());
   }
 
-  async update(id: string, input: UpdateGoalInput): Promise<GoalDto> {
-    const userId = await this.currentUserId();
+  async update(userId: string, id: string, input: UpdateGoalInput): Promise<GoalDto> {
     const existing = await this.prisma.goal.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Meta não encontrada');
     if (input.parentId === id) {
@@ -153,8 +137,7 @@ export class GoalsService {
     return this.toDto(goal, stats);
   }
 
-  async remove(id: string): Promise<void> {
-    const userId = await this.currentUserId();
+  async remove(userId: string, id: string): Promise<void> {
     const existing = await this.prisma.goal.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Meta não encontrada');
     // Sub-metas e tarefas vinculadas têm onDelete: SetNull (viram órfãs, não somem).

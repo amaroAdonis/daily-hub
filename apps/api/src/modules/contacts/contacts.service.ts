@@ -12,18 +12,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class ContactsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Modo single-user (até a Fase 8): resolve o usuário atual como o primeiro
-   * do banco (criado pelo seed). Centralizado para troca por auth na Fase 8.
-   */
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   private toDto(contact: Contact): ContactDto {
     return {
       id: contact.id,
@@ -38,8 +26,7 @@ export class ContactsService {
   }
 
   /** Contatos do usuário, ordenados por nome; filtra por nome/e-mail/empresa. */
-  async list(query: ListContactsQuery): Promise<ContactDto[]> {
-    const userId = await this.currentUserId();
+  async list(userId: string, query: ListContactsQuery): Promise<ContactDto[]> {
     const where: Prisma.ContactWhereInput = { userId };
     if (query.search) {
       const contains = { contains: query.search, mode: 'insensitive' as const };
@@ -53,15 +40,13 @@ export class ContactsService {
     return contacts.map((contact) => this.toDto(contact));
   }
 
-  async findOne(id: string): Promise<ContactDto> {
-    const userId = await this.currentUserId();
+  async findOne(userId: string, id: string): Promise<ContactDto> {
     const contact = await this.prisma.contact.findFirst({ where: { id, userId } });
     if (!contact) throw new NotFoundException('Contato não encontrado');
     return this.toDto(contact);
   }
 
-  async create(input: CreateContactInput): Promise<ContactDto> {
-    const userId = await this.currentUserId();
+  async create(userId: string, input: CreateContactInput): Promise<ContactDto> {
     const contact = await this.prisma.contact.create({
       data: {
         userId,
@@ -75,8 +60,7 @@ export class ContactsService {
     return this.toDto(contact);
   }
 
-  async update(id: string, input: UpdateContactInput): Promise<ContactDto> {
-    const userId = await this.currentUserId();
+  async update(userId: string, id: string, input: UpdateContactInput): Promise<ContactDto> {
     const existing = await this.prisma.contact.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Contato não encontrado');
 
@@ -93,8 +77,7 @@ export class ContactsService {
     return this.toDto(contact);
   }
 
-  async remove(id: string): Promise<void> {
-    const userId = await this.currentUserId();
+  async remove(userId: string, id: string): Promise<void> {
     const existing = await this.prisma.contact.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Contato não encontrado');
     await this.prisma.contact.delete({ where: { id } });

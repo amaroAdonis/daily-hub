@@ -9,6 +9,7 @@ import {
   type UpdateTaskInput,
 } from '@daily-hub/shared';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
+import { CurrentUser } from '../../common/current-user.decorator';
 import { TasksService } from './tasks.service';
 
 @ApiTags('tasks')
@@ -17,31 +18,38 @@ export class TasksController {
   constructor(private readonly tasks: TasksService) {}
 
   @Get()
-  list(@Query(new ZodValidationPipe(listTasksQuery)) query: ListTasksQuery) {
-    return this.tasks.list(query);
+  list(
+    @CurrentUser('id') userId: string,
+    @Query(new ZodValidationPipe(listTasksQuery)) query: ListTasksQuery,
+  ) {
+    return this.tasks.list(userId, query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasks.findOne(id);
+  findOne(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.tasks.findOne(userId, id);
   }
 
   @Post()
-  create(@Body(new ZodValidationPipe(createTaskSchema)) input: CreateTaskInput) {
-    return this.tasks.create(input);
+  create(
+    @CurrentUser('id') userId: string,
+    @Body(new ZodValidationPipe(createTaskSchema)) input: CreateTaskInput,
+  ) {
+    return this.tasks.create(userId, input);
   }
 
   @Patch(':id')
   update(
+    @CurrentUser('id') userId: string,
     @Param('id') id: string,
     @Body(new ZodValidationPipe(updateTaskSchema)) input: UpdateTaskInput,
   ) {
-    return this.tasks.update(id, input);
+    return this.tasks.update(userId, id, input);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
-    return this.tasks.remove(id);
+  remove(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.tasks.remove(userId, id);
   }
 }

@@ -5,7 +5,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     contact: {
       findMany: vi.fn(),
       findFirst: vi.fn(),
@@ -43,7 +42,7 @@ describe('ContactsService', () => {
   it('lista contatos do usuário ordenados por nome', async () => {
     prisma.contact.findMany.mockResolvedValue([contactRow()]);
 
-    const result = await service.list({});
+    const result = await service.list('user-1', {});
 
     expect(prisma.contact.findMany).toHaveBeenCalledWith({
       where: { userId: 'user-1' },
@@ -55,7 +54,7 @@ describe('ContactsService', () => {
   it('busca por nome, e-mail ou empresa (case-insensitive)', async () => {
     prisma.contact.findMany.mockResolvedValue([]);
 
-    await service.list({ search: 'mentora' });
+    await service.list('user-1', { search: 'mentora' });
 
     const where = prisma.contact.findMany.mock.calls[0]![0].where;
     expect(where.OR).toEqual([
@@ -68,7 +67,7 @@ describe('ContactsService', () => {
   it('cria um contato vinculado ao usuário atual', async () => {
     prisma.contact.create.mockResolvedValue(contactRow());
 
-    await service.create({ name: 'Mentora de carreira', email: 'mentora@exemplo.dev' });
+    await service.create('user-1', { name: 'Mentora de carreira', email: 'mentora@exemplo.dev' });
 
     expect(prisma.contact.create.mock.calls[0]![0].data).toMatchObject({
       userId: 'user-1',
@@ -79,7 +78,9 @@ describe('ContactsService', () => {
   it('lança NotFound ao atualizar contato inexistente', async () => {
     prisma.contact.findFirst.mockResolvedValue(null);
 
-    await expect(service.update('nope', { name: 'x' })).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.update('user-1', 'nope', { name: 'x' })).rejects.toBeInstanceOf(
+      NotFoundException,
+    );
     expect(prisma.contact.update).not.toHaveBeenCalled();
   });
 
@@ -87,7 +88,7 @@ describe('ContactsService', () => {
     prisma.contact.findFirst.mockResolvedValue(contactRow());
     prisma.contact.delete.mockResolvedValue(contactRow());
 
-    await service.remove('contact-1');
+    await service.remove('user-1', 'contact-1');
 
     expect(prisma.contact.delete).toHaveBeenCalledWith({ where: { id: 'contact-1' } });
   });

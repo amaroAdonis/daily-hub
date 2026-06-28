@@ -5,7 +5,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     note: {
       findMany: vi.fn(),
       findFirst: vi.fn(),
@@ -42,7 +41,7 @@ describe('NotesService', () => {
   it('lista notas fixadas primeiro e depois pelas mais recentes', async () => {
     prisma.note.findMany.mockResolvedValue([noteRow({ pinned: true })]);
 
-    const result = await service.list({});
+    const result = await service.list('user-1', {});
 
     expect(prisma.note.findMany).toHaveBeenCalledWith({
       where: { userId: 'user-1' },
@@ -54,7 +53,7 @@ describe('NotesService', () => {
   it('filtra por dia convertendo para meia-noite UTC', async () => {
     prisma.note.findMany.mockResolvedValue([]);
 
-    await service.list({ date: '2026-06-28' });
+    await service.list('user-1', { date: '2026-06-28' });
 
     expect(prisma.note.findMany.mock.calls[0]![0].where.date).toEqual(
       new Date('2026-06-28T00:00:00.000Z'),
@@ -64,7 +63,7 @@ describe('NotesService', () => {
   it('cria nota anexada a um dia', async () => {
     prisma.note.create.mockResolvedValue(noteRow({ date: new Date('2026-06-28T00:00:00.000Z') }));
 
-    const dto = await service.create({ title: 'Nota', date: '2026-06-28' });
+    const dto = await service.create('user-1', { title: 'Nota', date: '2026-06-28' });
 
     expect(prisma.note.create.mock.calls[0]![0].data.date).toEqual(
       new Date('2026-06-28T00:00:00.000Z'),
@@ -78,7 +77,7 @@ describe('NotesService', () => {
     );
     prisma.note.update.mockResolvedValue(noteRow());
 
-    await service.update('note-1', { date: null });
+    await service.update('user-1', 'note-1', { date: null });
 
     expect(prisma.note.update.mock.calls[0]![0].data.date).toBeNull();
   });
@@ -86,7 +85,7 @@ describe('NotesService', () => {
   it('lança NotFound ao remover nota inexistente', async () => {
     prisma.note.findFirst.mockResolvedValue(null);
 
-    await expect(service.remove('nope')).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.remove('user-1', 'nope')).rejects.toBeInstanceOf(NotFoundException);
     expect(prisma.note.delete).not.toHaveBeenCalled();
   });
 });

@@ -17,18 +17,6 @@ const MAX_RANGE_DAYS = 92;
 export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Modo single-user (até a Fase 8): resolve o usuário atual como o primeiro
-   * do banco (criado pelo seed). Centralizado para troca por auth na Fase 8.
-   */
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   /** Serializa a entidade Prisma para o DTO de resposta (datas em ISO). */
   private toDto(event: Event): EventDto {
     return {
@@ -59,15 +47,13 @@ export class EventsService {
     };
   }
 
-  async findOne(id: string): Promise<EventDto> {
-    const userId = await this.currentUserId();
+  async findOne(userId: string, id: string): Promise<EventDto> {
     const event = await this.prisma.event.findFirst({ where: { id, userId } });
     if (!event) throw new NotFoundException('Compromisso não encontrado');
     return this.toDto(event);
   }
 
-  async create(input: CreateEventInput): Promise<EventDto> {
-    const userId = await this.currentUserId();
+  async create(userId: string, input: CreateEventInput): Promise<EventDto> {
     const event = await this.prisma.event.create({
       data: {
         userId,
@@ -84,8 +70,7 @@ export class EventsService {
     return this.toDto(event);
   }
 
-  async update(id: string, input: UpdateEventInput): Promise<EventDto> {
-    const userId = await this.currentUserId();
+  async update(userId: string, id: string, input: UpdateEventInput): Promise<EventDto> {
     const existing = await this.prisma.event.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Compromisso não encontrado');
 
@@ -104,8 +89,7 @@ export class EventsService {
     return this.toDto(event);
   }
 
-  async remove(id: string): Promise<void> {
-    const userId = await this.currentUserId();
+  async remove(userId: string, id: string): Promise<void> {
     const existing = await this.prisma.event.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Compromisso não encontrado');
     await this.prisma.event.delete({ where: { id } });
@@ -115,7 +99,7 @@ export class EventsService {
    * Lista as ocorrências de compromissos no intervalo, expandindo eventos
    * recorrentes. A janela vai da meia-noite UTC de `from` ao fim do dia de `to`.
    */
-  async occurrences(range: EventRangeQuery): Promise<EventOccurrence[]> {
+  async occurrences(userId: string, range: EventRangeQuery): Promise<EventOccurrence[]> {
     const windowStart = new Date(`${range.from}T00:00:00.000Z`);
     const windowEnd = new Date(`${range.to}T23:59:59.999Z`);
     const spanDays = (windowEnd.getTime() - windowStart.getTime()) / 86_400_000;
@@ -123,7 +107,6 @@ export class EventsService {
       throw new BadRequestException(`Intervalo muito grande (máx. ${MAX_RANGE_DAYS} dias)`);
     }
 
-    const userId = await this.currentUserId();
     const [single, recurring] = await Promise.all([
       // Únicos que intersectam a janela.
       this.prisma.event.findMany({

@@ -5,7 +5,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     task: { groupBy: vi.fn() },
   };
 }
@@ -28,7 +27,7 @@ describe('CalendarService', () => {
       ])
       .mockResolvedValueOnce([{ date: new Date('2026-06-10T00:00:00.000Z'), _count: { _all: 2 } }]);
 
-    const result = await service.summary({ from: '2026-06-01', to: '2026-06-30' });
+    const result = await service.summary('user-1', { from: '2026-06-01', to: '2026-06-30' });
 
     expect(result).toEqual([
       { date: '2026-06-02', total: 1, done: 0 },
@@ -41,16 +40,16 @@ describe('CalendarService', () => {
   });
 
   it('rejeita intervalos maiores que o limite', async () => {
-    await expect(service.summary({ from: '2026-01-01', to: '2026-12-31' })).rejects.toBeInstanceOf(
-      BadRequestException,
-    );
+    await expect(
+      service.summary('user-1', { from: '2026-01-01', to: '2026-12-31' }),
+    ).rejects.toBeInstanceOf(BadRequestException);
     expect(prisma.task.groupBy).not.toHaveBeenCalled();
   });
 
   it('retorna vazio quando não há tarefas no intervalo', async () => {
     prisma.task.groupBy.mockResolvedValueOnce([]).mockResolvedValueOnce([]);
 
-    const result = await service.summary({ from: '2026-06-01', to: '2026-06-07' });
+    const result = await service.summary('user-1', { from: '2026-06-01', to: '2026-06-07' });
 
     expect(result).toEqual([]);
   });

@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { calendarRangeQuery, type CalendarRangeQuery } from '@daily-hub/shared';
+import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import { CalendarService } from './calendar.service';
 
@@ -11,7 +12,10 @@ export class CalendarController {
 
   /** Agregação diária de tarefas no intervalo, para os indicadores do calendário. */
   @Get('summary')
-  summary(@Query(new ZodValidationPipe(calendarRangeQuery)) range: CalendarRangeQuery) {
-    return this.calendar.summary(range);
+  summary(
+    @CurrentUser('id') userId: string,
+    @Query(new ZodValidationPipe(calendarRangeQuery)) range: CalendarRangeQuery,
+  ) {
+    return this.calendar.summary(userId, range);
   }
 }

@@ -7,19 +7,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class TasksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Modo single-user (até a Fase 8): resolve o usuário atual como o primeiro
-   * do banco (criado pelo seed). Centralizado aqui para facilitar a troca por
-   * autenticação real na Fase 8.
-   */
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   /** Converte um dia `YYYY-MM-DD` para meia-noite UTC, como exige `@db.Date`. */
   private toDate(day: string): Date {
     return new Date(`${day}T00:00:00.000Z`);
@@ -42,8 +29,7 @@ export class TasksService {
     };
   }
 
-  async list(query: ListTasksQuery): Promise<TaskDto[]> {
-    const userId = await this.currentUserId();
+  async list(userId: string, query: ListTasksQuery): Promise<TaskDto[]> {
     const where: Prisma.TaskWhereInput = { userId };
     if (query.date) where.date = this.toDate(query.date);
     if (query.status) where.status = query.status;
@@ -56,15 +42,13 @@ export class TasksService {
     return tasks.map((task) => this.toDto(task));
   }
 
-  async findOne(id: string): Promise<TaskDto> {
-    const userId = await this.currentUserId();
+  async findOne(userId: string, id: string): Promise<TaskDto> {
     const task = await this.prisma.task.findFirst({ where: { id, userId } });
     if (!task) throw new NotFoundException('Tarefa não encontrada');
     return this.toDto(task);
   }
 
-  async create(input: CreateTaskInput): Promise<TaskDto> {
-    const userId = await this.currentUserId();
+  async create(userId: string, input: CreateTaskInput): Promise<TaskDto> {
     const task = await this.prisma.task.create({
       data: {
         userId,
@@ -81,8 +65,7 @@ export class TasksService {
     return this.toDto(task);
   }
 
-  async update(id: string, input: UpdateTaskInput): Promise<TaskDto> {
-    const userId = await this.currentUserId();
+  async update(userId: string, id: string, input: UpdateTaskInput): Promise<TaskDto> {
     // Garante que a tarefa pertence ao usuário antes de atualizar.
     const existing = await this.prisma.task.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Tarefa não encontrada');
@@ -110,8 +93,7 @@ export class TasksService {
     return this.toDto(task);
   }
 
-  async remove(id: string): Promise<void> {
-    const userId = await this.currentUserId();
+  async remove(userId: string, id: string): Promise<void> {
     const existing = await this.prisma.task.findFirst({ where: { id, userId } });
     if (!existing) throw new NotFoundException('Tarefa não encontrada');
     await this.prisma.task.delete({ where: { id } });

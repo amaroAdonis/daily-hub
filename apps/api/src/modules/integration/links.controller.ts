@@ -7,6 +7,7 @@ import {
   type EntityLinksQuery,
 } from '@daily-hub/shared';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
+import { CurrentUser } from '../../common/current-user.decorator';
 import { LinksService } from './links.service';
 
 @ApiTags('links')
@@ -16,18 +17,24 @@ export class LinksController {
 
   /** Itens relacionados a uma entidade. */
   @Get()
-  related(@Query(new ZodValidationPipe(entityLinksQuery)) query: EntityLinksQuery) {
-    return this.links.related(query.entityType, query.entityId);
+  related(
+    @CurrentUser('id') userId: string,
+    @Query(new ZodValidationPipe(entityLinksQuery)) query: EntityLinksQuery,
+  ) {
+    return this.links.related(userId, query.entityType, query.entityId);
   }
 
   @Post()
-  create(@Body(new ZodValidationPipe(createLinkSchema)) input: CreateLinkInput) {
-    return this.links.create(input);
+  create(
+    @CurrentUser('id') userId: string,
+    @Body(new ZodValidationPipe(createLinkSchema)) input: CreateLinkInput,
+  ) {
+    return this.links.create(userId, input);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
-    return this.links.remove(id);
+  remove(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.links.remove(userId, id);
   }
 }

@@ -5,7 +5,6 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    user: { findFirstOrThrow: vi.fn().mockResolvedValue({ id: 'user-1' }) },
     event: {
       findMany: vi.fn(),
       findFirst: vi.fn(),
@@ -46,7 +45,7 @@ describe('EventsService', () => {
   it('cria um compromisso convertendo as datas ISO em Date', async () => {
     prisma.event.create.mockResolvedValue(eventRow());
 
-    await service.create({
+    await service.create('user-1', {
       title: 'Reunião',
       startsAt: '2026-06-01T13:00:00.000Z',
       endsAt: '2026-06-01T14:00:00.000Z',
@@ -60,7 +59,7 @@ describe('EventsService', () => {
   it('serializa o DTO com datas em ISO', async () => {
     prisma.event.findFirst.mockResolvedValue(eventRow());
 
-    const dto = await service.findOne('event-1');
+    const dto = await service.findOne('user-1', 'event-1');
 
     expect(dto.startsAt).toBe('2026-06-01T13:00:00.000Z');
     expect(dto.allDay).toBe(false);
@@ -69,7 +68,7 @@ describe('EventsService', () => {
   it('lança NotFound ao remover compromisso inexistente', async () => {
     prisma.event.findFirst.mockResolvedValue(null);
 
-    await expect(service.remove('nope')).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.remove('user-1', 'nope')).rejects.toBeInstanceOf(NotFoundException);
     expect(prisma.event.delete).not.toHaveBeenCalled();
   });
 
@@ -78,7 +77,7 @@ describe('EventsService', () => {
       .mockResolvedValueOnce([eventRow()]) // únicos
       .mockResolvedValueOnce([]); // recorrentes
 
-    const result = await service.occurrences({ from: '2026-06-01', to: '2026-06-07' });
+    const result = await service.occurrences('user-1', { from: '2026-06-01', to: '2026-06-07' });
 
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject({
@@ -95,7 +94,7 @@ describe('EventsService', () => {
       .mockResolvedValueOnce([eventRow({ recurrence: 'FREQ=WEEKLY', id: 'rec-1' })]); // recorrentes
 
     // Segunda 01/06 a 30/06: ocorrências semanais em 01, 08, 15, 22, 29.
-    const result = await service.occurrences({ from: '2026-06-01', to: '2026-06-30' });
+    const result = await service.occurrences('user-1', { from: '2026-06-01', to: '2026-06-30' });
 
     expect(result).toHaveLength(5);
     expect(result.every((occ) => occ.recurring && occ.eventId === 'rec-1')).toBe(true);
@@ -112,7 +111,7 @@ describe('EventsService', () => {
 
   it('rejeita intervalos maiores que o limite', async () => {
     await expect(
-      service.occurrences({ from: '2026-01-01', to: '2026-12-31' }),
+      service.occurrences('user-1', { from: '2026-01-01', to: '2026-12-31' }),
     ).rejects.toBeInstanceOf(BadRequestException);
     expect(prisma.event.findMany).not.toHaveBeenCalled();
   });

@@ -19,20 +19,11 @@ export class TagsService {
     private readonly resolver: EntityResolverService,
   ) {}
 
-  private async currentUserId(): Promise<string> {
-    const user = await this.prisma.user.findFirstOrThrow({
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    return user.id;
-  }
-
   private toDto(tag: TagWithCount): TagDto {
     return { id: tag.id, name: tag.name, color: tag.color, count: tag._count.taggings };
   }
 
-  async list(): Promise<TagDto[]> {
-    const userId = await this.currentUserId();
+  async list(userId: string): Promise<TagDto[]> {
     const tags = await this.prisma.tag.findMany({
       where: { userId },
       orderBy: { name: 'asc' },
@@ -41,8 +32,7 @@ export class TagsService {
     return tags.map((tag) => this.toDto(tag));
   }
 
-  async create(input: CreateTagInput): Promise<TagDto> {
-    const userId = await this.currentUserId();
+  async create(userId: string, input: CreateTagInput): Promise<TagDto> {
     try {
       const tag = await this.prisma.tag.create({
         data: { userId, name: input.name, color: input.color },
@@ -57,8 +47,7 @@ export class TagsService {
     }
   }
 
-  async remove(id: string): Promise<void> {
-    const userId = await this.currentUserId();
+  async remove(userId: string, id: string): Promise<void> {
     const tag = await this.prisma.tag.findFirst({ where: { id, userId } });
     if (!tag) throw new NotFoundException('Tag não encontrada');
     // As taggings caem em cascata (onDelete: Cascade no schema).
@@ -66,8 +55,11 @@ export class TagsService {
   }
 
   /** Tags aplicadas a uma entidade. */
-  async entityTags(entityType: TaggingInput['entityType'], entityId: string): Promise<TagDto[]> {
-    const userId = await this.currentUserId();
+  async entityTags(
+    userId: string,
+    entityType: TaggingInput['entityType'],
+    entityId: string,
+  ): Promise<TagDto[]> {
     const taggings = await this.prisma.tagging.findMany({
       where: { entityType, entityId, tag: { userId } },
       include: { tag: { include: { _count: { select: { taggings: true } } } } },
@@ -77,8 +69,7 @@ export class TagsService {
   }
 
   /** Aplica uma tag a uma entidade (idempotente) e devolve as tags do item. */
-  async apply(input: TaggingInput): Promise<TagDto[]> {
-    const userId = await this.currentUserId();
+  async apply(userId: string, input: TaggingInput): Promise<TagDto[]> {
     const tag = await this.prisma.tag.findFirst({ where: { id: input.tagId, userId } });
     if (!tag) throw new NotFoundException('Tag não encontrada');
 
@@ -92,24 +83,22 @@ export class TagsService {
       data: [{ tagId: input.tagId, entityType: input.entityType, entityId: input.entityId }],
       skipDuplicates: true,
     });
-    return this.entityTags(input.entityType, input.entityId);
+    return this.entityTags(userId, input.entityType, input.entityId);
   }
 
   /** Remove uma tag de uma entidade e devolve as tags restantes do item. */
-  async unapply(input: TaggingInput): Promise<TagDto[]> {
-    const userId = await this.currentUserId();
+  async unapply(userId: string, input: TaggingInput): Promise<TagDto[]> {
     const tag = await this.prisma.tag.findFirst({ where: { id: input.tagId, userId } });
     if (!tag) throw new NotFoundException('Tag não encontrada');
 
     await this.prisma.tagging.deleteMany({
       where: { tagId: input.tagId, entityType: input.entityType, entityId: input.entityId },
     });
-    return this.entityTags(input.entityType, input.entityId);
+    return this.entityTags(userId, input.entityType, input.entityId);
   }
 
   /** Itens marcados com uma tag, resolvidos em previews. */
-  async items(tagId: string): Promise<EntityPreview[]> {
-    const userId = await this.currentUserId();
+  async items(userId: string, tagId: string): Promise<EntityPreview[]> {
     const tag = await this.prisma.tag.findFirst({ where: { id: tagId, userId } });
     if (!tag) throw new NotFoundException('Tag não encontrada');
 
