@@ -127,7 +127,13 @@ atual. Evitar clichês de UI gerada por IA.
   Na web: contexto de auth, token Bearer no `lib/api`, telas de login/cadastro,
   app protegido e tela de Settings (avatar por iniciais/URL). Inclui os P0 de UX
   (fontes `@fontsource`, ícones `lucide-react`, toasts `sonner`, skeletons).
-- **Próxima a construir: Fase 9 — Dashboard do dia.**
+- **Fase 9 (Dashboard do dia): concluída.** Navegação unificada: o calendário é
+  a landing pós-login (estado de visão/data no `App`, `CalendarPage` controlado);
+  a sidebar tem "Hoje" (atalho para o dashboard do dia atual) e "Agenda". Clicar
+  num dia abre o dashboard (`DayView`): resumo escaneável + eventos/tarefas/notas
+  com CRUD inline + "Pessoas do dia" (contatos vinculados via `GET /calendar/day`,
+  agregados por `EntityLink`). O mês indica tarefas, compromissos e notas.
+- **Próxima a construir: Fase 10 — Anexos.**
 - Plano completo das fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

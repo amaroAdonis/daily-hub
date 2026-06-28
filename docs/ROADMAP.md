@@ -133,16 +133,21 @@ Login próprio e fim do modo single-user.
 usuário, perfil editável e a primeira camada de identidade visual (fontes,
 ícones, toasts e skeletons).
 
-## 🔜 Fase 9 — Dashboard do dia
+## ✅ Fase 9 — Dashboard do dia
 
 Calendário do mês como visão inicial; clicar num dia abre um dashboard rico.
 
-- [ ] Agrega do dia: compromissos, tarefas, notas e **contatos vinculados** às
-      atividades (via `EntityLink` da Fase 7)
-- [ ] Criar/editar **inline** qualquer item a partir do dashboard
-- [ ] Calendário do mês como landing pós-login
+- [x] Agrega do dia: compromissos, tarefas, notas e **contatos vinculados** às
+      atividades (via `EntityLink` da Fase 7) — `GET /calendar/day`
+- [x] Criar/editar **inline** qualquer item a partir do dashboard
+- [x] Calendário do mês como landing pós-login (navegação unificada; "Hoje" vira
+      atalho para o dashboard do dia atual)
 
-## ⬜ Fase 10 — Anexos
+**Entregue:** o calendário é a porta de entrada; clicar num dia abre o dashboard
+(resumo escaneável + compromissos/tarefas/notas com CRUD inline + "Pessoas do
+dia"). O mês indica tarefas, compromissos e notas.
+
+## 🔜 Fase 10 — Anexos
 
 Documentos e imagens em notas, compromissos e tarefas.
 
