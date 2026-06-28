@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Plus } from 'lucide-react';
+import { Plus, StickyNote } from 'lucide-react';
+import { EmptyState } from '../../../components/ui/empty-state';
 import { useNotes } from '../hooks';
 import { NoteCard } from './note-card';
 import { NoteForm } from './note-form';
@@ -34,9 +35,11 @@ export function DayNotes({ date }: { date: string }) {
 
       {isError && <p className="text-sm text-danger">Não foi possível carregar as notas do dia.</p>}
       {!isError && notes?.length === 0 && !composing && (
-        <p className="rounded-xl border border-dashed border-border px-4 py-5 text-center text-sm text-muted">
-          Nenhuma nota anexada a este dia.
-        </p>
+        <EmptyState
+          icon={StickyNote}
+          title="Nenhuma nota no dia"
+          description="Anexe ideias e lembretes a esta data."
+        />
       )}
 
       <div className="flex flex-col gap-3">

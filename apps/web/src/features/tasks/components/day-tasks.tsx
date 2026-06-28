@@ -1,5 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
+import { CheckSquare } from 'lucide-react';
 import { SkeletonList } from '../../../components/ui/skeleton';
+import { EmptyState } from '../../../components/ui/empty-state';
 import { useTasks } from '../hooks';
 import { TaskComposer } from './task-composer';
 import { TaskItem } from './task-item';
@@ -35,9 +37,11 @@ export function DayTasks({ date }: { date: string }) {
           </p>
         )}
         {!isLoading && !isError && total === 0 && (
-          <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted">
-            Nenhuma tarefa para hoje. Que tal começar adicionando uma?
-          </p>
+          <EmptyState
+            icon={CheckSquare}
+            title="Dia livre de tarefas"
+            description="Adicione a primeira no campo acima e comece a organizar o seu dia."
+          />
         )}
         {!isLoading && !isError && total > 0 && (
           <ul className="flex flex-col gap-2">

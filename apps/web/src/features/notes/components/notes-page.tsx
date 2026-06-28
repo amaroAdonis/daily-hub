@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { StickyNote } from 'lucide-react';
 import { Skeleton } from '../../../components/ui/skeleton';
+import { EmptyState } from '../../../components/ui/empty-state';
 import { useNotes } from '../hooks';
 import { NoteCard } from './note-card';
 import { NoteForm } from './note-form';
@@ -71,9 +73,26 @@ export function NotesPage() {
         </p>
       )}
       {!isLoading && !isError && notes?.length === 0 && !creating && (
-        <p className="rounded-xl border border-dashed border-border px-4 py-10 text-center text-sm text-muted">
-          Nenhuma nota ainda. Registre a primeira ideia.
-        </p>
+        <EmptyState
+          icon={StickyNote}
+          title={filter === 'pinned' ? 'Nenhuma nota fixada' : 'Nenhuma nota ainda'}
+          description={
+            filter === 'pinned'
+              ? 'Fixe notas importantes para encontrá-las aqui.'
+              : 'Registre a primeira ideia.'
+          }
+          action={
+            filter === 'all' ? (
+              <button
+                type="button"
+                onClick={() => setCreating(true)}
+                className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-surface transition-opacity hover:opacity-90"
+              >
+                Nova nota
+              </button>
+            ) : undefined
+          }
+        />
       )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

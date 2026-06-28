@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { SearchX } from 'lucide-react';
 import type { EntityPreview } from '@daily-hub/shared';
 import { SkeletonList } from '../../../components/ui/skeleton';
+import { EmptyState } from '../../../components/ui/empty-state';
 import { ENTITY_LABEL } from '../entity-meta';
 import { useSearch, useTagItems, useTags } from '../hooks';
 import { useInspector } from '../inspector-context';
@@ -51,9 +53,11 @@ export function SearchPage() {
         <div className="mt-4">
           {isLoading && <SkeletonList rows={4} />}
           {!isLoading && results?.length === 0 && (
-            <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted">
-              Nada encontrado para “{trimmed}”.
-            </p>
+            <EmptyState
+              icon={SearchX}
+              title="Nada encontrado"
+              description={`Nenhum item para “${trimmed}”.`}
+            />
           )}
           <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
             {results?.map((item) => (

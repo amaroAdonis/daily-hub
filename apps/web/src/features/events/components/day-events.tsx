@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { parseISO } from 'date-fns';
 import { AnimatePresence } from 'framer-motion';
-import { Plus } from 'lucide-react';
+import { CalendarClock, Plus } from 'lucide-react';
 import type { EventOccurrence } from '@daily-hub/shared';
 import { SkeletonList } from '../../../components/ui/skeleton';
+import { EmptyState } from '../../../components/ui/empty-state';
 import { useEvent, useEventOccurrences } from '../hooks';
 import { EventForm } from './event-form';
 import { EventItem } from './event-item';
@@ -85,9 +86,11 @@ export function DayEvents({ date }: { date: string }) {
         </p>
       )}
       {!isLoading && !isError && occurrences.length === 0 && !composing && (
-        <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted">
-          Nenhum compromisso para este dia.
-        </p>
+        <EmptyState
+          icon={CalendarClock}
+          title="Sem compromissos"
+          description="Nada agendado para este dia."
+        />
       )}
 
       <div className="flex flex-col gap-4">
