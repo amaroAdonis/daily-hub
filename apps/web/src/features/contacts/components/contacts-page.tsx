@@ -14,20 +14,20 @@ export function ContactsPage() {
 
   return (
     <div className="mx-auto w-full max-w-[110rem]">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <input
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Buscar por nome, e-mail ou empresa…"
           aria-label="Buscar contatos"
-          className="w-72 max-w-full rounded-xl border border-border bg-surface px-4 py-2 text-sm outline-none placeholder:text-muted focus-visible:border-primary"
+          className="w-full rounded-xl border border-border bg-surface px-4 py-2 text-sm outline-none placeholder:text-muted focus-visible:border-primary sm:w-72"
         />
         {!creating && (
           <button
             type="button"
             onClick={() => setCreating(true)}
-            className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-surface transition-opacity hover:opacity-90"
+            className="w-full shrink-0 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-surface transition-opacity hover:opacity-90 sm:w-auto"
           >
             Novo contato
           </button>

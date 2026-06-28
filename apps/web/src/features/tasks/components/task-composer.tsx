@@ -22,34 +22,36 @@ export function TaskComposer({ date }: { date: string }) {
   };
 
   return (
-    <form onSubmit={submit} className="flex items-center gap-2">
+    <form onSubmit={submit} className="flex flex-col gap-2 sm:flex-row sm:items-center">
       <input
         type="text"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
         placeholder="Adicionar tarefa para hoje…"
         aria-label="Título da tarefa"
-        className="flex-1 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none placeholder:text-muted focus-visible:border-primary"
+        className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none placeholder:text-muted focus-visible:border-primary sm:flex-1"
       />
-      <select
-        value={priority}
-        onChange={(event) => setPriority(event.target.value as Priority)}
-        aria-label="Prioridade"
-        className="rounded-xl border border-border bg-surface px-3 py-2.5 text-sm outline-none focus-visible:border-primary"
-      >
-        {PRIORITIES.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <button
-        type="submit"
-        disabled={create.isPending || !title.trim()}
-        className="rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-surface transition-opacity hover:opacity-90 disabled:opacity-50"
-      >
-        Adicionar
-      </button>
+      <div className="flex gap-2">
+        <select
+          value={priority}
+          onChange={(event) => setPriority(event.target.value as Priority)}
+          aria-label="Prioridade"
+          className="flex-1 rounded-xl border border-border bg-surface px-3 py-2.5 text-sm outline-none focus-visible:border-primary sm:flex-none"
+        >
+          {PRIORITIES.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <button
+          type="submit"
+          disabled={create.isPending || !title.trim()}
+          className="shrink-0 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-surface transition-opacity hover:opacity-90 disabled:opacity-50"
+        >
+          Adicionar
+        </button>
+      </div>
     </form>
   );
 }

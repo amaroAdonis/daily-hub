@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import {
   DndContext,
   PointerSensor,
+  TouchSensor,
   useDroppable,
   useSensor,
   useSensors,
@@ -70,7 +71,12 @@ export function KanbanPage() {
   const [overrides, setOverrides] = useState<Record<string, ProgressStatus>>({});
   const [filter, setFilter] = useState<'ALL' | BoardItemType>('ALL');
 
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
+  // Touch: pressionar e segurar (delay) inicia o arrasto, deixando o scroll
+  // vertical livre no toque. Pointer (mouse) continua por distância.
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 8 } }),
+  );
 
   const items = useMemo(() => {
     const board = buildBoard(tasks ?? [], events ?? [], goals ?? []);
@@ -106,7 +112,10 @@ export function KanbanPage() {
 
   return (
     <div className="mx-auto w-full max-w-[110rem]">
-      <div className="mb-5 flex items-center rounded-xl border border-border p-0.5" role="tablist">
+      <div
+        className="mb-5 flex flex-wrap items-center gap-1 rounded-xl border border-border p-0.5"
+        role="tablist"
+      >
         {TYPE_FILTERS.map((option) => (
           <button
             key={option.value}
