@@ -1,8 +1,7 @@
-import { motion } from 'framer-motion';
-import { Trash2 } from 'lucide-react';
+import { useSortable } from '@dnd-kit/sortable';
+import { GripVertical, Trash2 } from 'lucide-react';
 import type { Priority, TaskDto } from '@daily-hub/shared';
 import { useDeleteTask, useUpdateTask } from '../hooks';
-import { listItemMotion } from '../../../lib/motion';
 import { StatusPill } from '../../../components/ui/status-pill';
 import { ConnectionsButton } from '../../integration/components/connections-button';
 
@@ -21,13 +20,34 @@ export function TaskItem({ task }: { task: TaskDto }) {
   const done = task.status === 'DONE';
   const priority = PRIORITY[task.priority];
 
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: task.id,
+  });
+  const style = {
+    transform: transform ? `translate3d(0, ${transform.y}px, 0)` : undefined,
+    transition,
+  };
+
   const toggle = () => update.mutate({ id: task.id, input: { status: done ? 'TODO' : 'DONE' } });
 
   return (
-    <motion.li
-      {...listItemMotion}
-      className="group flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3 shadow-card transition-shadow hover:shadow-card-hover"
+    <li
+      ref={setNodeRef}
+      style={style}
+      className={`group flex animate-slide-up items-center gap-2 rounded-xl border border-border bg-surface py-3 pl-2 pr-4 shadow-card transition-shadow hover:shadow-card-hover ${
+        isDragging ? 'z-10 shadow-card-hover' : ''
+      }`}
     >
+      <button
+        type="button"
+        aria-label="Reordenar tarefa"
+        className="shrink-0 cursor-grab touch-none rounded p-0.5 text-muted/40 transition-colors hover:text-muted active:cursor-grabbing"
+        {...attributes}
+        {...listeners}
+      >
+        <GripVertical size={16} strokeWidth={2} aria-hidden="true" />
+      </button>
+
       <button
         type="button"
         role="checkbox"
@@ -84,6 +104,6 @@ export function TaskItem({ task }: { task: TaskDto }) {
           <Trash2 size={15} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
-    </motion.li>
+    </li>
   );
 }
