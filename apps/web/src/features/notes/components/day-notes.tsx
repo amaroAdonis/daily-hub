@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Plus } from 'lucide-react';
 import { useNotes } from '../hooks';
 import { NoteCard } from './note-card';
 import { NoteForm } from './note-form';
@@ -9,16 +10,17 @@ export function DayNotes({ date }: { date: string }) {
   const [composing, setComposing] = useState(false);
 
   return (
-    <section className="mt-6">
-      <div className="mb-3 flex items-baseline justify-between">
-        <h2 className="font-display text-lg font-semibold">Notas</h2>
+    <section>
+      <div className="mb-3 flex items-center justify-between">
+        <h2 className="font-display text-base font-semibold">Notas</h2>
         {!composing && (
           <button
             type="button"
             onClick={() => setComposing(true)}
-            className="text-sm font-medium text-primary hover:opacity-80"
+            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
           >
-            + Adicionar
+            <Plus size={15} strokeWidth={2.5} aria-hidden="true" />
+            Adicionar
           </button>
         )}
       </div>

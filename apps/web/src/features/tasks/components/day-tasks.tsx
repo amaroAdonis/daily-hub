@@ -14,9 +14,9 @@ export function DayTasks({ date }: { date: string }) {
   const total = tasks?.length ?? 0;
 
   return (
-    <section className="max-w-2xl">
-      <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="font-display text-lg font-semibold">Tarefas do dia</h2>
+    <section>
+      <div className="mb-3 flex items-baseline justify-between">
+        <h2 className="font-display text-base font-semibold">Tarefas</h2>
         {total > 0 && (
           <span className="font-mono text-xs text-muted">
             {done}/{total} concluídas

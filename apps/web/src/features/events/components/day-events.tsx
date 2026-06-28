@@ -1,12 +1,33 @@
 import { useState } from 'react';
+import { parseISO } from 'date-fns';
+import { Plus } from 'lucide-react';
+import type { EventOccurrence } from '@daily-hub/shared';
 import { SkeletonList } from '../../../components/ui/skeleton';
 import { useEvent, useEventOccurrences } from '../hooks';
 import { EventForm } from './event-form';
 import { EventItem } from './event-item';
 
+/** Períodos do dia, na ordem em que aparecem. */
+const PERIODS = [
+  { key: 'allday', label: 'Dia inteiro' },
+  { key: 'morning', label: 'Manhã' },
+  { key: 'afternoon', label: 'Tarde' },
+  { key: 'evening', label: 'Noite' },
+] as const;
+
+type PeriodKey = (typeof PERIODS)[number]['key'];
+
+function periodOf(occ: EventOccurrence): PeriodKey {
+  if (occ.allDay) return 'allday';
+  const hour = parseISO(occ.start).getHours();
+  if (hour < 12) return 'morning';
+  if (hour < 18) return 'afternoon';
+  return 'evening';
+}
+
 /**
- * Compromissos de um dia (`date` em YYYY-MM-DD): lista das ocorrências, com
- * criação e edição inline. Editar abre a série inteira do compromisso.
+ * Compromissos de um dia agrupados por período (Manhã/Tarde/Noite), com criação
+ * e edição inline. Editar abre a série inteira do compromisso.
  */
 export function DayEvents({ date }: { date: string }) {
   const { data: byDay, isLoading, isError } = useEventOccurrences({ from: date, to: date });
@@ -15,6 +36,10 @@ export function DayEvents({ date }: { date: string }) {
   const { data: editingEvent } = useEvent(editingId);
 
   const occurrences = byDay?.get(date) ?? [];
+  const groups = PERIODS.map((period) => ({
+    ...period,
+    items: occurrences.filter((occ) => periodOf(occ) === period.key),
+  })).filter((group) => group.items.length > 0);
 
   const startEdit = (eventId: string) => {
     setComposing(false);
@@ -26,44 +51,61 @@ export function DayEvents({ date }: { date: string }) {
   };
 
   return (
-    <section className="mb-6">
-      <div className="mb-3 flex items-baseline justify-between">
-        <h2 className="font-display text-lg font-semibold">Compromissos</h2>
+    <section>
+      <div className="mb-3 flex items-center justify-between">
+        <h2 className="font-display text-base font-semibold">Compromissos</h2>
         {!composing && !editingId && (
           <button
             type="button"
             onClick={() => setComposing(true)}
-            className="text-sm font-medium text-primary hover:opacity-80"
+            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
           >
-            + Adicionar
+            <Plus size={15} strokeWidth={2.5} aria-hidden="true" />
+            Adicionar
           </button>
         )}
       </div>
 
-      {composing && <EventForm defaultDate={date} onClose={closeForm} />}
+      {composing && (
+        <div className="mb-3">
+          <EventForm defaultDate={date} onClose={closeForm} />
+        </div>
+      )}
       {editingId && editingEvent && (
-        <EventForm defaultDate={date} event={editingEvent} onClose={closeForm} />
+        <div className="mb-3">
+          <EventForm defaultDate={date} event={editingEvent} onClose={closeForm} />
+        </div>
       )}
 
-      <div className="mt-3">
-        {isLoading && <SkeletonList rows={3} />}
-        {isError && (
-          <p className="text-sm text-danger">
-            Não foi possível carregar os compromissos. Suba a API e o Postgres.
-          </p>
-        )}
-        {!isLoading && !isError && occurrences.length === 0 && !composing && (
-          <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted">
-            Nenhum compromisso para este dia.
-          </p>
-        )}
-        {occurrences.length > 0 && (
-          <ul className="flex flex-col gap-2">
-            {occurrences.map((occ) => (
-              <EventItem key={`${occ.eventId}-${occ.start}`} occurrence={occ} onEdit={startEdit} />
-            ))}
-          </ul>
-        )}
+      {isLoading && <SkeletonList rows={3} />}
+      {isError && (
+        <p className="text-sm text-danger">
+          Não foi possível carregar os compromissos. Suba a API e o Postgres.
+        </p>
+      )}
+      {!isLoading && !isError && occurrences.length === 0 && !composing && (
+        <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted">
+          Nenhum compromisso para este dia.
+        </p>
+      )}
+
+      <div className="flex flex-col gap-4">
+        {groups.map((group) => (
+          <div key={group.key}>
+            <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-muted">
+              {group.label}
+            </p>
+            <ul className="flex flex-col gap-2">
+              {group.items.map((occ) => (
+                <EventItem
+                  key={`${occ.eventId}-${occ.start}`}
+                  occurrence={occ}
+                  onEdit={startEdit}
+                />
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );
