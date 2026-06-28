@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss';
 
-// Tokens de design do Daily Hub — ver /docs/design-system.md.
+// Tokens de design do Daily Hub — ver /docs/design-system/tokens.md.
 // Cores são lidas de CSS variables (definidas em src/styles/index.css)
 // para permitir tema claro/escuro na Fase 8.
 export default {
