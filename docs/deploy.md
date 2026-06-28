@@ -81,7 +81,7 @@ O Vite **congela** a `VITE_API_URL` em build-time, então a ordem importa:
 5. Criar o serviço **Web**: _Dockerfile Path_ = `apps/web/Dockerfile`. Definir
    `VITE_API_URL` = URL pública da API (é lida como **build arg**). `Generate Domain`.
 6. Ajustar `API_CORS_ORIGIN` (na API) = URL pública da web → redeploy da API.
-7. (Opcional) rodar o seed uma vez: `railway run --service API pnpm db:seed`.
+7. (Opcional) rodar o seed uma vez: `railway run --service API pnpm --filter @daily-hub/db seed:ci`.
 8. Validar: `GET <api>/api/health` responde; a web carrega e o login funciona.
 
 ## Custo
