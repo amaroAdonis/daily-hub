@@ -23,6 +23,7 @@ function eventRow(overrides: Record<string, unknown> = {}) {
     startsAt: new Date('2026-06-01T13:00:00.000Z'),
     endsAt: new Date('2026-06-01T14:00:00.000Z'),
     allDay: false,
+    category: 'OTHER',
     location: null,
     meetingUrl: null,
     recurrence: null,

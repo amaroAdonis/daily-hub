@@ -77,6 +77,7 @@ async function main() {
       startsAt: new Date(today.getTime() + 15 * 60 * 60 * 1000), // hoje, 15h UTC
       endsAt: new Date(today.getTime() + 16 * 60 * 60 * 1000),
       location: 'Google Meet',
+      category: 'SOCIAL',
       reminderMin: 30,
     },
   });
@@ -86,6 +87,7 @@ async function main() {
       title: 'Bloco de foco no portfólio',
       startsAt: new Date(today.getTime() + 9 * 60 * 60 * 1000), // 9h UTC
       endsAt: new Date(today.getTime() + 11 * 60 * 60 * 1000),
+      category: 'WORK',
       recurrence: 'FREQ=WEEKLY', // toda semana neste dia
     },
   });

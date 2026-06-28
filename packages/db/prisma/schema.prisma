@@ -49,6 +49,16 @@ enum GoalHorizon {
   LONG
 }
 
+/// Categoria de um compromisso, usada para colorir o calendário e o dashboard.
+enum EventCategory {
+  WORK
+  PERSONAL
+  HEALTH
+  SOCIAL
+  STUDY
+  OTHER
+}
+
 // ----------------------------------------------------------------------------
 //  Usuário (já modelado para multi-user na Fase 8)
 // ----------------------------------------------------------------------------
@@ -170,7 +180,8 @@ model Event {
   description String?
   startsAt    DateTime
   endsAt      DateTime
-  allDay      Boolean  @default(false)
+  allDay      Boolean       @default(false)
+  category    EventCategory @default(OTHER)
   location    String?
   /// Link da reunião (ex.: Meet/Zoom) para "entrar na reunião". Nulo = sem link.
   meetingUrl  String?

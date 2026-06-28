@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { format, isSameMonth, parseISO } from 'date-fns';
 import { useCalendarSummary } from '../hooks';
 import { useEventOccurrences } from '../../events/hooks';
+import { EVENT_CATEGORIES } from '../../events/categories';
 import { useNotes } from '../../notes/hooks';
 import { monthGridDays, rangeForView, toDayString, todayString } from '../dates';
 
@@ -83,7 +84,7 @@ export function MonthView({ reference, onSelectDay }: Props) {
                 {events.slice(0, MAX_PILLS).map((occ) => (
                   <span
                     key={`${occ.eventId}-${occ.start}`}
-                    className="flex items-center gap-1 truncate rounded-md bg-primary/10 px-1.5 py-0.5 text-xs text-primary"
+                    className={`flex items-center gap-1 truncate rounded-md px-1.5 py-0.5 text-xs ${EVENT_CATEGORIES[occ.category].pill}`}
                     title={occ.title}
                   >
                     {!occ.allDay && (
