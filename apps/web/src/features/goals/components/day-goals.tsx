@@ -12,10 +12,10 @@ const MAX_GOALS = 5;
  * mostrando progresso de forma compacta. Mantém os objetivos à vista ao planejar.
  */
 export function DayGoals() {
-  const { data: goals } = useGoals({ status: 'ACTIVE' });
+  const { data: goals } = useGoals({});
 
   const items = (goals ?? [])
-    .slice()
+    .filter((goal) => goal.status === 'TODO' || goal.status === 'DOING')
     .sort((a, b) => {
       if (a.targetDate && b.targetDate) return a.targetDate.localeCompare(b.targetDate);
       if (a.targetDate) return -1;

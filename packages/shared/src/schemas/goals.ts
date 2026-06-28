@@ -6,8 +6,8 @@ import { dayString } from './tasks';
 export const goalHorizon = z.enum(['SHORT', 'MEDIUM', 'LONG']);
 export type GoalHorizon = z.infer<typeof goalHorizon>;
 
-/** Status da meta, espelhando o enum `GoalStatus` do Prisma. */
-export const goalStatus = z.enum(['ACTIVE', 'ACHIEVED', 'ARCHIVED']);
+/** Status da meta (eixo comum A fazer/Em andamento/Concluído + arquivada). */
+export const goalStatus = z.enum(['TODO', 'DOING', 'DONE', 'ARCHIVED']);
 export type GoalStatus = z.infer<typeof goalStatus>;
 
 /** Payload para criar uma meta. */

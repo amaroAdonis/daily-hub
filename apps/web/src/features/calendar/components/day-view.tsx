@@ -45,13 +45,14 @@ export function DayView({ day }: { day: string }) {
   const { data: tasks } = useTasks({ date: day });
   const { data: notes } = useNotes({ date: day });
   const { data: eventsByDay } = useEventOccurrences({ from: day, to: day });
-  const { data: activeGoals } = useGoals({ status: 'ACTIVE' });
+  const { data: allGoals } = useGoals({});
 
   const eventCount = eventsByDay?.get(day)?.length ?? 0;
   const taskTotal = tasks?.length ?? 0;
   const taskDone = tasks?.filter((task) => task.status === 'DONE').length ?? 0;
   const noteCount = notes?.length ?? 0;
-  const goalCount = activeGoals?.length ?? 0;
+  const goalCount =
+    allGoals?.filter((goal) => goal.status === 'TODO' || goal.status === 'DOING').length ?? 0;
 
   const container: Variants = {
     hidden: {},

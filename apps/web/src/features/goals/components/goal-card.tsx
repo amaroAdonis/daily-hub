@@ -10,8 +10,9 @@ import { GoalTasks } from './goal-tasks';
 import { ConnectionsButton } from '../../integration/components/connections-button';
 
 const STATUS_STYLE: Record<GoalStatus, string> = {
-  ACTIVE: 'bg-primary/10 text-primary',
-  ACHIEVED: 'bg-success/10 text-success',
+  TODO: 'bg-slate-400/10 text-slate-600',
+  DOING: 'bg-amber-500/10 text-amber-700',
+  DONE: 'bg-emerald-500/10 text-emerald-700',
   ARCHIVED: 'bg-bg text-muted',
 };
 

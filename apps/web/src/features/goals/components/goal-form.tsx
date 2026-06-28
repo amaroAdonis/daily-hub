@@ -18,7 +18,7 @@ export function GoalForm({ goal, defaultParentId, parentOptions, onClose }: Prop
   const [title, setTitle] = useState(goal?.title ?? '');
   const [description, setDescription] = useState(goal?.description ?? '');
   const [horizon, setHorizon] = useState<GoalHorizon>(goal?.horizon ?? 'MEDIUM');
-  const [status, setStatus] = useState<GoalStatus>(goal?.status ?? 'ACTIVE');
+  const [status, setStatus] = useState<GoalStatus>(goal?.status ?? 'TODO');
   const [progress, setProgress] = useState(goal?.progress ?? 0);
   const [targetDate, setTargetDate] = useState(goal?.targetDate ?? '');
   const [parentId, setParentId] = useState(goal?.parentId ?? defaultParentId ?? '');

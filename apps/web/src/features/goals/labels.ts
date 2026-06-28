@@ -7,8 +7,9 @@ export const HORIZON_LABEL: Record<GoalHorizon, string> = {
 };
 
 export const STATUS_LABEL: Record<GoalStatus, string> = {
-  ACTIVE: 'Ativa',
-  ACHIEVED: 'Concluída',
+  TODO: 'A fazer',
+  DOING: 'Em andamento',
+  DONE: 'Concluído',
   ARCHIVED: 'Arquivada',
 };
 

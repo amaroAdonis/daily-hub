@@ -22,7 +22,7 @@ function goalRow(overrides: Record<string, unknown> = {}) {
     title: 'Publicar o portfólio',
     description: null,
     horizon: 'MEDIUM',
-    status: 'ACTIVE',
+    status: 'DOING',
     progress: 20,
     targetDate: null,
     parentId: null,

@@ -37,9 +37,12 @@ enum Priority {
   HIGH
 }
 
+/// Status da meta no eixo comum (A fazer/Em andamento/Concluído) + arquivada.
+/// Unificado com tarefas e compromissos para o Kanban.
 enum GoalStatus {
-  ACTIVE
-  ACHIEVED
+  TODO
+  DOING
+  DONE
   ARCHIVED
 }
 
@@ -133,7 +136,7 @@ model Goal {
   title       String
   description String?
   horizon     GoalHorizon @default(MEDIUM)
-  status      GoalStatus  @default(ACTIVE)
+  status      GoalStatus  @default(TODO)
   /// Progresso de 0 a 100 (pode ser derivado das tarefas no futuro).
   progress    Int         @default(0)
   targetDate  DateTime?   @db.Date
