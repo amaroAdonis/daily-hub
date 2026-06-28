@@ -4,7 +4,7 @@
 
 ### Uma central pessoal centrada no dia — tarefas, metas, anotações, compromissos e contatos, todos interligados.
 
-Projeto de portfólio full-stack **TypeScript**: React + NestJS num monorepo tipado, com um design system construído sobre uma ideia — _luz do dia, foco calmo._
+Aplicação full-stack **TypeScript**: React + NestJS num monorepo tipado, com um design system construído sobre uma ideia — _luz do dia, foco calmo._
 
 [![CI](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -117,4 +117,4 @@ Servir o site da doc localmente: `pipx run --spec mkdocs-material mkdocs serve` 
 
 ## Autor
 
-Feito por **Amaro Adonis** como projeto de portfólio full-stack, com foco em craft de front-end. _Projeto pessoal — sem licença para reúso._
+Feito por **Amaro Adonis**, com foco em craft de front-end. _Projeto pessoal — sem licença para reúso._

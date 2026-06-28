@@ -4,7 +4,7 @@
 
 ### A day-centric personal hub — tasks, goals, notes, events and contacts, all interlinked.
 
-Full-stack **TypeScript** portfolio project: React + NestJS in a typed monorepo, with a design system built around one idea — _daylight, calm focus._
+Full-stack **TypeScript** application: React + NestJS in a typed monorepo, with a design system built around one idea — _daylight, calm focus._
 
 [![CI](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/amaroAdonis/daily-hub/actions/workflows/ci.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -117,4 +117,4 @@ Serve the docs site locally: `pipx run --spec mkdocs-material mkdocs serve` → 
 
 ## Author
 
-Built by **Amaro Adonis** as a full-stack portfolio project, with a focus on front-end craft. _Personal project — not licensed for reuse._
+Built by **Amaro Adonis**, with a focus on front-end craft. _Personal project — not licensed for reuse._
