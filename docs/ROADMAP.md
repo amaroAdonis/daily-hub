@@ -170,7 +170,7 @@ com upload/download por URL assinada e UI no Inspetor. Detalhes em
 **Entregue:** compromissos com link de reunião ("Entrar") e exportação para o
 Google Agenda por URL-template, sem OAuth.
 
-## 🔜 Fase 12 — Deploy e vitrine
+## ✅ Fase 12 — Deploy e vitrine
 
 Deploy (web + api + Postgres + storage gerenciados), seed de demonstração,
 screenshots, README voltado a recrutadores e link de demo ao vivo. Inclui o

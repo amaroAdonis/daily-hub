@@ -14,6 +14,8 @@ Full-stack **TypeScript** portfolio project: React + NestJS in a typed monorepo,
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![Design](https://img.shields.io/badge/luz%20do%20dia-foco%20calmo-18646f)
 
+**[🚀 Live demo](https://daily-hub.up.railway.app)** · **[API docs (Swagger)](https://daily-hub-api.up.railway.app/api/docs)**
+
 <sub>🇬🇧 English · <a href="README.pt-BR.md">🇧🇷 Português</a></sub>
 
 </div>
@@ -111,7 +113,7 @@ Serve the docs site locally: `pipx run --spec mkdocs-material mkdocs serve` → 
 
 ## Project status
 
-**Phases 0–11 complete** — tasks, calendar, events, goals, notes, contacts, integration, auth, day dashboard, attachments and lightweight external integrations. **Next: Phase 12 — deploy & showcase** (Railway + Cloudflare R2), after the UI/UX polish pass. See the [roadmap](docs/ROADMAP.md).
+**Phases 0–12 complete** — all features plus a live deployment on **[daily-hub.up.railway.app](https://daily-hub.up.railway.app)** (Railway: web + API + Postgres; Cloudflare R2 for attachments). See the [roadmap](docs/ROADMAP.md).
 
 ## Author
 

@@ -1,8 +1,11 @@
 # Deploy & staging (Fase 12)
 
 Direção de deploy escolhida para colocar o Daily Hub no ar como **demo ao vivo**
-(vitrine de portfólio). A executar **depois** do polimento de UI/UX, para a demo
-já nascer com a aparência final. Status: **planejado, não executado.**
+(vitrine de portfólio). Status: **executado** ✅
+
+- **Web (demo):** https://daily-hub.up.railway.app
+- **API:** https://daily-hub-api.up.railway.app/api · **Swagger:** `/api/docs`
+- **Infra:** Railway (web + API + Postgres) + Cloudflare R2 (anexos).
 
 ## Topologia — Railway Hobby (~US$5/mês) + Cloudflare R2
 
