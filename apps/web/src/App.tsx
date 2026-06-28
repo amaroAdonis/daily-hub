@@ -9,6 +9,7 @@ import { GoalsPage } from './features/goals/components/goals-page';
 import { NotesPage } from './features/notes/components/notes-page';
 import { ContactsPage } from './features/contacts/components/contacts-page';
 import { SearchPage } from './features/integration/components/search-page';
+import { SettingsPage } from './features/settings/components/settings-page';
 import { InspectorProvider } from './features/integration/inspector-context';
 
 export function App() {
@@ -50,6 +51,7 @@ function AuthenticatedApp() {
         {section === 'goals' && <GoalsPage />}
         {section === 'notes' && <NotesPage />}
         {section === 'contacts' && <ContactsPage />}
+        {section === 'settings' && <SettingsPage />}
       </AppShell>
     </InspectorProvider>
   );

@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/auth';
 import { Avatar } from '../ui/avatar';
 
 /** Seções de topo navegáveis. */
-export type Section = 'search' | 'today' | 'agenda' | 'goals' | 'notes' | 'contacts';
+export type Section = 'search' | 'today' | 'agenda' | 'goals' | 'notes' | 'contacts' | 'settings';
 
 const NAV: { key: Section; label: string }[] = [
   { key: 'search', label: 'Buscar' },
@@ -21,6 +21,7 @@ const SECTION_TITLE: Record<Section, string> = {
   goals: 'Metas',
   notes: 'Notas',
   contacts: 'Contatos',
+  settings: 'Configurações',
 };
 
 interface Props {
@@ -57,19 +58,25 @@ export function AppShell({ active, onNavigate, children }: Props) {
 
         {user && (
           <div className="mt-auto border-t border-border pt-4">
-            <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => onNavigate('settings')}
+              className={`flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors ${
+                active === 'settings' ? 'bg-primary/10' : 'hover:bg-bg'
+              }`}
+            >
               <Avatar name={user.name} src={user.avatarUrl} size={36} />
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-ink">{user.name}</p>
-                {user.occupation && (
-                  <p className="truncate text-xs text-muted">{user.occupation}</p>
-                )}
+                <p className="truncate text-xs text-muted">
+                  {user.occupation ?? 'Ver configurações'}
+                </p>
               </div>
-            </div>
+            </button>
             <button
               type="button"
               onClick={logout}
-              className="mt-3 w-full rounded-xl px-3 py-2 text-left text-sm text-muted transition-colors hover:bg-bg"
+              className="mt-1 w-full rounded-xl px-3 py-2 text-left text-sm text-muted transition-colors hover:bg-bg"
             >
               Sair
             </button>
