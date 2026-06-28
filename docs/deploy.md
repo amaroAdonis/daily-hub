@@ -1,7 +1,7 @@
 # Deploy & staging (Fase 12)
 
 Direção de deploy escolhida para colocar o Daily Hub no ar como **demo ao vivo**
-(vitrine de portfólio). Status: **executado** ✅
+Status: **executado** ✅
 
 - **Web (demo):** https://daily-hub.up.railway.app
 - **API:** https://daily-hub-api.up.railway.app/api · **Swagger:** `/api/docs`
@@ -41,9 +41,9 @@ Um **projeto** no Railway com os serviços abaixo; o **storage** fica na Cloudfl
       público em `GET /api/health`.
 - [x] **`migrate deploy` no start** via script `migrate:deploy:ci` (sem
       `dotenv-cli`; usa a `DATABASE_URL` do ambiente).
-- [x] **README voltado a recrutadores** (bilíngue) + logo + badges.
-- [ ] **Seed de demonstração** (idempotente; revisar dados de vitrine antes de
-      rodar contra produção).
+- [x] **README** (bilíngue) + logo + badges.
+- [ ] **Seed de demonstração** (idempotente; revisar os dados antes de rodar
+      contra produção).
 - [ ] **Screenshots/GIF e link da demo** no README (após o deploy no ar).
 
 ### Como cada serviço é construído no Railway

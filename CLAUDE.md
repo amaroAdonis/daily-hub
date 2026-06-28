@@ -7,8 +7,8 @@ Orientações para o Claude Code trabalhar neste repositório. Leia também
 ## Visão geral
 
 Daily Hub é uma agenda pessoal centrada no **dia**: tarefas, metas, anotações,
-compromissos e contatos — todos interligados. É um projeto de portfólio
-fullstack TypeScript (monorepo).
+compromissos e contatos — todos interligados. É uma aplicação fullstack
+TypeScript (monorepo).
 
 ## Stack
 
@@ -167,8 +167,10 @@ este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
   (`PROJECT_BRIEF`/`DECISIONS`/`GLOSSARY`/`BACKLOG`), `design-system/`,
   `features/<feature>/` com `REQ-*`/`AC-*` e `features/INDEX.md`, publicável via
   MkDocs (`mkdocs.yml`). Convenção no `INDEX.md`.
-- **Próxima a construir: Fase 12 — Deploy e vitrine** (direção em `docs/deploy.md`;
-  fazer **depois** do polimento de UI).
+- **Fase 12 (Deploy e demo ao vivo): concluída.** No ar em
+  `https://daily-hub.up.railway.app` (Railway: web + API + Postgres; Cloudflare
+  R2 para anexos). Dockerfiles por serviço, `migrate deploy` no start; detalhes e
+  armadilhas em `docs/deploy.md`.
 - Plano completo das fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

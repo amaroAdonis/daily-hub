@@ -1,7 +1,7 @@
 # Daily Hub — Documentação
 
 Agenda pessoal centrada no **dia**: tarefas, metas, anotações, compromissos e
-contatos, todos interligados. Projeto de portfólio fullstack TypeScript
+contatos, todos interligados. Aplicação fullstack TypeScript
 (React + NestJS, monorepo).
 
 ## Por onde começar

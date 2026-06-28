@@ -15,7 +15,7 @@ Decisão, Status, Contexto, Consequências.
 - **Status:** Ativo
 
 **Contexto.** Decisões estruturais (stack, modelagem) precisam de rastro do
-"porquê", tanto para o futuro quanto como evidência de raciocínio no portfólio.
+"porquê", tanto para o futuro quanto como registro do raciocínio das escolhas.
 
 **Consequências.** Histórico claro das escolhas; pequeno overhead a cada decisão
 grande (aceitável). Decisões são referenciadas por ID em features e docs de topo.
@@ -28,14 +28,13 @@ grande (aceitável). Decisões são referenciadas por ID em features e docs de t
   tipos e validação compartilhados via Zod em `packages/shared`.
 - **Status:** Ativo
 
-**Contexto.** O projeto é vitrine de portfólio fullstack TypeScript. A
-alternativa natural seria um monolito Next.js (mais rápido de entregar), mas
-busca-se demonstrar amplitude arquitetural: design de API, código compartilhado,
-separação clara. NestJS porque a organização por módulos mapeia 1:1 com as
+**Contexto.** O projeto é uma aplicação fullstack TypeScript. A alternativa
+natural seria um monolito Next.js (mais rápido de entregar), mas busca-se
+amplitude arquitetural: design de API, código compartilhado, separação clara. NestJS porque a organização por módulos mapeia 1:1 com as
 features; REST + OpenAPI (em vez de tRPC) para tornar o design da API explícito.
 
 **Consequências.** Mais arquivos e configuração que um monolito; em troca,
-contratos de API explícitos, fronteira limpa e melhor narrativa de portfólio.
+contratos de API explícitos, fronteira limpa e arquitetura mais demonstrável.
 Caso a velocidade vire prioridade, é possível colapsar em Next.js.
 
 ## D003 — Links e tags polimórficos {#d003}
@@ -133,7 +132,7 @@ bidirecional fica para o futuro. Ver [events](features/events/README.md).
   no start da API.
 - **Status:** Ativo (a executar)
 
-**Contexto.** Demo ao vivo de portfólio com custo mínimo. Railway não oferece S3,
+**Contexto.** Demo ao vivo com custo mínimo. Railway não oferece S3,
 daí o R2 (free tier, sem egress). Web separada da API mostra melhor a arquitetura.
 
 **Consequências.** Custo ~US$5/mês; Dockerfiles a preparar; `STORAGE_*` apontam

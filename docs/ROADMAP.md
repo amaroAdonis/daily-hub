@@ -170,11 +170,11 @@ com upload/download por URL assinada e UI no Inspetor. Detalhes em
 **Entregue:** compromissos com link de reunião ("Entrar") e exportação para o
 Google Agenda por URL-template, sem OAuth.
 
-## ✅ Fase 12 — Deploy e vitrine
+## ✅ Fase 12 — Deploy e demo ao vivo
 
 Deploy (web + api + Postgres + storage gerenciados), seed de demonstração,
-screenshots, README voltado a recrutadores e link de demo ao vivo. Inclui o
-restante do [`BACKLOG.md`](BACKLOG.md) (P1/P2) e tema claro/escuro.
+screenshots, README e link de demo ao vivo. Inclui o restante do
+[`BACKLOG.md`](BACKLOG.md) (P1/P2) e tema claro/escuro.
 
 > **Ordem definida:** o **polimento de UI/UX vem antes do deploy**, para a demo
 > ao vivo nascer com a aparência final. A direção de deploy (Railway Hobby +

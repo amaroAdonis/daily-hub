@@ -11,9 +11,9 @@ uso diário. Em vez de silos separados (um app de to-do, um de calendário, um d
 notas), o produto trata o **dia** como o eixo que dá sentido a tudo — e uma
 camada de links/tags conecta itens de qualquer tipo entre si.
 
-É, também, um **projeto de portfólio fullstack TypeScript** (React + NestJS,
-monorepo): o objetivo secundário é demonstrar arquitetura, qualidade de código e,
-sobretudo, **excelência de frontend**.
+É, também, uma **aplicação fullstack TypeScript** (React + NestJS, monorepo)
+construída com cuidado de arquitetura, qualidade de código e, sobretudo,
+**excelência de frontend**.
 
 ## Problema que resolve
 
@@ -25,8 +25,8 @@ qualquer outro, dando um "painel de itens relacionados" uniforme.
 ## Público-alvo
 
 - **Uso pessoal** — quem quer planejar o dia num só lugar, com baixo atrito.
-- **Recrutadores / pares técnicos** — o projeto é vitrine; a demo ao vivo e o
-  código devem comunicar competência fullstack com foco em frontend.
+- **Pares técnicos** — a demo ao vivo e o código comunicam as decisões de
+  arquitetura e o foco em frontend.
 
 ## Diferenciais
 
@@ -41,7 +41,7 @@ qualquer outro, dando um "painel de itens relacionados" uniforme.
 ## Objetivos
 
 - **Produto**: um MVP coeso e agradável de usar no dia a dia.
-- **Portfólio**: código legível, decisões registradas, demo ao vivo, leitura em
+- **Engenharia**: código legível, decisões registradas, demo ao vivo, leitura em
   poucos minutos do "porquê" de cada escolha.
 
 ### KPIs técnicos (metas de qualidade)
@@ -72,7 +72,7 @@ qualquer outro, dando um "painel de itens relacionados" uniforme.
 
 ## Riscos
 
-- **Escopo de portfólio x produto**: equilibrar polimento visual e amplitude de
+- **Escopo x produto**: equilibrar polimento visual e amplitude de
   features sem inflar o backlog.
 - **Polimorfismo sem FK**: `Tagging`/`EntityLink` exigem integridade na camada de
   serviço (ver [D003](DECISIONS.md#d003)).

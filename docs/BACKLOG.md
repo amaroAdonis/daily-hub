@@ -54,13 +54,13 @@ ainda não executadas. Direção visual em [design-system](design-system/index.m
 
 > O calendário ganhou grade full-bleed e células ricas (pílulas de evento com
 > hora/cor, resumo de tarefas/notas, feriados, hoje em destaque). Itens 12, 13,
-> 15 e 16 ficam para a **Fase 12** (vitrine).
+> 15 e 16 ficam para a **Fase 12** (deploy).
 
 ## Produto / Engenharia
 
 | Item                                            | Prioridade | Status | Nota                                                          |
 | ----------------------------------------------- | ---------- | ------ | ------------------------------------------------------------- |
-| Deploy e vitrine (Railway + R2)                 | P0         | ⬜     | Fase 12; ver [deploy](deploy.md) e [D008](DECISIONS.md#d008). |
+| Deploy e demo ao vivo (Railway + R2)            | P0         | ⬜     | Fase 12; ver [deploy](deploy.md) e [D008](DECISIONS.md#d008). |
 | Tema claro/escuro                               | P1         | ⬜     | Tokens já são CSS vars; ativar na Fase 12.                    |
 | Testes E2E (Playwright)                         | P1         | ⬜     | Fase posterior; specs unitárias (Vitest) já existem.          |
 | Sync real Google Calendar (OAuth)               | P2         | ⬜     | Hoje só exportação por URL ([D007](DECISIONS.md#d007)).       |
