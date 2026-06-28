@@ -12,31 +12,34 @@ import {
 import { useAuth } from '../../contexts/auth';
 import { Avatar } from '../ui/avatar';
 
-/** Seções de topo navegáveis. */
-export type Section = 'search' | 'today' | 'agenda' | 'goals' | 'notes' | 'contacts' | 'settings';
+/**
+ * Itens de navegação da barra lateral. "Hoje" e "Agenda" levam ambos ao
+ * calendário (seção unificada); os demais são seções próprias.
+ */
+export type NavKey = 'today' | 'agenda' | 'goals' | 'notes' | 'contacts' | 'search' | 'settings';
 
-const NAV: { key: Section; label: string; icon: LucideIcon }[] = [
-  { key: 'search', label: 'Buscar', icon: Search },
+const NAV: { key: NavKey; label: string; icon: LucideIcon }[] = [
   { key: 'today', label: 'Hoje', icon: Sun },
   { key: 'agenda', label: 'Agenda', icon: CalendarRange },
   { key: 'goals', label: 'Metas', icon: Target },
   { key: 'notes', label: 'Notas', icon: StickyNote },
   { key: 'contacts', label: 'Contatos', icon: Users },
+  { key: 'search', label: 'Buscar', icon: Search },
 ];
 
-const SECTION_TITLE: Record<Section, string> = {
-  search: 'Buscar',
+const TITLES: Record<NavKey, string> = {
   today: 'Hoje',
   agenda: 'Agenda',
   goals: 'Metas',
   notes: 'Notas',
   contacts: 'Contatos',
+  search: 'Buscar',
   settings: 'Configurações',
 };
 
 interface Props {
-  active: Section;
-  onNavigate: (section: Section) => void;
+  active: NavKey;
+  onNavigate: (key: NavKey) => void;
   children: ReactNode;
 }
 
@@ -101,9 +104,7 @@ export function AppShell({ active, onNavigate, children }: Props) {
 
       <div className="flex flex-col">
         <header className="flex items-baseline justify-between border-b border-border px-8 py-5">
-          <h1 className="font-display text-2xl font-semibold capitalize">
-            {SECTION_TITLE[active]}
-          </h1>
+          <h1 className="font-display text-2xl font-semibold capitalize">{TITLES[active]}</h1>
         </header>
         <main className="flex-1 px-8 py-6">{children}</main>
       </div>
