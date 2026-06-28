@@ -174,3 +174,8 @@ Google Agenda por URL-template, sem OAuth.
 Deploy (web + api + Postgres + storage gerenciados), seed de demonstração,
 screenshots, README voltado a recrutadores e link de demo ao vivo. Inclui o
 restante do [`ux-backlog.md`](ux-backlog.md) (P1/P2) e tema claro/escuro.
+
+> **Ordem definida:** o **polimento de UI/UX vem antes do deploy**, para a demo
+> ao vivo nascer com a aparência final. A direção de deploy (Railway Hobby +
+> Cloudflare R2, web como serviço separado, Dockerfiles) está registrada em
+> [`deploy.md`](deploy.md) — planejada, a executar ao final.
