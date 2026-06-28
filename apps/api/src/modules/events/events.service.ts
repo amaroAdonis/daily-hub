@@ -59,6 +59,15 @@ export class EventsService {
     return this.toDto(event);
   }
 
+  /** Lista os compromissos base do usuário (sem expandir recorrência), p/ o Kanban. */
+  async listBase(userId: string): Promise<EventDto[]> {
+    const events = await this.prisma.event.findMany({
+      where: { userId },
+      orderBy: { startsAt: 'desc' },
+    });
+    return events.map((event) => this.toDto(event));
+  }
+
   async create(userId: string, input: CreateEventInput): Promise<EventDto> {
     const event = await this.prisma.event.create({
       data: {

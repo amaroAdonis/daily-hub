@@ -90,6 +90,18 @@ describe('EventsService', () => {
     expect(prisma.event.delete).not.toHaveBeenCalled();
   });
 
+  it('lista os compromissos base do usuário (sem expandir recorrência)', async () => {
+    prisma.event.findMany.mockResolvedValue([eventRow(), eventRow({ id: 'event-2' })]);
+
+    const result = await service.listBase('user-1');
+
+    expect(prisma.event.findMany).toHaveBeenCalledWith({
+      where: { userId: 'user-1' },
+      orderBy: { startsAt: 'desc' },
+    });
+    expect(result.map((e) => e.id)).toEqual(['event-1', 'event-2']);
+  });
+
   it('retorna ocorrência única quando o evento não é recorrente', async () => {
     prisma.event.findMany
       .mockResolvedValueOnce([eventRow()]) // únicos
