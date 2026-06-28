@@ -24,6 +24,7 @@ function eventRow(overrides: Record<string, unknown> = {}) {
     endsAt: new Date('2026-06-01T14:00:00.000Z'),
     allDay: false,
     category: 'OTHER',
+    status: 'TODO',
     location: null,
     meetingUrl: null,
     recurrence: null,

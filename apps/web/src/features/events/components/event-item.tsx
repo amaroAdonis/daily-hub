@@ -2,10 +2,11 @@ import { format, parseISO } from 'date-fns';
 import { motion } from 'framer-motion';
 import { CalendarPlus, Pencil, Repeat, Trash2, Video } from 'lucide-react';
 import type { EventOccurrence } from '@daily-hub/shared';
-import { useDeleteEvent } from '../hooks';
+import { useDeleteEvent, useUpdateEvent } from '../hooks';
 import { googleCalendarUrl } from '../google-calendar';
 import { EVENT_CATEGORIES } from '../categories';
 import { listItemMotion } from '../../../lib/motion';
+import { StatusPill } from '../../../components/ui/status-pill';
 import { ConnectionsButton } from '../../integration/components/connections-button';
 
 const actionBtn =
@@ -18,6 +19,7 @@ interface Props {
 
 export function EventItem({ occurrence, onEdit }: Props) {
   const remove = useDeleteEvent();
+  const update = useUpdateEvent();
 
   const time = occurrence.allDay
     ? 'Dia inteiro'
@@ -59,6 +61,11 @@ export function EventItem({ occurrence, onEdit }: Props) {
           Entrar
         </a>
       )}
+
+      <StatusPill
+        status={occurrence.status}
+        onChange={(status) => update.mutate({ id: occurrence.eventId, input: { status } })}
+      />
 
       <div className="flex shrink-0 items-center gap-0.5">
         <a

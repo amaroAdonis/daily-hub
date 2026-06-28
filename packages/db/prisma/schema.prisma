@@ -59,6 +59,13 @@ enum EventCategory {
   OTHER
 }
 
+/// Status de progresso de um compromisso (mesmo eixo das tarefas, p/ o Kanban).
+enum EventStatus {
+  TODO
+  DOING
+  DONE
+}
+
 // ----------------------------------------------------------------------------
 //  Usuário (já modelado para multi-user na Fase 8)
 // ----------------------------------------------------------------------------
@@ -182,6 +189,7 @@ model Event {
   endsAt      DateTime
   allDay      Boolean       @default(false)
   category    EventCategory @default(OTHER)
+  status      EventStatus   @default(TODO)
   location    String?
   /// Link da reunião (ex.: Meet/Zoom) para "entrar na reunião". Nulo = sem link.
   meetingUrl  String?

@@ -10,6 +10,7 @@ import { useGoals } from '../../goals/hooks';
 import { useEventOccurrences } from '../../events/hooks';
 import { todayString } from '../dates';
 import { DayContacts } from './day-contacts';
+import { DayHolidays } from './day-holidays';
 
 /** Uma contagem do resumo do dia (ícone + valor + rótulo). */
 function Stat({
@@ -92,6 +93,8 @@ export function DayView({ day }: { day: string }) {
           label={goalCount === 1 ? 'meta ativa' : 'metas ativas'}
         />
       </div>
+
+      <DayHolidays day={day} />
 
       <motion.div
         key={day}

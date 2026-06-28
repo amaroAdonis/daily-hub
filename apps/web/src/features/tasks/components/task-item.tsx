@@ -3,6 +3,7 @@ import { Trash2 } from 'lucide-react';
 import type { Priority, TaskDto } from '@daily-hub/shared';
 import { useDeleteTask, useUpdateTask } from '../hooks';
 import { listItemMotion } from '../../../lib/motion';
+import { StatusPill } from '../../../components/ui/status-pill';
 import { ConnectionsButton } from '../../integration/components/connections-button';
 
 const PRIORITY: Record<Priority, { label: string; pill: string; dot: string }> = {
@@ -64,6 +65,11 @@ export function TaskItem({ task }: { task: TaskDto }) {
         <span className={`inline-block h-1.5 w-1.5 rounded-full ${priority.dot}`} aria-hidden />
         {priority.label}
       </span>
+
+      <StatusPill
+        status={task.status}
+        onChange={(status) => update.mutate({ id: task.id, input: { status } })}
+      />
 
       <div className="flex shrink-0 items-center gap-0.5">
         <ConnectionsButton type="TASK" id={task.id} title={task.title} className={actionBtn} />

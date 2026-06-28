@@ -9,6 +9,10 @@ export const isoDateTime = z.string().datetime({ offset: true });
 export const eventCategory = z.enum(['WORK', 'PERSONAL', 'HEALTH', 'SOCIAL', 'STUDY', 'OTHER']);
 export type EventCategory = z.infer<typeof eventCategory>;
 
+/** Status de progresso do compromisso (mesmo eixo das tarefas: A fazer/Em andamento/Concluído). */
+export const eventStatus = z.enum(['TODO', 'DOING', 'DONE']);
+export type EventStatus = z.infer<typeof eventStatus>;
+
 /**
  * Regra de recorrência (RFC 5545) sem o prefixo `RRULE:`. Nula = evento único.
  * Ex.: `FREQ=WEEKLY;BYDAY=MO`. A expansão em ocorrências é feita na API.
@@ -27,6 +31,7 @@ export const createEventSchema = z
     endsAt: isoDateTime,
     allDay: z.boolean().optional(),
     category: eventCategory.optional(),
+    status: eventStatus.optional(),
     location: z.string().trim().max(200).optional(),
     meetingUrl: z.string().trim().url('URL inválida').max(500).optional(),
     recurrence: recurrenceRule.optional(),
@@ -47,6 +52,7 @@ export const updateEventSchema = z
     endsAt: isoDateTime,
     allDay: z.boolean(),
     category: eventCategory,
+    status: eventStatus,
     location: z.string().trim().max(200).nullable(),
     meetingUrl: z.string().trim().url('URL inválida').max(500).nullable(),
     recurrence: recurrenceRule.nullable(),
@@ -73,6 +79,7 @@ export const eventDto = z.object({
   endsAt: z.string(),
   allDay: z.boolean(),
   category: eventCategory,
+  status: eventStatus,
   location: z.string().nullable(),
   meetingUrl: z.string().nullable(),
   recurrence: z.string().nullable(),
@@ -93,6 +100,7 @@ export const eventOccurrenceDto = z.object({
   location: z.string().nullable(),
   meetingUrl: z.string().nullable(),
   category: eventCategory,
+  status: eventStatus,
   allDay: z.boolean(),
   start: z.string(),
   end: z.string(),
