@@ -52,6 +52,8 @@ qualquer outro, dando um "painel de itens relacionados" uniforme.
   contraste AA.
 - Validação num único lugar (Zod), sem `class-validator`.
 
+Formalizados como requisitos transversais em [`nfr/NON_FUNCTIONAL.md`](nfr/NON_FUNCTIONAL.md) (`NFR-*`).
+
 ## Não-objetivos
 
 - Colaboração multiusuário em tempo real (compartilhamento, permissões).

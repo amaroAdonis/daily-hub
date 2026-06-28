@@ -20,6 +20,9 @@ out/
 # prisma
 packages/db/prisma/*.db
 
+# snapshot operacional local (docs-first) — nunca versionar
+docs/reports/CURRENT_STATE.md
+
 # editor / os
 .DS_Store
 .vscode/*

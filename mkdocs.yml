@@ -41,9 +41,10 @@ markdown_extensions:
 plugins:
   - search
 
-# A pasta-modelo é scaffold (placeholders e tokens <FEATURE>): fora do site.
+# Fora do site: a pasta-modelo (scaffold) e o snapshot operacional local.
 exclude_docs: |
   features/_template/
+  reports/CURRENT_STATE.md
 
 nav:
   - Início: index.md
@@ -55,7 +56,9 @@ nav:
   - Roadmap: ROADMAP.md
   - Backlog: BACKLOG.md
   - Convenções: conventions.md
+  - Requisitos não-funcionais: nfr/NON_FUNCTIONAL.md
   - Deploy: deploy.md
+  - Relatórios: reports/README.md
   - Design System:
       - Visão geral: design-system/index.md
       - Tokens: design-system/tokens.md

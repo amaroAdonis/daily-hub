@@ -1,0 +1,4 @@
+version: 2
+# Agente em uso neste repositório (delivery do método docs-first).
+profiles:
+  - claude

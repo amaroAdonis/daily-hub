@@ -47,6 +47,7 @@ A documentação segue um padrão fixo, descrito em
   requisitos `REQ-*` + critérios `AC-*`), `rules.md`, `flows.md` (Mermaid) e
   `notes.md`. Modelo em [`features/_template/`](features/_template/README.md).
 - **Design system** em `design-system/` (`index`, `tokens`, `components`).
+- **Requisitos transversais** em `nfr/NON_FUNCTIONAL.md` (`NFR-*`).
 - **Rastreabilidade** por IDs `REQ-<FEATURE>-NNN` / `AC-<FEATURE>-NNN`; decisões
   em `DECISIONS.md` (`D00N`). Convenção completa no `INDEX.md`.
 - O site é gerado com **MkDocs Material** (`mkdocs.yml` na raiz).

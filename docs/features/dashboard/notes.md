@@ -66,4 +66,4 @@ Zonas reaproveitadas de cada feature (CRUD inline):
   as contagens; o TanStack Query reaproveita o cache pela `queryKey`.
 - **Composição no cliente:** eventos e notas do mês são compostos no cliente; o
   `summary` (Fase 2) agrega só tarefas. Unificar no servidor é
-  [questão em aberto](README.md#questoes-em-aberto).
+  [questão em aberto](README.md).

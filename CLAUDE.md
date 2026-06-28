@@ -173,6 +173,22 @@ este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
   armadilhas em `docs/deploy.md`.
 - Plano completo das fases em `docs/ROADMAP.md`.
 
+## Mapa da documentação
+
+Antes de escrever ou atualizar docs, consulte o mapa em
+[`docs/index.md`](docs/index.md) para achar o lugar certo do conteúdo:
+
+- **Feature** → `docs/features/<feature>/` (README/rules/flows/notes).
+- **Decisão de arquitetura** → `docs/DECISIONS.md` (`D00N`).
+- **Requisito transversal** → `docs/nfr/NON_FUNCTIONAL.md` (`NFR-*`).
+- **Estratégia/fase** → `docs/ROADMAP.md`; **fila/prioridade** → `docs/BACKLOG.md`.
+- **Estado operacional da sessão** (branch, deploy, próxima ação) **nunca** vai em
+  ROADMAP/BACKLOG/DECISIONS; use o snapshot **local e gitignored**
+  `docs/reports/CURRENT_STATE.md` (não versionado; histórico fica no Git/PRs).
+  Quando o usuário perguntar "onde estamos / qual o próximo passo", consulte-o
+  primeiro (se existir).
+- Não invente docs de topo novos; se algo não tem lugar, proponha adicioná-lo ao mapa.
+
 ## Ao trabalhar
 
 - Rode `pnpm typecheck` e `pnpm test` após mudanças relevantes.
