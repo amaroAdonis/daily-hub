@@ -1,4 +1,5 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
+import { toast } from 'sonner';
 import { useAuth } from '../../../contexts/auth';
 import { Avatar } from '../../../components/ui/avatar';
 import { useUpdateProfile } from '../hooks';
@@ -23,25 +24,19 @@ export function SettingsPage() {
   const [name, setName] = useState(user?.name ?? '');
   const [occupation, setOccupation] = useState(user?.occupation ?? '');
   const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl ?? '');
-  const [error, setError] = useState<string | null>(null);
-  const [saved, setSaved] = useState(false);
 
   if (!user) return null;
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    setError(null);
-    setSaved(false);
     update.mutate(
       {
         name: name.trim(),
         occupation: occupation.trim() || null,
         avatarUrl: avatarUrl.trim() || null,
       },
-      {
-        onSuccess: () => setSaved(true),
-        onError: (err) => setError(err instanceof Error ? err.message : 'Não foi possível salvar.'),
-      },
+      // Erros são tratados pelo toaster global (MutationCache).
+      { onSuccess: () => toast.success('Perfil salvo.') },
     );
   }
 
@@ -90,17 +85,6 @@ export function SettingsPage() {
             placeholder="https://…"
           />
         </Field>
-
-        {error && (
-          <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger" role="alert">
-            {error}
-          </p>
-        )}
-        {saved && !error && (
-          <p className="rounded-lg bg-success/10 px-3 py-2 text-sm text-success" role="status">
-            Perfil salvo.
-          </p>
-        )}
 
         <div>
           <button

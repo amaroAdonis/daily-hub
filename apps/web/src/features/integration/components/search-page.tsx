@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { EntityPreview } from '@daily-hub/shared';
+import { SkeletonList } from '../../../components/ui/skeleton';
 import { ENTITY_LABEL } from '../entity-meta';
 import { useSearch, useTagItems, useTags } from '../hooks';
 import { useInspector } from '../inspector-context';
@@ -48,7 +49,7 @@ export function SearchPage() {
 
       {trimmed ? (
         <div className="mt-4 flex flex-col gap-2">
-          {isLoading && <p className="text-sm text-muted">Buscando…</p>}
+          {isLoading && <SkeletonList rows={4} />}
           {!isLoading && results?.length === 0 && (
             <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted">
               Nada encontrado para “{trimmed}”.

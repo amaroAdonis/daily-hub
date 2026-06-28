@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from '@daily-hub/shared';
 import { createTask, deleteTask, listTasks, updateTask } from './api';
 
@@ -19,7 +20,10 @@ export function useCreateTask() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateTaskInput) => createTask(input),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: taskKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: taskKeys.all });
+      toast.success('Tarefa criada.');
+    },
   });
 }
 
@@ -35,6 +39,9 @@ export function useDeleteTask() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteTask(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: taskKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: taskKeys.all });
+      toast.success('Tarefa excluída.');
+    },
   });
 }

@@ -1,17 +1,27 @@
 import type { ReactNode } from 'react';
+import {
+  CalendarRange,
+  LogOut,
+  Search,
+  StickyNote,
+  Sun,
+  Target,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 import { useAuth } from '../../contexts/auth';
 import { Avatar } from '../ui/avatar';
 
 /** Seções de topo navegáveis. */
 export type Section = 'search' | 'today' | 'agenda' | 'goals' | 'notes' | 'contacts' | 'settings';
 
-const NAV: { key: Section; label: string }[] = [
-  { key: 'search', label: 'Buscar' },
-  { key: 'today', label: 'Hoje' },
-  { key: 'agenda', label: 'Agenda' },
-  { key: 'goals', label: 'Metas' },
-  { key: 'notes', label: 'Notas' },
-  { key: 'contacts', label: 'Contatos' },
+const NAV: { key: Section; label: string; icon: LucideIcon }[] = [
+  { key: 'search', label: 'Buscar', icon: Search },
+  { key: 'today', label: 'Hoje', icon: Sun },
+  { key: 'agenda', label: 'Agenda', icon: CalendarRange },
+  { key: 'goals', label: 'Metas', icon: Target },
+  { key: 'notes', label: 'Notas', icon: StickyNote },
+  { key: 'contacts', label: 'Contatos', icon: Users },
 ];
 
 const SECTION_TITLE: Record<Section, string> = {
@@ -41,19 +51,23 @@ export function AppShell({ active, onNavigate, children }: Props) {
           Daily<span className="text-primary">Hub</span>
         </div>
         <nav className="mt-8 flex flex-col gap-1">
-          {NAV.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => onNavigate(item.key)}
-              className={`rounded-xl px-3 py-2 text-left text-sm transition-colors ${
-                item.key === active
-                  ? 'bg-primary/10 font-medium text-primary'
-                  : 'text-muted hover:bg-bg'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+          {NAV.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.key}
+                onClick={() => onNavigate(item.key)}
+                className={`flex items-center gap-3 rounded-xl px-3 py-2 text-left text-sm transition-colors ${
+                  item.key === active
+                    ? 'bg-primary/10 font-medium text-primary'
+                    : 'text-muted hover:bg-bg'
+                }`}
+              >
+                <Icon size={18} strokeWidth={2} aria-hidden="true" />
+                {item.label}
+              </button>
+            );
+          })}
         </nav>
 
         {user && (
@@ -76,8 +90,9 @@ export function AppShell({ active, onNavigate, children }: Props) {
             <button
               type="button"
               onClick={logout}
-              className="mt-1 w-full rounded-xl px-3 py-2 text-left text-sm text-muted transition-colors hover:bg-bg"
+              className="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-muted transition-colors hover:bg-bg"
             >
+              <LogOut size={18} strokeWidth={2} aria-hidden="true" />
               Sair
             </button>
           </div>

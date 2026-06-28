@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import type { CreateGoalInput, ListGoalsQuery, UpdateGoalInput } from '@daily-hub/shared';
 import { createGoal, deleteGoal, listGoals, updateGoal } from './api';
 
@@ -18,7 +19,10 @@ export function useCreateGoal() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateGoalInput) => createGoal(input),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: goalKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: goalKeys.all });
+      toast.success('Meta criada.');
+    },
   });
 }
 
@@ -34,6 +38,9 @@ export function useDeleteGoal() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteGoal(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: goalKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: goalKeys.all });
+      toast.success('Meta excluída.');
+    },
   });
 }

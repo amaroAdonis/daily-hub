@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { parseISO } from 'date-fns';
+import { toast } from 'sonner';
 import type {
   CreateEventInput,
   EventOccurrence,
@@ -48,7 +49,10 @@ export function useCreateEvent() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateEventInput) => createEvent(input),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: eventKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: eventKeys.all });
+      toast.success('Compromisso criado.');
+    },
   });
 }
 
@@ -64,6 +68,9 @@ export function useDeleteEvent() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteEvent(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: eventKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: eventKeys.all });
+      toast.success('Compromisso excluído.');
+    },
   });
 }

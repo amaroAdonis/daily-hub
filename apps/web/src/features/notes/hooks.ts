@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import type { CreateNoteInput, ListNotesQuery, UpdateNoteInput } from '@daily-hub/shared';
 import { createNote, deleteNote, listNotes, updateNote } from './api';
 
@@ -18,7 +19,10 @@ export function useCreateNote() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateNoteInput) => createNote(input),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: noteKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: noteKeys.all });
+      toast.success('Nota criada.');
+    },
   });
 }
 
@@ -34,6 +38,9 @@ export function useDeleteNote() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteNote(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: noteKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: noteKeys.all });
+      toast.success('Nota excluída.');
+    },
   });
 }

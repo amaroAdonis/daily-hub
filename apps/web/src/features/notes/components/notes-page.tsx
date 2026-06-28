@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Skeleton } from '../../../components/ui/skeleton';
 import { useNotes } from '../hooks';
 import { NoteCard } from './note-card';
 import { NoteForm } from './note-form';
@@ -52,7 +53,17 @@ export function NotesPage() {
         </div>
       )}
 
-      {isLoading && <p className="text-sm text-muted">Carregando…</p>}
+      {isLoading && (
+        <div
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+          role="status"
+          aria-label="Carregando"
+        >
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-32" />
+          ))}
+        </div>
+      )}
       {isError && (
         <p className="text-sm text-danger">
           Não foi possível carregar as notas. Suba a API e o Postgres.

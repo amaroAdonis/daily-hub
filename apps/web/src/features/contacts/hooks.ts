@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import type { CreateContactInput, ListContactsQuery, UpdateContactInput } from '@daily-hub/shared';
 import { createContact, deleteContact, listContacts, updateContact } from './api';
 
@@ -18,7 +19,10 @@ export function useCreateContact() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateContactInput) => createContact(input),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: contactKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: contactKeys.all });
+      toast.success('Contato adicionado.');
+    },
   });
 }
 
@@ -35,6 +39,9 @@ export function useDeleteContact() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteContact(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: contactKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: contactKeys.all });
+      toast.success('Contato excluído.');
+    },
   });
 }

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import type { CreateLinkInput, CreateTagInput, EntityRef, TaggingInput } from '@daily-hub/shared';
 import {
   applyTag,
@@ -79,6 +80,7 @@ export function useApplyTag(ref: EntityRef) {
     onSuccess: (tags) => {
       queryClient.setQueryData(integrationKeys.entityTags(ref), tags);
       queryClient.invalidateQueries({ queryKey: integrationKeys.tags });
+      toast.success('Tag aplicada.');
     },
   });
 }
@@ -90,6 +92,7 @@ export function useUnapplyTag(ref: EntityRef) {
     onSuccess: (tags) => {
       queryClient.setQueryData(integrationKeys.entityTags(ref), tags);
       queryClient.invalidateQueries({ queryKey: integrationKeys.tags });
+      toast.success('Tag removida.');
     },
   });
 }
@@ -98,7 +101,10 @@ export function useCreateLink(ref: EntityRef) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateLinkInput) => createLink(input),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: integrationKeys.related(ref) }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: integrationKeys.related(ref) });
+      toast.success('Vínculo criado.');
+    },
   });
 }
 
@@ -106,6 +112,9 @@ export function useRemoveLink(ref: EntityRef) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (linkId: string) => deleteLink(linkId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: integrationKeys.related(ref) }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: integrationKeys.related(ref) });
+      toast.success('Vínculo removido.');
+    },
   });
 }

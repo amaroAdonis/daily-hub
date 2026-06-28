@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { GoalStatus } from '@daily-hub/shared';
+import { SkeletonList } from '../../../components/ui/skeleton';
 import { useGoals } from '../hooks';
 import { STATUS_OPTIONS } from '../labels';
 import { GoalCard } from './goal-card';
@@ -56,7 +57,7 @@ export function GoalsPage() {
         </div>
       )}
 
-      {isLoading && <p className="text-sm text-muted">Carregando…</p>}
+      {isLoading && <SkeletonList rows={4} />}
       {isError && (
         <p className="text-sm text-danger">
           Não foi possível carregar as metas. Suba a API e o Postgres.

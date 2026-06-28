@@ -1,3 +1,4 @@
+import { SkeletonList } from '../../../components/ui/skeleton';
 import { useTasks } from '../hooks';
 import { TaskComposer } from './task-composer';
 import { TaskItem } from './task-item';
@@ -26,7 +27,7 @@ export function DayTasks({ date }: { date: string }) {
       <TaskComposer date={date} />
 
       <div className="mt-4">
-        {isLoading && <p className="text-sm text-muted">Carregando…</p>}
+        {isLoading && <SkeletonList rows={4} />}
         {isError && (
           <p className="text-sm text-danger">
             Não foi possível carregar as tarefas. Suba a API e o Postgres.

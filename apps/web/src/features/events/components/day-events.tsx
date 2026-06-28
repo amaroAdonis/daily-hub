@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { SkeletonList } from '../../../components/ui/skeleton';
 import { useEvent, useEventOccurrences } from '../hooks';
 import { EventForm } from './event-form';
 import { EventItem } from './event-item';
@@ -45,7 +46,7 @@ export function DayEvents({ date }: { date: string }) {
       )}
 
       <div className="mt-3">
-        {isLoading && <p className="text-sm text-muted">Carregando…</p>}
+        {isLoading && <SkeletonList rows={3} />}
         {isError && (
           <p className="text-sm text-danger">
             Não foi possível carregar os compromissos. Suba a API e o Postgres.
