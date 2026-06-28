@@ -93,8 +93,9 @@ Web e API são organizados **por feature** e se espelham.
 
 Direção visual "luz do dia, foco calmo". Tokens (cores e tipografia) em
 `apps/web/src/styles/index.css` e `apps/web/tailwind.config.ts`, documentados em
-`docs/design-system.md`. O âmbar (`accent`) é reservado para destacar o dia
-atual. Evitar clichês de UI gerada por IA.
+`docs/design-system.md`. As cores vêm da **logo** (`apps/web/public/dailyhub-logo.png`):
+teal `#18646f` ("Daily") como `primary` e coral `#e8895a` ("Hub") como `accent`,
+este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
 
 ## Estado atual
 

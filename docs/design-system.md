@@ -18,13 +18,14 @@ Tailwind em `tailwind.config.ts`.
 | `ink`     | `#1a1c23` | Texto principal                         |
 | `muted`   | `#6e7280` | Texto secundário                        |
 | `border`  | `#e6e8ee` | Bordas e divisórias                     |
-| `primary` | `#0e7490` | Ação principal (teal/petróleo)          |
-| `accent`  | `#e0a33e` | **Reservado** para destacar o dia atual |
+| `primary` | `#18646f` | Ação principal (teal/petróleo da logo)  |
+| `accent`  | `#e8895a` | **Reservado** para destacar o dia atual |
 | `success` | `#15803d` | Estados positivos                       |
 | `danger`  | `#dc2626` | Erros e ações destrutivas               |
 
-Regra: o âmbar (`accent`) é o "gasto de ousadia" — usado só para o hoje/destaque,
-nunca como cor geral.
+As cores derivam da **logo**: o teal de "Daily" é a primária; o coral de "Hub" é
+o `accent`. Regra: o coral (`accent`) é o "gasto de ousadia" — usado só para o
+hoje/destaque, nunca como cor geral.
 
 ## Tipografia
 

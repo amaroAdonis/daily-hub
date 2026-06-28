@@ -53,10 +53,14 @@ export function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-bg px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <div className="font-display text-3xl font-semibold tracking-tight">
-            Daily<span className="text-primary">Hub</span>
-          </div>
-          <p className="mt-2 text-sm text-muted">Sua agenda pessoal, centrada no dia.</p>
+          <img
+            src="/dailyhub-logo.png"
+            alt="DailyHub"
+            className="mx-auto h-14 w-auto"
+            width={900}
+            height={263}
+          />
+          <p className="mt-3 text-sm text-muted">Sua agenda pessoal, centrada no dia.</p>
         </div>
 
         <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">

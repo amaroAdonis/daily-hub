@@ -5,8 +5,8 @@
 /*
   Tokens de design — Daily Hub
   Direção: "luz do dia, foco calmo". Paleta clara e fria (não cream),
-  primária petróleo/teal e um âmbar reservado para destacar o "hoje".
-  Documentado em /docs/design-system.md.
+  derivada da logo: petróleo/teal ("Daily") como primária e o coral ("Hub")
+  reservado para destacar o "hoje". Documentado em /docs/design-system.md.
 */
 :root {
   --color-bg: #fbfbfd;
@@ -14,8 +14,8 @@
   --color-ink: #1a1c23;
   --color-muted: #6e7280;
   --color-border: #e6e8ee;
-  --color-primary: #0e7490; /* teal/petróleo */
-  --color-accent: #e0a33e; /* âmbar: reservado para o dia atual */
+  --color-primary: #18646f; /* teal/petróleo da logo ("Daily") */
+  --color-accent: #e8895a; /* coral da logo ("Hub"): reservado para o dia atual */
   --color-success: #15803d;
   --color-danger: #dc2626;
 }

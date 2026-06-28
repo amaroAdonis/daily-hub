@@ -50,9 +50,8 @@ export function AppShell({ active, onNavigate, children }: Props) {
   return (
     <div className="grid min-h-full grid-cols-[15rem_1fr]">
       <aside className="flex flex-col border-r border-border bg-surface px-5 py-6">
-        <div className="font-display text-xl font-semibold tracking-tight">
-          Daily<span className="text-primary">Hub</span>
-        </div>
+        <img src="/dailyhub-logo.png" alt="DailyHub" className="h-8 w-auto self-start" />
+
         <nav className="mt-8 flex flex-col gap-1">
           {NAV.map((item) => {
             const Icon = item.icon;
