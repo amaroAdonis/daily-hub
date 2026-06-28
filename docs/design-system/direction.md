@@ -2,10 +2,10 @@
 
 Pesquisa de tendências atuais (2025–2026) **avaliada e filtrada** para o Daily
 Hub. Objetivo: modernizar e "embelezar" sem trair a direção
-[**"luz do dia, foco calmo"**](design-system.md) — e sem cair em clichês.
+[**"luz do dia, foco calmo"**](index.md) — e sem cair em clichês.
 
-> Companheiro do [`ux-backlog.md`](ux-backlog.md) (execução priorizada) e do
-> [`design-system.md`](design-system.md) (tokens). Pesquisado em 2026-06-28;
+> Companheiro do [`BACKLOG.md`](../BACKLOG.md) (execução priorizada) e do
+> [`index.md`](index.md) (tokens). Pesquisado em 2026-06-28;
 > fontes ao final.
 
 ## Leitura crítica: adotar, adaptar, evitar

@@ -54,5 +54,5 @@ uma grade onde cada célula **conta** o que há no dia.
 
 Amie (blocos quentes, microinterações) · Sunsama/Things (planejar o dia, check
 satisfatório) · Notion Calendar/Cron (densidade limpa) · Fantastical (pílulas) ·
-Linear (disciplina de cor, ⌘K, consistência). Base em [`ui-direction.md`](ui-direction.md)
-e [`ux-backlog.md`](ux-backlog.md).
+Linear (disciplina de cor, ⌘K, consistência). Base em [`direction.md`](direction.md)
+e [`BACKLOG.md`](../BACKLOG.md).
