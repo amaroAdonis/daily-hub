@@ -85,19 +85,39 @@ export function MonthView({ reference, onSelectDay }: Props) {
               key={key}
               type="button"
               onClick={() => onSelectDay(key)}
-              className={`flex flex-col gap-1 p-2 text-left transition-colors hover:bg-bg ${
+              className={`flex flex-col gap-0.5 p-1 text-left transition-colors hover:bg-bg sm:gap-1 sm:p-2 ${
                 isWeekend ? 'bg-bg/50' : 'bg-surface'
               } ${inMonth ? '' : 'text-muted/50'}`}
             >
               <span
-                className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-sm ${
+                className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs sm:text-sm ${
                   isToday ? 'bg-accent font-semibold text-surface' : ''
                 }`}
               >
                 {day.getDate()}
               </span>
 
-              <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-hidden">
+              {/* Mobile: bolinhas indicadoras (feriado / eventos / tarefas / notas). */}
+              <div className="flex flex-wrap items-center gap-1 sm:hidden">
+                {(holidaysByDay.get(key) ?? []).length > 0 && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+                )}
+                {events.slice(0, 4).map((occ) => (
+                  <span
+                    key={`${occ.eventId}-${occ.start}`}
+                    className={`h-1.5 w-1.5 rounded-full ${EVENT_CATEGORIES[occ.category].dot}`}
+                    aria-hidden
+                  />
+                ))}
+                {pendingTasks > 0 && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-muted" aria-hidden />
+                )}
+                {noteCount > 0 && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent/70" aria-hidden />
+                )}
+              </div>
+
+              <div className="hidden min-h-0 flex-1 flex-col gap-1 overflow-hidden sm:flex">
                 {(holidaysByDay.get(key) ?? []).map((holiday) => (
                   <span
                     key={`${holiday.country}-${holiday.name}`}

@@ -59,3 +59,21 @@ Três níveis sutis e frios, alinhados a "foco calmo" (em `tailwind.config.ts`):
   itens de lista com `framer-motion`, dentro de `<AnimatePresence>`.
 - Tudo sob `<MotionConfig reducedMotion="user">` — respeita
   `prefers-reduced-motion`.
+
+## Responsividade (mobile-first)
+
+Breakpoints padrão do Tailwind (`sm` 640 · `md` 768 · `lg` 1024 · `xl` 1280).
+Diretrizes:
+
+- **Mobile-first:** estilos base servem o telefone; refinamentos vêm com
+  `sm:`/`lg:`. Espaçamento de página: `px-4 py-4 sm:px-6 lg:px-8 lg:py-6`.
+- **Shell:** a barra lateral é fixa e recolhível (empurra o conteúdo) **a partir
+  de `lg`**; **abaixo de `lg`** ela vira um **drawer flutuante** (overlay com
+  backdrop, abre pelo hambúrguer do cabeçalho), reusando o padrão do
+  `EntityInspector`.
+- **Calendário (mês):** abaixo de `sm`, as células mostram só o número do dia +
+  **bolinhas indicadoras**; em `sm+`, as pílulas de evento/resumo.
+- **Touch:** o Kanban usa `TouchSensor` (`@dnd-kit`) para arrastar no toque sem
+  travar o scroll; cards com `touch-none`.
+- **Anti-zoom iOS:** campos têm `font-size: 16px` em telas ≤ 640px
+  (`styles/index.css`), evitando o zoom automático do Safari ao focar.
