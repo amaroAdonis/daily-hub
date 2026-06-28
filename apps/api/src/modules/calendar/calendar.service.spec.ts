@@ -5,7 +5,11 @@ import type { PrismaService } from '../../prisma/prisma.service';
 
 function makePrisma() {
   return {
-    task: { groupBy: vi.fn() },
+    task: { groupBy: vi.fn(), findMany: vi.fn() },
+    note: { findMany: vi.fn() },
+    event: { findMany: vi.fn() },
+    entityLink: { findMany: vi.fn() },
+    contact: { findMany: vi.fn() },
   };
 }
 
@@ -52,5 +56,64 @@ describe('CalendarService', () => {
     const result = await service.summary('user-1', { from: '2026-06-01', to: '2026-06-07' });
 
     expect(result).toEqual([]);
+  });
+
+  describe('dayContacts', () => {
+    function mockNoActivities() {
+      prisma.task.findMany.mockResolvedValue([]);
+      prisma.note.findMany.mockResolvedValue([]);
+      // event.findMany é chamado 2x (únicos e recorrentes).
+      prisma.event.findMany.mockResolvedValue([]);
+    }
+
+    it('reúne os contatos vinculados às atividades do dia', async () => {
+      prisma.task.findMany.mockResolvedValue([{ id: 'task-1' }]);
+      prisma.note.findMany.mockResolvedValue([]);
+      prisma.event.findMany.mockResolvedValue([]);
+      prisma.entityLink.findMany.mockResolvedValue([
+        { sourceType: 'CONTACT', sourceId: 'contact-1', targetType: 'TASK', targetId: 'task-1' },
+      ]);
+      prisma.contact.findMany.mockResolvedValue([
+        { id: 'contact-1', name: 'Mentora', company: 'Acme', email: 'm@ex.dev' },
+      ]);
+
+      const result = await service.dayContacts('user-1', { date: '2026-06-28' });
+
+      expect(result.date).toBe('2026-06-28');
+      expect(result.contacts).toEqual([
+        { id: 'contact-1', name: 'Mentora', company: 'Acme', email: 'm@ex.dev' },
+      ]);
+      expect(prisma.contact.findMany).toHaveBeenCalledWith({
+        where: { id: { in: ['contact-1'] }, userId: 'user-1' },
+        orderBy: { name: 'asc' },
+      });
+    });
+
+    it('deduplica o contato vinculado a mais de uma atividade do dia', async () => {
+      prisma.task.findMany.mockResolvedValue([{ id: 'task-1' }]);
+      prisma.note.findMany.mockResolvedValue([{ id: 'note-1' }]);
+      prisma.event.findMany.mockResolvedValue([]);
+      prisma.entityLink.findMany.mockResolvedValue([
+        { sourceType: 'CONTACT', sourceId: 'contact-1', targetType: 'TASK', targetId: 'task-1' },
+        { sourceType: 'NOTE', sourceId: 'note-1', targetType: 'CONTACT', targetId: 'contact-1' },
+      ]);
+      prisma.contact.findMany.mockResolvedValue([
+        { id: 'contact-1', name: 'Mentora', company: null, email: null },
+      ]);
+
+      const result = await service.dayContacts('user-1', { date: '2026-06-28' });
+
+      expect(prisma.contact.findMany.mock.calls[0]![0].where.id.in).toEqual(['contact-1']);
+      expect(result.contacts).toHaveLength(1);
+    });
+
+    it('retorna vazio quando o dia não tem atividades', async () => {
+      mockNoActivities();
+
+      const result = await service.dayContacts('user-1', { date: '2026-06-28' });
+
+      expect(result).toEqual({ date: '2026-06-28', contacts: [] });
+      expect(prisma.entityLink.findMany).not.toHaveBeenCalled();
+    });
   });
 });

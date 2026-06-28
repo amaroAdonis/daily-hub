@@ -21,8 +21,10 @@ async function main() {
     },
   });
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // Meia-noite UTC do dia corrente — campos `@db.Date` trafegam em UTC
+  // (mesma convenção dos services), evitando off-by-one por fuso.
+  const now = new Date();
+  const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
 
   // Uma meta, uma sub-meta e tarefas vinculadas.
   const goal = await prisma.goal.create({

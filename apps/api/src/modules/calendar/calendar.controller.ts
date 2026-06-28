@@ -1,6 +1,11 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { calendarRangeQuery, type CalendarRangeQuery } from '@daily-hub/shared';
+import {
+  calendarRangeQuery,
+  dayDetailQuery,
+  type CalendarRangeQuery,
+  type DayDetailQuery,
+} from '@daily-hub/shared';
 import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import { CalendarService } from './calendar.service';
@@ -17,5 +22,14 @@ export class CalendarController {
     @Query(new ZodValidationPipe(calendarRangeQuery)) range: CalendarRangeQuery,
   ) {
     return this.calendar.summary(userId, range);
+  }
+
+  /** Detalhe agregado de um dia (dashboard): contatos vinculados às atividades. */
+  @Get('day')
+  day(
+    @CurrentUser('id') userId: string,
+    @Query(new ZodValidationPipe(dayDetailQuery)) query: DayDetailQuery,
+  ) {
+    return this.calendar.dayContacts(userId, query);
   }
 }

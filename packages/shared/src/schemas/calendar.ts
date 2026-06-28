@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { id } from './common';
 import { dayString } from './tasks';
 
 /**
@@ -26,3 +27,25 @@ export const daySummaryDto = z.object({
   done: z.number().int(),
 });
 export type DaySummary = z.infer<typeof daySummaryDto>;
+
+/** Consulta o detalhe agregado de um único dia (dashboard). */
+export const dayDetailQuery = z.object({
+  date: dayString,
+});
+export type DayDetailQuery = z.infer<typeof dayDetailQuery>;
+
+/** Contato vinculado (via EntityLink) a alguma atividade do dia. */
+export const dayContactDto = z.object({
+  id: id,
+  name: z.string(),
+  company: z.string().nullable(),
+  email: z.string().nullable(),
+});
+export type DayContact = z.infer<typeof dayContactDto>;
+
+/** Agregação do dia para o dashboard. Hoje reúne as pessoas vinculadas. */
+export const dayDetailDto = z.object({
+  date: dayString,
+  contacts: z.array(dayContactDto),
+});
+export type DayDetail = z.infer<typeof dayDetailDto>;
