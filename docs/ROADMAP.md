@@ -147,16 +147,20 @@ Calendário do mês como visão inicial; clicar num dia abre um dashboard rico.
 (resumo escaneável + compromissos/tarefas/notas com CRUD inline + "Pessoas do
 dia"). O mês indica tarefas, compromissos e notas.
 
-## 🔜 Fase 10 — Anexos
+## ✅ Fase 10 — Anexos
 
 Documentos e imagens em notas, compromissos e tarefas.
 
-- [ ] MinIO no `docker-compose` (R2/S3 em produção)
-- [ ] Modelo `Attachment` **polimórfico** (`entityType` + `entityId`)
-- [ ] Upload por URL assinada (web → storage direto; API registra metadados)
-- [ ] UI de anexar/visualizar nos itens e no dashboard
+- [x] MinIO no `docker-compose` (R2/S3 em produção)
+- [x] Modelo `Attachment` **polimórfico** (`entityType` + `entityId`)
+- [x] Upload por URL assinada (web → storage direto; API registra metadados)
+- [x] UI de anexar/visualizar nos itens e no dashboard (seção no Inspetor)
 
-## ⬜ Fase 11 — Integrações externas (leves)
+**Entregue:** anexos S3-compatíveis (MinIO) em tarefas, compromissos e notas,
+com upload/download por URL assinada e UI no Inspetor. Detalhes em
+[`docs/features/attachments.md`](features/attachments.md).
+
+## 🔜 Fase 11 — Integrações externas (leves)
 
 - [ ] `Event.meetingUrl` + botão "entrar na reunião"
 - [ ] Link "adicionar ao Google Agenda" (via URL, sem OAuth)

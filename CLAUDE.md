@@ -44,8 +44,12 @@ pnpm db:seed      # popula dados de exemplo
 pnpm db:studio    # abre o Prisma Studio
 ```
 
-O Postgres local sobe com `docker compose up -d` (porta 5432; ambiente via
-Colima). O `.env` fica na **raiz** (criado a partir de `.env.example`).
+O Postgres e o **MinIO** (storage S3-compatível dos anexos) sobem com
+`docker compose up -d` (Postgres 5432; MinIO 9000 API / 9001 console; ambiente
+via Colima). O `.env` fica na **raiz** (criado a partir de `.env.example`); as
+chaves `STORAGE_*` apontam para o MinIO local. O bucket é criado no boot da API
+(`StorageService.ensureBucket`). Anexos sobem por **URL assinada** (web → MinIO
+direto); a API só valida e registra metadados.
 
 ## Padrão por feature (replicar sempre)
 
@@ -133,7 +137,13 @@ atual. Evitar clichês de UI gerada por IA.
   num dia abre o dashboard (`DayView`): resumo escaneável + eventos/tarefas/notas
   com CRUD inline + "Pessoas do dia" (contatos vinculados via `GET /calendar/day`,
   agregados por `EntityLink`). O mês indica tarefas, compromissos e notas.
-- **Próxima a construir: Fase 10 — Anexos.**
+- **Fase 10 (Anexos): concluída.** Storage S3-compatível (MinIO no compose),
+  `StorageService` (presign PUT/GET, ensureBucket, HeadObject) e modelo
+  `Attachment` polimórfico. `AttachmentsModule` faz upload por URL assinada
+  (presign → PUT direto ao storage → registrar, confirmando com HeadObject),
+  reusando o `EntityResolverService`. Na web, seção "Anexos" no Inspetor para
+  tarefas/compromissos/notas.
+- **Próxima a construir: Fase 11 — Integrações externas (leves).**
 - Plano completo das fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar
