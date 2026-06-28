@@ -1,6 +1,8 @@
 import { format, parseISO } from 'date-fns';
+import { CalendarPlus, Video } from 'lucide-react';
 import type { EventOccurrence } from '@daily-hub/shared';
 import { useDeleteEvent } from '../hooks';
+import { googleCalendarUrl } from '../google-calendar';
 import { ConnectionsButton } from '../../integration/components/connections-button';
 
 interface Props {
@@ -33,7 +35,30 @@ export function EventItem({ occurrence, onEdit }: Props) {
         )}
       </div>
 
+      {occurrence.meetingUrl && (
+        <a
+          href={occurrence.meetingUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Entrar na reunião"
+          className="inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10"
+        >
+          <Video size={14} strokeWidth={2} aria-hidden="true" />
+          Entrar
+        </a>
+      )}
+
       <div className="flex items-center gap-1 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+        <a
+          href={googleCalendarUrl(occurrence)}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Adicionar ao Google Agenda"
+          title="Adicionar ao Google Agenda"
+          className="rounded-md px-2 py-1 text-muted hover:text-primary"
+        >
+          <CalendarPlus size={14} strokeWidth={2} aria-hidden="true" />
+        </a>
         <button
           type="button"
           onClick={() => onEdit(occurrence.eventId)}

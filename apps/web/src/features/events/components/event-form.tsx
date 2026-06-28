@@ -39,6 +39,7 @@ export function EventForm({ defaultDate, event, onClose }: Props) {
   const [startTime, setStartTime] = useState(start ? format(start, 'HH:mm') : '09:00');
   const [endTime, setEndTime] = useState(end ? format(end, 'HH:mm') : '10:00');
   const [location, setLocation] = useState(event?.location ?? '');
+  const [meetingUrl, setMeetingUrl] = useState(event?.meetingUrl ?? '');
   const [recurrence, setRecurrence] = useState<RecurrencePreset>(
     ruleToPreset(event?.recurrence ?? null),
   );
@@ -61,6 +62,7 @@ export function EventForm({ defaultDate, event, onClose }: Props) {
       endsAt: allDay ? toIso(day, '23:59') : toIso(day, endTime),
       allDay,
       location: location.trim() || undefined,
+      meetingUrl: meetingUrl.trim() || undefined,
       recurrence: presetToRule(recurrence) ?? undefined,
       reminderMin: reminder ? Number(reminder) : undefined,
     };
@@ -127,6 +129,15 @@ export function EventForm({ defaultDate, event, onClose }: Props) {
         onChange={(e) => setLocation(e.target.value)}
         placeholder="Local (opcional)"
         aria-label="Local"
+        className={field}
+      />
+
+      <input
+        type="url"
+        value={meetingUrl}
+        onChange={(e) => setMeetingUrl(e.target.value)}
+        placeholder="Link da reunião (opcional)"
+        aria-label="Link da reunião"
         className={field}
       />
 
