@@ -23,9 +23,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = config.get<number>('API_PORT', 3333);
-  await app.listen(port);
-  console.log(`Daily Hub API em http://localhost:${port}/api (docs em /api/docs)`);
+  // Railway (e a maioria das PaaS) injeta `PORT`; localmente usamos API_PORT.
+  const port = config.get<number>('PORT') ?? config.get<number>('API_PORT', 3333);
+  await app.listen(port, '0.0.0.0');
+  console.log(`Daily Hub API ouvindo na porta ${port} (prefixo /api, docs em /api/docs)`);
 }
 
 void bootstrap();

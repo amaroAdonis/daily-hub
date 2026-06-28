@@ -28,13 +28,36 @@ Um **projeto** no Railway com os serviços abaixo; o **storage** fica na Cloudfl
 
 ## A preparar no repositório
 
-- [ ] **Dockerfile da API** (multi-stage: instala o workspace, `nest build`,
-      imagem final enxuta; `migrate deploy` no start).
-- [ ] **Dockerfile da web** (build `vite build` → estáticos servidos por `serve`/Caddy).
-- [ ] **`.dockerignore`** (não copiar `node_modules`, `dist`, `.env`).
-- [ ] **Seed de demonstração** (já idempotente; revisar dados de vitrine).
-- [ ] **README voltado a recrutadores** + screenshots + link da demo.
-- [ ] Conferir `prisma migrate deploy` como passo de release.
+- [x] **Dockerfile da API** (`apps/api/Dockerfile`, multi-stage, Node 22; roda
+      `migrate:deploy:ci` e `node apps/api/dist/main.js` no start). Validado com
+      `docker build` + boot local.
+- [x] **Dockerfile da web** (`apps/web/Dockerfile`, build do Vite com `VITE_API_URL`
+      via `ARG`; estáticos servidos por `serve -s`). Validado localmente.
+- [x] **`.dockerignore`** (exclui `node_modules`, `dist`, `.git`, `.env`…).
+- [x] **API ouve em `PORT`** (injetada pela PaaS) e em `0.0.0.0`; healthcheck
+      público em `GET /api/health`.
+- [x] **`migrate deploy` no start** via script `migrate:deploy:ci` (sem
+      `dotenv-cli`; usa a `DATABASE_URL` do ambiente).
+- [x] **README voltado a recrutadores** (bilíngue) + logo + badges.
+- [ ] **Seed de demonstração** (idempotente; revisar dados de vitrine antes de
+      rodar contra produção).
+- [ ] **Screenshots/GIF e link da demo** no README (após o deploy no ar).
+
+### Como cada serviço é construído no Railway
+
+| Serviço | Builder    | Dockerfile Path       | Build context |
+| ------- | ---------- | --------------------- | ------------- |
+| API     | Dockerfile | `apps/api/Dockerfile` | raiz do repo  |
+| Web     | Dockerfile | `apps/web/Dockerfile` | raiz do repo  |
+
+### Ordem de deploy (por causa da `VITE_API_URL`)
+
+O Vite **congela** a `VITE_API_URL` em build-time, então a ordem importa:
+
+1. Sobe a **API** primeiro e gera o domínio público dela (`Generate Domain`).
+2. No serviço **web**, define `VITE_API_URL` = URL pública da API e faz o build.
+3. Na **API**, ajusta `API_CORS_ORIGIN` = URL pública da web e redeploy.
+4. (Opcional) roda o seed uma vez contra o banco de produção.
 
 ## Variáveis de ambiente (local → produção)
 
@@ -49,15 +72,17 @@ Um **projeto** no Railway com os serviços abaixo; o **storage** fica na Cloudfl
 
 ## Checklist do Railway (passo a passo, na hora da execução)
 
-1. Criar projeto e conectar o repositório do GitHub.
-2. Adicionar **Postgres** (gerenciado) → copiar a `DATABASE_URL`.
-3. Criar o bucket no **Cloudflare R2** → obter endpoint + access/secret keys.
-4. Criar o serviço **API** (Dockerfile), setar as env vars, garantir o
-   `migrate deploy` no start.
-5. Criar o serviço **Web** (Dockerfile), com `VITE_API_URL` = URL pública da API.
-6. Ajustar `API_CORS_ORIGIN` para a URL pública da web.
-7. (Opcional) rodar o seed de demonstração uma vez contra o banco de produção.
-8. Conferir domínios/healthcheck e validar o fluxo ponta a ponta.
+1. **Cloudflare R2:** criar o bucket → obter endpoint, access key e secret key.
+2. **Railway:** criar projeto e conectar o repositório do GitHub.
+3. Adicionar **Postgres** (gerenciado) ao projeto — injeta `DATABASE_URL`.
+4. Criar o serviço **API** a partir do repo: _Settings → Build → Dockerfile Path_
+   = `apps/api/Dockerfile`. Variáveis: `API_JWT_SECRET` (forte), `API_JWT_EXPIRES_IN`,
+   `STORAGE_*` (do R2), `DATABASE_URL` (referência ao Postgres). `Generate Domain`.
+5. Criar o serviço **Web**: _Dockerfile Path_ = `apps/web/Dockerfile`. Definir
+   `VITE_API_URL` = URL pública da API (é lida como **build arg**). `Generate Domain`.
+6. Ajustar `API_CORS_ORIGIN` (na API) = URL pública da web → redeploy da API.
+7. (Opcional) rodar o seed uma vez: `railway run --service API pnpm db:seed`.
+8. Validar: `GET <api>/api/health` responde; a web carrega e o login funciona.
 
 ## Custo
 

@@ -1,0 +1,16 @@
+# Contexto de build enxuto — dependências e artefatos são gerados na imagem.
+**/node_modules
+**/dist
+**/.turbo
+.git
+.github
+.husky
+docs
+site
+*.md
+!README.md
+.env
+.env.*
+!.env.example
+.vscode
+.idea
