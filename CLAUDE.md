@@ -144,7 +144,11 @@ este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
   (presign → PUT direto ao storage → registrar, confirmando com HeadObject),
   reusando o `EntityResolverService`. Na web, seção "Anexos" no Inspetor para
   tarefas/compromissos/notas.
-- **Próxima a construir: Fase 11 — Integrações externas (leves).**
+- **Fase 11 (Integrações externas leves): concluída.** `Event.meetingUrl` com
+  botão "Entrar" no compromisso e link "adicionar ao Google Agenda" (URL-template
+  do Google Calendar, gerada no cliente em `features/events/google-calendar.ts`),
+  sem OAuth. Sync real do Google fica para uma fase futura.
+- **Próxima a construir: Fase 12 — Deploy e vitrine.**
 - Plano completo das fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

@@ -15,11 +15,13 @@ Entidade `Event` em [`schema.prisma`](../../packages/db/prisma/schema.prisma):
 - `title`, `description?`
 - `startsAt` / `endsAt` (instantes; `endsAt ≥ startsAt`)
 - `allDay`, `location?`
+- `meetingUrl?` — link da reunião para "entrar na reunião" (Fase 11).
 - `recurrence?` — regra **RRULE** (RFC 5545) sem o prefixo `RRULE:`. Nula =
   evento único.
 - `reminderMin?` — minutos antes do início para lembrete.
 
-Modelo já existente desde a Fase 0; a Fase 3 não exigiu migração.
+Modelo da Fase 0; a Fase 3 não exigiu migração. A Fase 11 adicionou `meetingUrl`
+(migração `add_event_meeting_url`).
 
 ## Contrato da API
 
@@ -62,6 +64,14 @@ Integração no calendário (`features/calendar`):
 - **Dia:** `DayEvents` acima das tarefas.
 - **Semana:** compromissos do dia em cada coluna.
 - **Mês:** indicador de quantidade de compromissos por célula.
+
+### Integrações externas leves (Fase 11)
+
+- **Entrar na reunião:** quando o evento tem `meetingUrl`, o `EventItem` mostra um
+  botão "Entrar" que abre o link em nova aba.
+- **Adicionar ao Google Agenda:** `google-calendar.ts` monta a URL-template do
+  Google Calendar para a ocorrência (datas em UTC; dia inteiro com fim exclusivo;
+  `meetingUrl` nos detalhes) — sem OAuth. Sync real do Google fica para o futuro.
 
 ## Critérios de aceite
 

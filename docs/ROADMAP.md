@@ -160,13 +160,16 @@ Documentos e imagens em notas, compromissos e tarefas.
 com upload/download por URL assinada e UI no Inspetor. Detalhes em
 [`docs/features/attachments.md`](features/attachments.md).
 
-## 🔜 Fase 11 — Integrações externas (leves)
+## ✅ Fase 11 — Integrações externas (leves)
 
-- [ ] `Event.meetingUrl` + botão "entrar na reunião"
-- [ ] Link "adicionar ao Google Agenda" (via URL, sem OAuth)
+- [x] `Event.meetingUrl` + botão "entrar na reunião"
+- [x] Link "adicionar ao Google Agenda" (via URL, sem OAuth)
 - [ ] (Futuro) OAuth + sync real do Google Calendar — fase própria, se quisermos
 
-## ⬜ Fase 12 — Deploy e vitrine
+**Entregue:** compromissos com link de reunião ("Entrar") e exportação para o
+Google Agenda por URL-template, sem OAuth.
+
+## 🔜 Fase 12 — Deploy e vitrine
 
 Deploy (web + api + Postgres + storage gerenciados), seed de demonstração,
 screenshots, README voltado a recrutadores e link de demo ao vivo. Inclui o
