@@ -148,7 +148,17 @@ este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
   botão "Entrar" no compromisso e link "adicionar ao Google Agenda" (URL-template
   do Google Calendar, gerada no cliente em `features/events/google-calendar.ts`),
   sem OAuth. Sync real do Google fica para uma fase futura.
-- **Próxima a construir: Fase 12 — Deploy e vitrine.**
+- **Frente de UI/UX + produto (pré-deploy, em andamento na branch
+  `feat/ui-redesign`):** identidade da logo aplicada; redesenho do dashboard do
+  dia (agenda por períodos, largura cheia, metas) e do calendário (altura/células
+  ricas); sidebar recolhível; categorias de evento com cor; **status comum**
+  (A fazer/Em andamento/Concluído) em tarefas, compromissos e metas (`GoalStatus`
+  unificado); feriados BR/IE (Nager.Date); e um **Kanban** que agrega os três por
+  status com drag-and-drop (`@dnd-kit`, `GET /events/base`). Motion com
+  `framer-motion`. Direção em `docs/ui-redesign.md`; Kanban em
+  `docs/features/kanban.md`.
+- **Próxima a construir: Fase 12 — Deploy e vitrine** (direção em `docs/deploy.md`;
+  fazer **depois** do polimento de UI).
 - Plano completo das fases em `docs/ROADMAP.md`.
 
 ## Ao trabalhar

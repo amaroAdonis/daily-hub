@@ -13,7 +13,8 @@ e **vincular tarefas** a elas — dando direção de médio/longo prazo ao dia a
 Entidade `Goal` em [`schema.prisma`](../../packages/db/prisma/schema.prisma):
 
 - `title`, `description?`
-- `horizon` (`SHORT | MEDIUM | LONG`), `status` (`ACTIVE | ACHIEVED | ARCHIVED`)
+- `horizon` (`SHORT | MEDIUM | LONG`), `status` (`TODO | DOING | DONE | ARCHIVED`
+  — eixo unificado com tarefas/compromissos para o Kanban; `ARCHIVED` é à parte)
 - `progress` (0–100, manual), `targetDate?` (`@db.Date`)
 - `parentId?` — auto-relação para sub-metas (`onDelete: SetNull`)
 - `tasks` — `Task.goalId` vincula tarefas (`onDelete: SetNull`)
