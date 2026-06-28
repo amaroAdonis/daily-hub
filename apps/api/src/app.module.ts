@@ -10,6 +10,7 @@ import { GoalsModule } from './modules/goals/goals.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { IntegrationModule } from './modules/integration/integration.module';
+import { AttachmentsModule } from './modules/attachments/attachments.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { IntegrationModule } from './modules/integration/integration.module';
     NotesModule,
     ContactsModule,
     IntegrationModule,
+    AttachmentsModule,
   ],
 })
 export class AppModule {}

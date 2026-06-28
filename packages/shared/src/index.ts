@@ -13,3 +13,4 @@ export * from './schemas/goals';
 export * from './schemas/notes';
 export * from './schemas/contacts';
 export * from './schemas/integration';
+export * from './schemas/attachments';

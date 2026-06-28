@@ -66,12 +66,13 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  tasks    Task[]
-  goals    Goal[]
-  notes    Note[]
-  events   Event[]
-  contacts Contact[]
-  tags     Tag[]
+  tasks       Task[]
+  goals       Goal[]
+  notes       Note[]
+  events      Event[]
+  contacts    Contact[]
+  tags        Tag[]
+  attachments Attachment[]
 
   @@map("users")
 }
@@ -240,6 +241,26 @@ model Tagging {
   @@unique([tagId, entityType, entityId])
   @@index([entityType, entityId])
   @@map("taggings")
+}
+
+/// Arquivo anexado a uma entidade qualquer (polimórfico, como Tagging).
+/// O binário fica no storage S3-compatível; aqui ficam só os metadados.
+model Attachment {
+  id          String     @id @default(cuid())
+  entityType  EntityType
+  entityId    String
+  /// Chave do objeto no bucket (prefixada pelo usuário): `${userId}/${cuid}-${nome}`.
+  key         String
+  filename    String
+  contentType String
+  size        Int
+  createdAt   DateTime   @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, entityType, entityId])
+  @@map("attachments")
 }
 
 /// Ligação genérica e direcionada entre duas entidades quaisquer.

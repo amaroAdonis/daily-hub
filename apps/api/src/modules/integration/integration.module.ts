@@ -15,5 +15,7 @@ import { LinksService } from './links.service';
 @Module({
   controllers: [SearchController, TagsController, LinksController],
   providers: [EntityResolverService, SearchService, TagsService, LinksService],
+  // Reusado pelo AttachmentsModule para validar a posse da entidade.
+  exports: [EntityResolverService],
 })
 export class IntegrationModule {}
