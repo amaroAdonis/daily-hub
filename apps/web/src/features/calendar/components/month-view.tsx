@@ -4,6 +4,7 @@ import { useCalendarSummary } from '../hooks';
 import { useEventOccurrences } from '../../events/hooks';
 import { EVENT_CATEGORIES } from '../../events/categories';
 import { useNotes } from '../../notes/hooks';
+import { useHolidays, type Holiday } from '../holidays';
 import { monthGridDays, rangeForView, toDayString, todayString } from '../dates';
 
 const WEEKDAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -23,6 +24,10 @@ export function MonthView({ reference, onSelectDay }: Props) {
   const { data: notes } = useNotes({});
   const today = todayString();
 
+  // A grade pode tocar dois anos (bordas de jan/dez); cobre ambos.
+  const { data: holidaysA } = useHolidays(days[0]!.getFullYear());
+  const { data: holidaysB } = useHolidays(days[days.length - 1]!.getFullYear());
+
   const notesByDay = useMemo(() => {
     const map = new Map<string, number>();
     for (const note of notes ?? []) {
@@ -30,6 +35,18 @@ export function MonthView({ reference, onSelectDay }: Props) {
     }
     return map;
   }, [notes]);
+
+  const holidaysByDay = useMemo(() => {
+    const map = new Map<string, Holiday[]>();
+    for (const holiday of [...(holidaysA ?? []), ...(holidaysB ?? [])]) {
+      const list = map.get(holiday.date) ?? [];
+      if (!list.some((h) => h.country === holiday.country && h.name === holiday.name)) {
+        list.push(holiday);
+        map.set(holiday.date, list);
+      }
+    }
+    return map;
+  }, [holidaysA, holidaysB]);
 
   return (
     <section className="flex min-h-0 flex-1 flex-col">
@@ -81,6 +98,16 @@ export function MonthView({ reference, onSelectDay }: Props) {
               </span>
 
               <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-hidden">
+                {(holidaysByDay.get(key) ?? []).map((holiday) => (
+                  <span
+                    key={`${holiday.country}-${holiday.name}`}
+                    title={`${holiday.name} · ${holiday.label}`}
+                    className="flex items-center gap-1 truncate rounded-md bg-accent/10 px-1.5 py-0.5 text-xs text-accent"
+                  >
+                    <span aria-hidden>{holiday.flag}</span>
+                    <span className="truncate">{holiday.name}</span>
+                  </span>
+                ))}
                 {events.slice(0, MAX_PILLS).map((occ) => (
                   <span
                     key={`${occ.eventId}-${occ.start}`}
