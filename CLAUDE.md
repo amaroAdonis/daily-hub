@@ -167,9 +167,10 @@ este reservado para destacar o dia atual. Evitar clichês de UI gerada por IA.
   (`PROJECT_BRIEF`/`DECISIONS`/`GLOSSARY`/`BACKLOG`), `design-system/`,
   `features/<feature>/` com `REQ-*`/`AC-*` e `features/INDEX.md`, publicável via
   MkDocs (`mkdocs.yml`). Convenção no `INDEX.md`.
-- **Fase 12 (Deploy e demo ao vivo): concluída.** No ar em
+- **Fase 12 (Deploy e demo ao vivo): concluída.** Esteve no ar em
   `https://daily-hub.up.railway.app` (Railway: web + API + Postgres; Cloudflare
-  R2 para anexos). Dockerfiles por serviço, `migrate deploy` no start; detalhes e
+  R2 para anexos); **demo desligada temporariamente** (serviços parados, plano
+  cancelado). Dockerfiles por serviço, `migrate deploy` no start; detalhes e
   armadilhas em `docs/deploy.md`.
 - Plano completo das fases em `docs/ROADMAP.md`.
 

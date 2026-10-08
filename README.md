@@ -13,7 +13,7 @@ Full-stack **TypeScript** in a typed monorepo (React + NestJS), with a design sy
 ![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 
-**[🚀 Live demo](https://daily-hub.up.railway.app)** · **[API docs (Swagger)](https://daily-hub-api.up.railway.app/api/docs)** · **[Documentation](docs/PROJECT_BRIEF.md)**
+**🚀 Live demo: temporarily offline** · **[Documentation](docs/PROJECT_BRIEF.md)**
 
 <sub>🇬🇧 English · <a href="README.pt-BR.md">🇧🇷 Português</a></sub>
 
@@ -129,7 +129,7 @@ Docs follow a folder-per-feature standard and build into a **MkDocs Material** s
 
 ## Deployment
 
-Live on [**daily-hub.up.railway.app**](https://daily-hub.up.railway.app) — Railway runs the web, API and PostgreSQL; Cloudflare R2 holds attachments. Each service builds from its own multi-stage Dockerfile and runs `prisma migrate deploy` on start. Details in [`docs/deploy.md`](docs/deploy.md).
+The live demo is **temporarily offline**. It ran on Railway (web, API and PostgreSQL), with Cloudflare R2 holding attachments, and can be brought back from the same setup. Each service builds from its own multi-stage Dockerfile and runs `prisma migrate deploy` on start. Details in [`docs/deploy.md`](docs/deploy.md).
 
 ## Author
 
