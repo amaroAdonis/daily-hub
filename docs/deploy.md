@@ -1,10 +1,12 @@
 # Deploy & staging (Fase 12)
 
 Direção de deploy escolhida para colocar o Daily Hub no ar como **demo ao vivo**
-Status: **executado** ✅
+Status: **executado** ✅ — **demo temporariamente desligada** (serviços do
+Railway parados e plano Hobby cancelado). Para voltar ao ar, reative um plano e
+faça o redeploy na ordem Postgres → API → web, ou refaça o checklist abaixo.
 
-- **Web (demo):** https://daily-hub.up.railway.app
-- **API:** https://daily-hub-api.up.railway.app/api · **Swagger:** `/api/docs`
+- **Web (demo, fora do ar):** https://daily-hub.up.railway.app
+- **API (fora do ar):** https://daily-hub-api.up.railway.app/api · **Swagger:** `/api/docs`
 - **Infra:** Railway (web + API + Postgres) + Cloudflare R2 (anexos).
 
 ## Topologia — Railway Hobby (~US$5/mês) + Cloudflare R2
